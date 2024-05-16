@@ -1,638 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>สมุนไพรประจำบ้าน</title>
-<style>
-* {box-sizing: border-box}
-body {font-family: "Lato", sans-serif;}
-
-/* Style the tab */
-.tab {
-  float: left;
-  border: 1px solid rgb(204, 204, 204);
-  background-color: #f1f1f1;
-  width: 30%;
-  height: 300px;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  display: block;
-  background-color: inherit;
-  color: rgb(0, 0, 0);
-  padding: 10px 16px;
-  width: 100%;
-  border: none;
-  outline: none;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 18px;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current "tab button" class */
-.tab button.active {
-  background-color: rgb(104, 250, 136);
-}
-
-/* Style the tab content */
-.tabcontent {
-  float: left;
-  padding: 0px 12px;
-  border: 1px solid #ccc;
-  width: 70%;
-  border-left: none;
-  animation: fadeInAnimation ease 3s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;}
-
-@keyframes fadeInAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-#myBtn {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  left: 460px;
-  z-index: 99;
-  font-size: 18px;
-  border: none;
-  outline: none;
-  background-color: #109579;
-  color: white;
-  cursor: pointer;
-  padding: 15px;
-  border-radius: 4px;
-}
-
-#myBtn:hover {
-  background-color: #5DF7D6;
-}
-
-h3 {
-  background-image: linear-gradient(60deg, #c1f8d4, #fff09e);
-}
-</style>
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-/>
-</head>
-<body>
-<center>
-
-<h2>27/136</h2><i><font size="3" color="#ccc">อัพเดตล่าสุดวันที่ 8/6/2565</font></i></center>
-<h4>▼ <u>เลือกอาการ</u></h4>
-
-<div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'ยาถ่าย', topFunction())" id="defaultOpen">ยาถ่าย</button>
-  <button class="tablinks" onclick="openCity(event, 'ถ่ายพยาธิ', topFunction())" >ถ่ายพยาธิ</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้ท้องเสีย' , topFunction())" >แก้ท้องเสีย</button>
-  <button class="tablinks" onclick="openCity(event, 'ดับกลิ่นปาก', topFunction())">ดับกลิ่นปาก</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้อาเจียน', topFunction())">แก้อาเจียน</button>
-  <button class="tablinks" onclick="openCity(event, 'ลดความดัน', topFunction())">ลดความดัน</button>
-  <button class="tablinks" onclick="openCity(event, 'ลดน้ำตาลในเลือด', topFunction())">ลดน้ำตาลในเลือด</button>
-  <button class="tablinks" onclick="openCity(event, 'ลดไขมันในเลือด', topFunction())">ลดไขมันในเลือด</button>
-  <button class="tablinks" onclick="openCity(event, 'บำรุงเลือด', topFunction())">บำรุงเลือด</button>
-  <button class="tablinks" onclick="openCity(event, 'บำรุงหัวใจ' , topFunction())" >บำรุงหัวใจ</button>
-  <button class="tablinks" onclick="openCity(event, 'บำรุงสมอง' , topFunction())" >บำรุงสมอง</button>
-  <button class="tablinks" onclick="openCity(event, 'เพิ่มพละกำลัง' , topFunction())" >เพิ่มพละกำลัง</button>
-  <button class="tablinks" onclick="openCity(event, 'บำรุงกำหนัด' , topFunction())" >บำรุงกำหนัด</button>
-  <button class="tablinks" onclick="openCity(event, 'บำรุงสายตา', topFunction())">บำรุงสายตา</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้ปวดฟัน', topFunction())">แก้ปวดฟัน</button>
-  <button class="tablinks" onclick="openCity(event, 'ร้อนในแผลในปาก', topFunction())">ร้อนในแผลในปาก</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาทอนซิลอักเสบ', topFunction())">รักษาทอนซิลอักเสบ</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้ไข้', topFunction())">แก้ไข้</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้ไอขับเสมหะ', topFunction())">แก้ไอ-ขับเสมหะ</button>
-  <button class="tablinks" onclick="openCity(event, 'กำจัดเซลล์มะเร็ง', topFunction())">กำจัดเซลล์มะเร็ง</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้จุกเสียดแน่นท้อง', topFunction())">แก้จุกเสียดแน่นท้อง</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้ปวด', topFunction())">แก้ปวด</button>
-  <button class="tablinks" onclick="openCity(event, 'แก้เครียด', topFunction())">แก้เครียด</button>
-  <button class="tablinks" onclick="openCity(event, 'ล้างพิษออกจากร่างกาย', topFunction())">ล้างพิษออกจากร่างกาย</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาตับอักเสบ' , topFunction())" >รักษาตับอักเสบ</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาแผลในกระเพาะ', topFunction())">รักษาแผลในกระเพาะ</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาลำไส้ติดเชื้อ', topFunction())">รักษาลำไส้ติดเชื้อ</button>
-  <button class="tablinks" onclick="openCity(event, 'เพิ่มแคลเซียมให้กระดูก', topFunction())">เพิ่มแคลเซียมให้กระดูก</button>
-  <button class="tablinks" onclick="openCity(event, 'ชะลอความแก่', topFunction())">ชะลอความแก่</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาโรคผิวหนัง', topFunction())" >รักษาโรคผิวหนัง</button>
-  <button class="tablinks" onclick="openCity(event, 'ห้ามเลือด' , topFunction())" >ห้ามเลือด</button>
-  <button class="tablinks" onclick="openCity(event, 'ถอนพิษสัตว์' , topFunction())" >ถอนพิษสัตว์</button>
-  <button class="tablinks" onclick="openCity(event, 'รักษาแผลไฟไหม้' , topFunction())" >รักษาแผลไฟไหม้</button>
-</div>
-
-
-<div id="ยาถ่าย" class="tabcontent" >
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ยาถ่าย</h3><hr>
-      <div class="animate__animated animate__headShake">
-    <li><b><u>ผักปลัง</u></b></li>
-  <img src="img/ปลัง.jpg" width="15%">
-  <li><b><u>ใบมะขาม</u></b></li>
-  <img src="img/มะขาม.jpg" width="15%">
-  <li><b><u>ใบมะตูมแขก</u></b></li>
-  <img src="img/มะตูมแขก.jpg" width="15%">
-</ul></div>
-</div>
-<div id="ถ่ายพยาธิ" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ ยาถ่ายพยาธิ</h3><hr>
-    <div class="animate__animated animate__headShake">
-    <li><b><u>ผลหมากเหลือง</u></b></li>
-    <img src="img/หมากเหลือง.jpg" width="15%">
-    <li><b><u>ใบกระเพรา</u></b></li>
-    <img src="img/กระเพรา.jpg" width="15%">
-    <li><b><u>ใบอ่อน-เหง้าข่า</u></b> ต้มน้ำดื่ม</li>
-    <img src="img/ข่า.jpg" width="15%">
-</ul></div>
-</div>
-<div id="แก้ท้องเสีย" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้ท้องเสีย</h3><hr>
-    <div class="animate__animated animate__headShake">
-    <li><b><u>ใบกระท่อม</u></b></li>
-    <img src="img/กระท่อม.jpg" width="15%">
-    <li><b><u>องุ่นบลาซิล</u></b></li>
-    <img src="img/องุ่นบราซิล.jpg" width="15%">
-    <li><b><u>เหง้าว่านสาวหลง</u></b> ต้มดื่ม</li>
-    <img src="img/ว่านสาวหลง.jpg" width="15%">
-  </ul></div></div>
-  <div id="รักษาทอนซิลอักเสบ" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาต่อมทอนซิลอักเสบ</h3><hr>
-      <div class="animate__animated animate__headShake">
-<li><b><u>องุ่นบลาซิล</u></b></li>
-<img src="img/องุ่นบราซิล.jpg" width="15%">
-</ul></div></div>
-<div id="บำรุงเลือด" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ฟอกเลือด</h3><hr>
-      <div class="animate__animated animate__headShake">
-    <li><b><u>ใบมะขาม</u></b> ใช้ต้ม</li>
-    <img src="img/มะขาม.jpg" width="15%">
-    <li><b><u>ใบมะนาว</u></b>ใช้ต้ม</li>
-    <img src="img/มะนาว.jpg" width="15%">
-    <li><b><u>ใบมะกรูด</u></b>ใช้ต้ม</li>
-    <img src="img/มะกรูด.jpg" width="15%">
-    <li><b><u>ใบเตย</u></b>ใช้ต้ม</li>
-    <img src="img/เตย.jpg" width="15%">
-    <li><b><u>ใบ-ดอกจำปี</u></b> ต้มน้ำดื่ม</li>
-    <img src="img/จำปี.jpg" width="15%">
-    <li><b><u>ผลเชอร์รีไทย</u></b></li>
-    <img src="img/เชอร์รีไทย.jpg" width="15%">
-</ul>
-</div></div>
-    <div id="ลดน้ำตาลในเลือด" class="tabcontent">
-        <ul><h3 class="animate__animated animate__slideInUp">⚕ ลดน้ำตาลในเลือด</h3><hr>
-          <div class="animate__animated animate__headShake">
-        <li> <b><u>ใบชะพลู</u></b></li>
-        <img src="img/ชะพลู.jpg" width="15%">
-        <li> <b><u>วอเตอร์เครส</u></b></li>
-        <img src="img/วอเตอร์เครส.jpg" width="15%">
-        <li> <b><u>ผักไชยา</u></b></li>
-        <img src="img/ไชยา.jpg" width="15%">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>เหง้าข่า</u></b></li>
-        <img src="img/ข่า.jpg" width="15%">
-        <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li><b><u>ใบเตย</u></b></li>
-        <img src="img/เตย.jpg" width="15%">
-        <li><b><u>ใบโปร่งฟ้า</u></b></li>
-        <img src="img/โปร่งฟ้า.jpg" width="15%">
-        <li><b><u>ใบกระท่อม</u></b></li>
-        <img src="img/กระท่อม.jpg" width="15%">
-        <li><b><u>ใบมัลเบอร์รี่</u></b> ทำชาดื่ม</li>
-        <img src="img/มัลเบอร์รี่.jpg" width="15%">
-        <li><b><u>ผลเชอร์รีไทย</u></b></li>
-        <img src="img/เชอร์รีไทย.jpg" width="15%">
-        <li><b><u>ผลเปปิโน</u></b></li>
-        <img src="img/เปปิโน.jpg" width="15%">
-    </ul>
-</div></div>
-<div id="แก้ไอขับเสมหะ" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้ไอ / ขับเสมหะ</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li> <b><u>ใบชะพลู</u></b> </li>
-        <img src="img/ชะพลู.jpg" width="15%">
-        <li> <b><u>ใบมะขาม</u></b></li>
-        <img src="img/มะขาม.jpg" width="15%">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>โกฐจุฬาลัมพา</u></b> ใช้สูบ</li>
-        <img src="img/โกฐจุฬาลัมพา.jpg" width="15%">
-        <li><b><u>ใบกระท่อม</u></b></li>
-        <img src="img/กระท่อม.jpg" width="15%">
-        <li><b><u>ผลหมากเหลือง</u></b></li>
-        <img src="img/หมากเหลือง.jpg" width="15%">
-        <li><b><u>เหง้าว่านสาวหลง</u></b> ต้มดื่ม</li>
-        <img src="img/ว่านสาวหลง.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ใบ-ดอกจำปี</u></b> ต้มน้ำดื่ม</li>
-        <img src="img/จำปี.jpg" width="15%">
-</ul></div></div>
-<div id="กำจัดเซลล์มะเร็ง" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ กำจัดเซลล์มะเร็ง</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li> <b><u>ใบชะพลู</u></b></li>
-        <img src="img/ชะพลู.jpg" width="15%">
-        <li> <b><u>วอเตอร์เครส</u></b></li>
-        <img src="img/วอเตอร์เครส.jpg" width="15%">
-        <li> <b><u>ผักหวานป่า</u></b></li>
-        <img src="img/ผักหวานป่า.jpg" width="15%">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>เหง้าข่า</u></b></li>
-        <img src="img/ข่า.jpg" width="15%">
-        <li><b><u>ใบมะตูมแขก</u></b></li>
-        <img src="img/มะตูมแขก.jpg" width="15%">
-        <li> <b><u>ใบชะอม</u></b></li>
-        <img src="img/ชะอม.jpg" width="15%">
-        <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li><b><u>เห็ดนางฟ้า</u></b></li>
-        <img src="img/เห็ดนางฟ้า.jpg" width="15%">
-        <li><b><u>องุ่นบลาซิล</u></b></li>
-        <img src="img/องุ่นบราซิล.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ลูกมัลเบอร์รี่</u></b></li>
-        <img src="img/มัลเบอร์รี่.jpg" width="15%">
-        <li><b><u>ผลเชอร์รีไทย</u></b></li>
-        <img src="img/เชอร์รีไทย.jpg" width="15%">
-        <li><b><u>ผลส้ม</u></b> ป้องกันมะเร็งลำไส้ใหญ่</li>
-        <img src="img/ส้ม.jpg" width="15%">
-        <li><b><u>ผลเปปิโน</u></b></li>
-        <img src="img/เปปิโน.jpg" width="15%">
-</ul></div></div>
-<div id="แก้ปวด" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้ปวด</h3><hr>
-      <div class="animate__animated animate__headShake">
-    <li><b><u>ใบกระท่อม</u></b></li>
-    <img src="img/กระท่อม.jpg" width="15%">
-    <li> <b><u>ดอก-ใบกัญชา</u></b> สูบ/ต้มดื่ม</li>
-    <img src="img/กัญชา.jpg" width="15%">
-    <li><b><u>ใบกระเพรา</u></b></li>
-    <img src="img/กระเพรา.jpg" width="15%">
-    <li><b><u>ใบมะตูมแขก</u></b></li>
-    <img src="img/มะตูมแขก.jpg" width="15%">
-    <li><b><u>ใบโปร่งฟ้า</u></b></li>
-    <img src="img/โปร่งฟ้า.jpg" width="15%">
-    <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่มแก้ปวดเมื่อย</li>
-    <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-    <li><b><u>ผลเชอร์รีไทย</u></b></li>
-    <img src="img/เชอร์รีไทย.jpg" width="15%">
-</ul></div></div>
-<div id="แก้เครียด" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้เครียด</h3><hr>
-      <div class="animate__animated animate__headShake">
-    <li> <b><u>ดอก-ใบกัญชา</u></b> สูบ/ต้มดื่ม</li>
-    <img src="img/กัญชา.jpg" width="15%">
-    <li><b><u>ดอก-ใบจำปี</u></b> ต้มน้ำดื่ม</li>
-    <img src="img/จำปี.jpg" width="15%">
-</ul></div></div>
-<div id="ล้างพิษออกจากร่างกาย" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ล้างพิษออกจากร่างกาย</h3><hr>
-      <div class="animate__animated animate__headShake">
-	    <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li> <b><u>วอเตอร์เครส</u></b></li>
-        <img src="img/วอเตอร์เครส.jpg" width="15%">
-</ul></div></div>
-<div id="บำรุงสายตา" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ บำรุงสายตา</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li> <b><u>ผักไชยา</u></b></li>
-        <img src="img/ไชยา.jpg" width="15%">
-        <li> <b><u>ผักหวานป่า</u></b></li>
-        <img src="img/ผักหวานป่า.jpg" width="15%">
-        <li> <b><u>ใบมันปู</u></b></li>
-        <img src="img/มันปู.jpg" width="15%">
-        <li> <b><u>ใบชะอม</u></b></li>
-        <img src="img/ชะอม.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ลูกมัลเบอร์รี่</u></b></li>
-        <img src="img/มัลเบอร์รี่.jpg" width="15%">
-</ul></div></div>
-<div id="เพิ่มแคลเซียมให้กระดูก" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ เพิ่มแคลเซียมให้กระดูก</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li> <b><u>ผักไชยา</u></b></li>
-        <img src="img/ไชยา.jpg" width="15%">
-        <li> <b><u>ใบชะพลู</u></b></li>
-        <img src="img/ชะพลู.jpg" width="15%">
-        <li> <b><u>ผักหวานป่า</u></b></li>
-        <img src="img/ผักหวานป่า.jpg" width="15%">
-        <li><b><u>องุ่นบลาซิล</u></b></li>
-        <img src="img/องุ่นบราซิล.jpg" width="15%">
-        <li><b><u>ผลแมคคาเดเมีย</u></b></li>
-        <img src="img/แมคคาเดเมีย.jpg" width="15%">
-        <li><b><u>ผลเปปิโน</u></b></li>
-        <img src="img/เปปิโน.jpg" width="15%">
-</ul></div></div>
-<div id="ชะลอความแก่" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ชะลอความแก่</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบมันปู</u></b></li>
-        <img src="img/มันปู.jpg" width="15%">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ผลแมคคาเดเมีย</u></b></li>
-        <img src="img/แมคคาเดเมีย.jpg" width="15%">
-        <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-        <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-        <li><b><u>ผลเชอร์รีไทย</u></b></li>
-        <img src="img/เชอร์รีไทย.jpg" width="15%">
-</ul></div></div>
-<div id="แก้จุกเสียดแน่นท้อง" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้จุกเสียดแน่นท้อง</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>เหง้าข่า</u></b></li>
-        <img src="img/ข่า.jpg" width="15%">
-</ul></div></div>
-<div id="รักษาแผลในกระเพาะ" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาแผลในกระเพาะ</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ต้น-ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>เหง้าข่า</u></b></li>
-        <img src="img/ข่า.jpg" width="15%">
-        <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>เนื้อว่านหางจระเข้</u></b></li>
-        <img src="img/ว่านหางจระเข้.jpg" width="15%">
-        <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-        <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-</ul></div></div>
-<div id="รักษาลำไส้ติดเชื้อ" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาลำไส้ติดเชื้อ</h3><hr>
-    <div class="animate__animated animate__headShake">
-    <li><b><u>ใบกระท่อม</u></b></li>
-    <img src="img/กระท่อม.jpg" width="15%">
-    <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-    <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-</ul></div></div>
-<div id="ดับกลิ่นปาก" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ดับกลิ่นปาก</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>ใบโปร่งฟ้า</u></b></li>
-        <img src="img/โปร่งฟ้า.jpg" width="15%">
-        <li><b><u>เหง้าว่านสาวหลง</u></b> ต้มดื่ม</li>
-        <img src="img/ว่านสาวหลง.jpg" width="15%">
-</ul></div></div>
-<div id="แก้อาเจียน" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้อาเจียน</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>โกฐจุฬาลัมพา</u></b></li>
-        <img src="img/โกฐจุฬาลัมพา.jpg" width="15%">
-        <li><b><u>ผลหมากเหลือง</u></b></li>
-        <img src="img/หมากเหลือง.jpg" width="15%">
-</ul></div></div>
-<div id="รักษาโรคผิวหนัง" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาโรคผิวหนัง กลากเกลื้อน</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระเพรา</u></b> ตำพอก/สกัดน้ำมัน</li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>ผลหมากเหลือง</u></b> ตำพอก</li>
-        <img src="img/หมากเหลือง.jpg" width="15%">
-        <li><b><u>ใบว่านสาวหลง</u></b> ถูแก้ผื่นคัน</li>
-        <img src="img/ว่านสาวหลง.jpg" width="15%">
-        <li><b><u>ดอกสายน้ำผึ้ง</u></b> ตำพอก</li>
-        <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-        <li><b><u>ใบตำแยแมว</u></b> </li>
-        <img src="img/ตำแยแมว.jpg" width="15%">
-</ul></div></div>
-<div id="ร้อนในแผลในปาก" class="tabcontent">
-     <ul><h3 class="animate__animated animate__slideInUp">⚕ ร้อนใน / แผลในปาก</h3><hr>
-      <div class="animate__animated animate__headShake">
-      <li><b><u>ใบกระท่อม</u></b></li>
-      <img src="img/กระท่อม.jpg" width="15%">
-      <li><b><u>ลูกพลับหวาน</u></b></li>
-      <img src="img/ต้นพลับ.jpg" width="15%">
-      <li><b><u>ลูกมัลเบอร์รี่</u></b></li>
-      <img src="img/มัลเบอร์รี่.jpg" width="15%">
-      <li><b><u>เนื้อว่านหางจระเข้</u></b></li>
-      <img src="img/ว่านหางจระเข้.jpg" width="15%">
-      <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาแก้ร้อนใน</li>
-      <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-    </ul></div></div>
-<div id="แก้ปวดฟัน" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้ปวดฟัน</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระท่อม</u></b></li>
-        <img src="img/กระท่อม.jpg" width="15%">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>เหง้าข่า</u></b></li>
-        <img src="img/ข่า.jpg" width="15%">
-        <li><b><u>เนื้อว่านหางจระเข้</u></b></li>
-        <img src="img/ว่านหางจระเข้.jpg" width="15%">
-</ul></div></div>
-<div id="ลดความดัน" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ ลดความดัน</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบมะตูมแขก</u></b></li>
-        <img src="img/มะตูมแขก.jpg" width="15%">
-        <li><b><u>ใบรางจืด</u></b></li>
-        <img src="img/รางจืด.jpg" width="15%">
-        <li><b><u>ใบเตย</u></b></li>
-        <img src="img/เตย.jpg" width="15%">
-        <li><b><u>ใบโปร่งฟ้า</u></b></li>
-        <img src="img/โปร่งฟ้า.jpg" width="15%">
-        <li><b><u>ใบกระท่อม</u></b></li>
-        <img src="img/กระท่อม.jpg" width="15%">
-        <li><b><u>องุ่นบลาซิล</u></b></li>
-        <img src="img/องุ่นบราซิล.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-        <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-        <li><b><u>ผลส้ม</u></b></li>
-        <img src="img/ส้ม.jpg" width="15%">
-        <li><b><u>ผลเปปิโน</u></b></li>
-        <img src="img/เปปิโน.jpg" width="15%">
-</ul></div></div>
-<div id="แก้ไข้" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ แก้ไข้หวัด</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบกระเพรา</u></b></li>
-        <img src="img/กระเพรา.jpg" width="15%">
-        <li><b><u>ใบโปร่งฟ้า</u></b></li>
-        <img src="img/โปร่งฟ้า.jpg" width="15%">
-        <li><b><u>โกฐจุฬาลัมพา</u></b> ใช้สูบ</li>
-        <img src="img/โกฐจุฬาลัมพา.jpg" width="15%">
-        <li><b><u>เหง้าว่านสาวหลง</u></b> ต้มดื่ม</li>
-        <img src="img/ว่านสาวหลง.jpg" width="15%">
-        <li><b><u>ลูกมัลเบอร์รี่</u></b></li>
-        <img src="img/มัลเบอร์รี่.jpg" width="15%">
-        <li><b><u>ใบ-ดอกจำปี</u></b> ต้มน้ำดื่ม</li>
-        <img src="img/จำปี.jpg" width="15%">
-        <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-        <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-        <li><b><u>ผลเชอร์รีไทย</u></b> ป้องกันไข้หวัด</li>
-        <img src="img/เชอร์รีไทย.jpg" width="15%">
-</ul></div></div>
-<div id="บำรุงหัวใจ" class="tabcontent">
-    <ul><h3 class="animate__animated animate__slideInUp">⚕ บำรุงหัวใจ</h3><hr>
-      <div class="animate__animated animate__headShake">
-        <li><b><u>ใบเตย</u></b></li>
-        <img src="img/เตย.jpg" width="15%">
-        <li><b><u>ใบมะตูมแขก</u></b></li>
-        <img src="img/มะตูมแขก.jpg" width="15%">
-        <li><b><u>ใบโปร่งฟ้า</u></b></li>
-        <img src="img/โปร่งฟ้า.jpg" width="15%">
-        <li><b><u>ดอกราตรี</u></b> ใช้สูดดม</li>
-        <img src="img/ราตรี.jpg" width="15%">
-        <li><b><u>เห็ดนางฟ้า</u></b></li>
-        <img src="img/เห็ดนางฟ้า.jpg" width="15%">
-        <li><b><u>องุ่นบลาซิล</u></b></li>
-        <img src="img/องุ่นบราซิล.jpg" width="15%">
-        <li><b><u>ลูกพลับหวาน</u></b></li>
-        <img src="img/ต้นพลับ.jpg" width="15%">
-        <li><b><u>ลูกมัลเบอร์รี่</u></b></li>
-        <img src="img/มัลเบอร์รี่.jpg" width="15%">
-        <li><b><u>ใบ-ดอกจำปี</u></b> ต้มน้ำดื่ม</li>
-        <img src="img/จำปี.jpg" width="15%">
-        <li><b><u>ผลเชอร์รีไทย</u></b></li>
-        <img src="img/เชอร์รีไทย.jpg" width="15%">
-        <li><b><u>ผลส้ม</u></b></li>
-        <img src="img/ส้ม.jpg" width="15%">
-        <li><b><u>ผลเปปิโน</u></b></li>
-        <img src="img/เปปิโน.jpg" width="15%">
-</ul></div></div>
-<div id="บำรุงสมอง" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ บำรุงสมอง </h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>เห็ดนางฟ้า</u></b> ป้องกันโรคอัลไซเมอร์</li>
-      <img src="img/เห็ดนางฟ้า.jpg" width="15%">
-      <li><b><u>ลูกมัลเบอร์รี่</u></b> ป้องกันสมองเสื่อม</li>
-      <img src="img/มัลเบอร์รี่.jpg" width="15%">
-</ul></div></div>
-<div id="เพิ่มพละกำลัง" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ บำรุงเพิ่มพละกำลังวังชา</h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>ใบกระท่อม</u></b></li>
-      <img src="img/กระท่อม.jpg" width="15%">
-</ul></div></div>
-<div id="ห้ามเลือด" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ ห้ามเลือดแผลสด / สมานแผล</h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>ใบกระท่อม</u></b> ขยำพอกแผล</li>
-      <img src="img/กระท่อม.jpg" width="15%">
-      <li><b><u>ผลหมากเหลือง</u></b> ตำพอกแผล</li>
-      <img src="img/หมากเหลือง.jpg" width="15%">
-      <li><b><u>เนื้อว่านหางจระเข้</u></b> สมานแผล</li>
-      <img src="img/ว่านหางจระเข้.jpg" width="15%">
-</ul></div></div>
-<div id="ถอนพิษสัตว์" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ ถอนพิษจากสัตว์ร้าย</h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>ใบกระท่อม</u></b></li>
-      <img src="img/กระท่อม.jpg" width="15%">
-      <li><b><u>ลิ้นมังกร</u></b> โขลกผสมเหล้าขาวพอกพิษแมงป่อง-ตะขาบ</li>
-      <img src="img/ลิ้นมังกร.jpg" width="15%">
-</ul></div></div>
-<div id="บำรุงกำหนัด" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ ยาบำรุงกำหนัด กระตุ้นพลังเพศ</h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>ใบ-ต้นว่านดอกทอง</u></b> แช่น้ำดื่ม</li>
-      <img src="img/ว่านดอกทอง.jpg" width="15%">
-      <li><b><u>เหง้าว่านสาวหลง</u></b> พกติดตัว/ทำน้ำมันหอม</li>
-      <img src="img/ว่านสาวหลง.jpg" width="15%">
-      <li><b><u>รากตำแยแมว</u></b> ต้มแต่รากดื่มเท่านั้น</li>
-      <img src="img/ตำแยแมว.jpg" width="15%">
-</ul></div></div>
-<div id="รักษาแผลไฟไหม้" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาแผลไฟไหม้ น้ำร้อนลวก</h3><hr>
-    <div class="animate__animated animate__headShake">
-      <li><b><u>เนื้อว่านหางจระเข้</u></b></li>
-      <img src="img/ว่านหางจระเข้.jpg" width="15%">
-</ul></div></div>
-<div id="รักษาตับอักเสบ" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ รักษาตับอักเสบ</h3><hr>
-    <div class="animate__animated animate__headShake">
-    <li><b><u>ดอกสายน้ำผึ้ง</u></b> ต้มชาดื่ม</li>
-    <img src="img/สายน้ำผึ้ง.jpg" width="15%">
-</ul></div></div>
-<div id="ลดไขมันในเลือด" class="tabcontent">
-  <ul><h3 class="animate__animated animate__slideInUp">⚕ ลดไขมันในเลือด</h3><hr>
-    <div class="animate__animated animate__headShake">
-    <li><b><u>ใบชิโสะ</u></b></li>
-    <img src="img/ชิโสะ.jpg" width="15%">
-</ul></div>
-</div>
-
-
-
-<button onclick="topFunction()" id="myBtn" title="Go to top">ขึ้นบน ▲</button>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
-
-
-<script>
-function openCity(evt, cityName) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-
-//Get the button
-var mybutton = document.getElementById("myBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.getElementById("myBtn").style.display = "block";
-    } else {
-        document.getElementById("myBtn").style.display = "none";
-    }
-   
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTables Example</title>
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
  
-     $('html, body').animate({scrollTop:0}, 'slow');
+    <style>
+ body {
+    color: black;
 }
+    </style>
+</head>
+<body >
+    <center><h2>ร่างกายต้องการต่อวัน</h2></center>
+    <table id="myTable" class="stripe" style="width:100%">
+        <thead>
+            <tr>
+                <th>ชื่อ</th>
+                <th>รักษา</th>
+                <th>แป้ง</th>
+                <th>โปรตีน</th>
+                <th>โอเมก้า3</th>
+                <th>กรดไขมันอิ่มตัวตำแหน่งเดียว</th>
+                <th>ใยอาหาร</th>
+                <th>A</th>
+                <th>C</th>
+                <th>E</th>
+                <th>D</th>
+                <th>K</th>
+                <th>B1</th>
+                <th>B2</th>
+                <th>B3</th>
+                <th>B6</th>
+                <th>B12</th>
+                <th>แคลเซียม</th>
+                <th>ธาตุเหล็ก</th>
 
+                <th>โพแทสเซียม</th>
+                <th>แมกนีเซียม</th>
+                <th>ฟอสฟอรัส</th>
+                <th>ซีลีเนียม</th>
 
+                <th>สังกะสี</th>
+                <th>ไอโอดีน</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+<br>
+--------------
+ร่างกายต้องการ:
+แป้ง [150 กรัม]
+โปรตีน [40 กรัม]
+โอเมก้า3 [250 มิลลิกรัม]
+กรดไขมันอิ่มตัวตำแหน่งเดียว [5 กรัม]
+ใยอาหาร [25 กรัม]
+วิตามินA [600 ไมโครกรัม]
+วิตามินC [60 มิลลิกรัม]
+วิตามินE [10 มิลลิกรัม]
+วิตามินD [10 ไมโครกรัม]
+วิตามินK [70 ไมโครกรัม]
+วิตามินB1 [1 มิลลิกรัม]
+วิตามินB2 [1 มิลลิกรัม]
+วิตามินB6 [1.2 มิลลิกรัม]
+วิตามินB12 [2.4 ไมโครกรัม]
+แคลเซียม [800 มิลลิกรัม]
+ธาตุเหล็ก [8 มิลลิกรัม]
+โพแทสเซียม [2,000 มิลลิกรัม]
+แมกนีเซียม [200 มิลลิกรัม]
+ฟอสฟอรัส [500 มิลลิกรัม]
+ซีลีเนียม [55 ไมโครกรัม]
+สังกะสี [8 มิลลิกรัม]
+ไอโอดีน [150 ไมโครกรัม]
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="data.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Populate table with data
+            var table = $('#myTable').DataTable({
+                "data": myData,
+                "columns": [
+                    { "data": "ชื่อ" },
+                    { "data": "รักษา" },
+                    { "data": "แป้ง" },
+                    { "data": "โปรตีน" },
+                    { "data": "โอเมก้า3" },
+                    { "data": "กรดไขมันอิ่มตัวตำแหน่งเดียว" },
+                    { "data": "ใยอาหาร" },
+                    { "data": "A" },
+                    { "data": "C" },
+                    { "data": "E" },
+                    { "data": "D" },
+                    { "data": "K" },
+                    { "data": "B1" },
+                    { "data": "B2" },
+                    { "data": "B3" },
+                    { "data": "B6" },
+                    { "data": "B12" },
+                    { "data": "แคลเซียม" },
+                    { "data": "ธาตุเหล็ก" },
+                    { "data": "โพแทสเซียม" },
+                    { "data": "แมกนีเซียม" },
+                    { "data": "ฟอสฟอรัส" },
+                    { "data": "ซีลีเนียม" },
 
-</script>
-   
+                    { "data": "สังกะสี" },
+                    { "data": "ไอโอดีน" },
+    
+                ]
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
