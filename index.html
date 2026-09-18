@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>แปลนสวนและต้นไม้ในบ้าน | Interactive Garden Plan</title>
+  <meta name="description" content="ระบบแปลนต้นไม้และสมุนไพรประจำบ้าน ค้นหาพิกัด สรรพคุณ และวิธีรับประทาน ใช้งานง่ายบนมือถือ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Clean Light Botanic Palette */
+      --bg-body: #f6f8f6;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-subtle: #f0f4f1;
+      --border-light: #e2e8f0;
+      --border-green: #d1fae5;
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      
+      --accent-green: #059669;
+      --accent-green-hover: #047857;
+      --accent-green-light: #ecfdf5;
+      --accent-green-border: #a7f3d0;
+      
+      --zone1-color: #059669;
+      --zone1-bg: #ecfdf5;
+      --zone2-color: #0284c7;
+      --zone2-bg: #f0f9ff;
+      --zone3-color: #7c3aed;
+      --zone3-bg: #f5f3ff;
+      --zone4-color: #d97706;
+      --zone4-bg: #fffbeb;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 14px -2px rgba(0,0,0,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+      --shadow-lg: 0 12px 28px -4px rgba(0,0,0,0.12), 0 4px 10px -2px rgba(0,0,0,0.06);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Prompt', 'Outfit', sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky App Bar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 3px 8px rgba(5, 150, 105, 0.25);
+    }
+
+    .brand-info h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .brand-info p {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .header-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+      min-height: 38px;
+    }
+
+    .btn-light {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+      color: var(--text-muted);
+    }
+    .btn-light:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-admin {
+      background: #f0fdf4;
+      border-color: #a7f3d0;
+      color: #047857;
+      font-weight: 600;
+    }
+    .btn-admin.active {
+      background: #059669;
+      border-color: #047857;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-primary {
+      background: #059669;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+    }
+    .btn-primary:hover {
+      background: #047857;
+    }
+
+    /* Search Container */
+    .search-section {
+      padding: 0.65rem 1rem 0.4rem;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .search-box-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-full);
+      padding: 0.65rem 2.6rem 0.65rem 2.6rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.92rem; /* 16px to prevent mobile browser zooming */
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      background: #ffffff;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .search-icon-left {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .search-clear-btn {
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      border: none;
+      color: #475569;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Search Suggestion Dropdown */
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-height: 60vh;
+      overflow-y: auto;
+      display: none;
+      z-index: 250;
+    }
+
+    .search-item {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .search-item:last-child {
+      border-bottom: none;
+    }
+    .search-item:hover, .search-item:active {
+      background: #ecfdf5;
+    }
+
+    .search-item-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .search-item-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .search-item-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .search-item-snippet {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    /* Zone Filter Pills (Touch friendly scroll on mobile) */
+    .zone-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem 0.65rem;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-light);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .zone-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .zone-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .zone-pill:hover {
+      background: #f1f5f9;
+    }
+    .zone-pill.active {
+      font-weight: 600;
+    }
+    .zone-pill.p-all.active {
+      background: #ecfdf5;
+      border-color: #059669;
+      color: #059669;
+    }
+    .zone-pill.p-z1.active { background: var(--zone1-bg); border-color: var(--zone1-color); color: var(--zone1-color); }
+    .zone-pill.p-z2.active { background: var(--zone2-bg); border-color: var(--zone2-color); color: var(--zone2-color); }
+    .zone-pill.p-z3.active { background: var(--zone3-bg); border-color: var(--zone3-color); color: var(--zone3-color); }
+    .zone-pill.p-z4.active { background: var(--zone4-bg); border-color: var(--zone4-color); color: var(--zone4-color); }
+
+    .zone-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Admin Action Notification */
+    .admin-bar {
+      display: none;
+      background: #f0fdf4;
+      border-bottom: 1px solid #a7f3d0;
+      padding: 0.5rem 1rem;
+      font-size: 0.82rem;
+      color: #065f46;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .admin-bar.show {
+      display: flex;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.75rem;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+        padding: 0.5rem;
+      }
+    }
+
+    /* Map Card */
+    .map-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      padding: 0 0.25rem;
+    }
+
+    .map-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .zoom-group {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: #f1f5f9;
+      padding: 2px;
+      border-radius: var(--radius-full);
+    }
+
+    .zoom-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: #334155;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .zoom-btn:hover {
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Map Viewport Area */
+    .map-viewport {
+      position: relative;
+      width: 100%;
+      min-height: 340px;
+      height: 52vh;
+      max-height: 620px;
+      background: #fdfdfd;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      touch-action: pan-x pan-y;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+    }
+
+    .map-viewport.admin-active {
+      cursor: crosshair;
+      border: 2px dashed #059669;
+    }
+
+    .map-wrapper {
+      position: relative;
+      display: inline-block;
+      transition: transform 0.15s ease-out;
+      transform-origin: center center;
+    }
+
+    .plan-img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      max-height: 50vh;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .map-viewport {
+        height: 44vh;
+        min-height: 280px;
+      }
+      .plan-img {
+        max-height: 42vh;
+      }
+    }
+
+    /* Plant Pins on Map */
+    .plant-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .plant-pin:hover, .plant-pin:active {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 40;
+    }
+
+    .pin-pill {
+      background: #ffffff;
+      border: 2px solid #059669;
+      border-radius: var(--radius-full);
+      padding: 4px 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #0f172a;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .pin-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #059669;
+      flex-shrink: 0;
+    }
+
+    .plant-pin.zone-1 .pin-pill { border-color: var(--zone1-color); }
+    .plant-pin.zone-1 .pin-dot { background: var(--zone1-color); }
+    .plant-pin.zone-2 .pin-pill { border-color: var(--zone2-color); }
+    .plant-pin.zone-2 .pin-dot { background: var(--zone2-color); }
+    .plant-pin.zone-3 .pin-pill { border-color: var(--zone3-color); }
+    .plant-pin.zone-3 .pin-dot { background: var(--zone3-color); }
+    .plant-pin.zone-4 .pin-pill { border-color: var(--zone4-color); }
+    .plant-pin.zone-4 .pin-dot { background: var(--zone4-color); }
+
+    /* Target / Search Highlight Pulse */
+    .plant-pin.targeted {
+      z-index: 50;
+      animation: pinJump 0.6s ease infinite alternate;
+    }
+    .plant-pin.targeted .pin-pill {
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .pin-sonar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 36px;
+      height: 36px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .plant-pin.targeted .pin-sonar {
+      border: 3px solid #059669;
+      animation: sonarPulse 1.3s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+    @keyframes sonarPulse {
+      0% { width: 36px; height: 36px; opacity: 1; }
+      100% { width: 100px; height: 100px; opacity: 0; }
+    }
+
+    @keyframes pinJump {
+      0% { transform: translate(-50%, -50%) translateY(0); }
+      100% { transform: translate(-50%, -50%) translateY(-8px); }
+    }
+
+    /* Plant Card List (Sidebar / Mobile bottom section) */
+    .plant-list-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .list-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .count-chip {
+      font-size: 0.75rem;
+      padding: 1px 8px;
+      background: #ecfdf5;
+      color: #059669;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+    }
+
+    .items-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .plant-row {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .plant-row:hover, .plant-row:active {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .plant-row.selected {
+      background: #ecfdf5;
+      border-color: #059669;
+    }
+
+    .plant-row-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .plant-row-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .plant-row-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .plant-row-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .plant-row-tags {
+      display: flex;
+      gap: 0.3rem;
+      margin-top: 4px;
+    }
+
+    .zone-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .tag-zone1 { background: var(--zone1-bg); color: var(--zone1-color); }
+    .tag-zone2 { background: var(--zone2-bg); color: var(--zone2-color); }
+    .tag-zone3 { background: var(--zone3-bg); color: var(--zone3-color); }
+    .tag-zone4 { background: var(--zone4-bg); color: var(--zone4-color); }
+
+    /* Modals & Bottom Sheets (Optimized for Mobile) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 620px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .modal-backdrop {
+        align-items: flex-end;
+        padding: 0;
+      }
+      .modal-sheet {
+        max-height: 86vh;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        transform: translateY(100%);
+      }
+      .modal-backdrop.active .modal-sheet {
+        transform: translateY(0);
+      }
+    }
+
+    .modal-backdrop.active .modal-sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-top {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+
+    .modal-title-box {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .modal-avatar {
+      font-size: 1.8rem;
+    }
+
+    .modal-heading {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .modal-subheading {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .close-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      color: #64748b;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .close-icon-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+
+    .modal-scroll {
+      padding: 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Plant Leaf Identification Box */
+    .leaf-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    @media (max-width: 480px) {
+      .leaf-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .leaf-photo {
+      width: 100%;
+      height: 120px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      border: 1px solid #cbd5e1;
+      cursor: zoom-in;
+    }
+
+    .leaf-text {
+      font-size: 0.84rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    /* 4 Information Cards */
+    .detail-card {
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .detail-card-head {
+      font-size: 0.92rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* 1. Medicinal */
+    .card-med {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+    }
+    .card-med .detail-card-head {
+      color: #065f46;
+    }
+    .med-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .med-list li {
+      font-size: 0.86rem;
+      color: #064e3b;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      line-height: 1.45;
+    }
+    .med-list li::before {
+      content: "✦";
+      color: #059669;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    /* 2. Edible & Nutrition */
+    .card-nutri {
+      background: #f0f9ff;
+      border-color: #bae6fd;
+    }
+    .card-nutri .detail-card-head {
+      color: #0369a1;
+    }
+    .nutri-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .nutri-cell {
+      background: #ffffff;
+      border: 1px solid #e0f2fe;
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.75rem;
+      font-size: 0.82rem;
+    }
+    .nutri-cell strong {
+      display: block;
+      color: #0284c7;
+      font-size: 0.75rem;
+      margin-bottom: 2px;
+    }
+
+    /* 3. Warnings */
+    .card-warn {
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+    .card-warn .detail-card-head {
+      color: #be123c;
+    }
+    .warn-desc {
+      font-size: 0.85rem;
+      color: #9f1239;
+      line-height: 1.5;
+    }
+
+    .modal-bottom {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border-light);
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    /* Admin Form inputs */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.75rem;
+    }
+    .field-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+    }
+    .input-control {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.75rem;
+      color: #0f172a;
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+    }
+    .input-control:focus {
+      border-color: #059669;
+      background: #ffffff;
+    }
+    textarea.input-control {
+      min-height: 65px;
+      resize: vertical;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+    @media (max-width: 480px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .auto-enrich-box {
+      background: #f0fdf4;
+      border: 1.5px dashed #059669;
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: var(--radius-full);
+      padding: 0.65rem 1.25rem;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 500;
+      opacity: 0;
+      transition: var(--transition);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .toast-popup.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Lightbox */
+    .lightbox-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .lightbox-bg.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lightbox-pic {
+      max-width: 95vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      object-fit: contain;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Bar -->
+  <header>
+    <div class="brand-wrap" onclick="resetFilters()">
+      <div class="brand-badge">🏡</div>
+      <div class="brand-info">
+        <h1>แปลนสวนต้นไม้ในบ้าน</h1>
+        <p>Garden Map & Herbal Guide</p>
+      </div>
+    </div>
+
+    <div class="header-btns">
+      <button id="btnAdminSwitch" class="btn btn-admin" onclick="toggleAdminMode()">
+        <span>⚙️</span>
+        <span id="adminBtnText">จัดการ</span>
+      </button>
+      <button class="btn btn-light" onclick="openExportDialog()" title="สำรอง / ส่งออกข้อมูล">
+        <span>💾</span>
+      </button>
+      <button class="btn btn-light" onclick="openGithubDialog()" title="วิธีนำขึ้น GitHub">
+        <span>🚀</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-box-wrapper">
+      <span class="search-icon-left">🔍</span>
+      <input 
+        type="text" 
+        id="keywordInput" 
+        class="search-input" 
+        placeholder="ค้นหาต้นไม้, สรรพคุณ (เช่น แก้ไอ, วิตามินซี), โซน..." 
+        autocomplete="off"
+      >
+      <button id="clearSearchBtn" class="search-clear-btn" onclick="clearKeywordSearch()">✕</button>
+      <div id="suggestBox" class="search-dropdown"></div>
+    </div>
+  </div>
+
+  <!-- Zone Navigation Pills (Touch scrollable) -->
+  <nav class="zone-nav">
+    <button class="zone-pill p-all active" onclick="selectZoneFilter('all')">
+      <span>🌱 ทั้งหมด (<span id="countAll">0</span>)</span>
+    </button>
+    <button class="zone-pill p-z1" onclick="selectZoneFilter('zone_1')">
+      <span class="zone-dot" style="background: var(--zone1-color);"></span>
+      <span>โซน 1 (<span id="countZ1">0</span>)</span>
+    </button>
+    <button class="zone-pill p-z2" onclick="selectZoneFilter('zone_2')">
+      <span class="zone-dot" style="background: var(--zone2-color);"></span>
+      <span>โซน 2 (<span id="countZ2">0</span>)</span>
+    </button>
+    <button class="zone-pill p-z3" onclick="selectZoneFilter('zone_3')">
+      <span class="zone-dot" style="background: var(--zone3-color);"></span>
+      <span>โซน 3 (<span id="countZ3">0</span>)</span>
+    </button>
+    <button class="zone-pill p-z4" onclick="selectZoneFilter('zone_4')">
+      <span class="zone-dot" style="background: var(--zone4-color);"></span>
+      <span>โซน 4 (<span id="countZ4">0</span>)</span>
+    </button>
+  </nav>
+
+  <!-- Admin Bar (shown when admin mode is on) -->
+  <div id="adminNotice" class="admin-bar">
+    <span>📍 <strong>โหมดจัดการ:</strong> แตะบนรูปแปลนบ้านเพื่อปักหมุด หรือแตะหมุดเดิมเพื่อแก้ไข/ลบ</span>
+    <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
+  </div>
+
+  <!-- Main View Area -->
+  <main>
+    <!-- Map Plan Card -->
+    <div class="map-card">
+      <div class="map-header">
+        <div class="map-title">
+          <span>🗺️ แปลนบ้าน</span>
+          <span id="zoneNotice" style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(ทั้งหมด)</span>
+        </div>
+        <div class="zoom-group">
+          <button class="zoom-btn" onclick="zoomPlan(1.2)" title="ซูมเข้า">➕</button>
+          <button class="zoom-btn" onclick="zoomPlan(0.8)" title="ซูมออก">➖</button>
+          <button class="zoom-btn" onclick="resetPlanZoom()" title="รีเซ็ต">⟲</button>
+        </div>
+      </div>
+
+      <div id="planViewport" class="map-viewport">
+        <div id="planCanvas" class="map-wrapper">
+          <img id="housePlanImg" class="plan-img" src="plan.png" alt="House Garden Plan">
+          <div id="pinsHolder"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plant List Section -->
+    <div class="plant-list-card">
+      <div class="list-header">
+        <div class="list-title">
+          <span>🌿 รายการต้นไม้ในสวน</span>
+          <span id="itemsBadge" class="count-chip">0</span>
+        </div>
+        <span style="font-size: 0.72rem; color: var(--text-dim);">แตะเพื่อดูสรรพคุณ</span>
+      </div>
+
+      <div id="plantsList" class="items-container">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Plant Detail Bottom Sheet / Modal -->
+  <div id="detailModal" class="modal-backdrop" onclick="onBackdropClick(event)">
+    <div class="modal-sheet">
+      <div class="modal-top">
+        <div class="modal-title-box">
+          <div>
+            <div id="dName" class="modal-heading">ต้นมะนาว</div>
+            <div id="dScientific" class="modal-subheading">Citrus aurantiifolia</div>
+          </div>
+        </div>
+        <button class="close-icon-btn" onclick="closeDetailDialog()">✕</button>
+      </div>
+
+      <div class="modal-scroll">
+        <!-- Leaf Identification Card -->
+        <div class="leaf-box">
+          <img id="dLeafPhoto" class="leaf-photo" src="" alt="ภาพใบไม้" onclick="showLightbox(this.src)">
+          <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #059669; margin-bottom: 3px;">🍃 ลักษณะใบไม้ประกอบ:</div>
+            <div id="dLeafDesc" class="leaf-text">-</div>
+            <div style="margin-top: 8px; display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <span id="dZoneTag" class="zone-tag tag-zone1">โซน 1</span>
+              <span id="dCategoryTag" class="zone-tag" style="background: #f1f5f9; color: #475569;">สมุนไพร</span>
+              <span id="dPlantedTag" class="zone-tag" style="background: #f8fafc; color: #64748b;">ปลูกเมื่อ: 2026-01-15</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. Medicinal Properties -->
+        <div class="detail-card card-med">
+          <div class="detail-card-head">
+            <span>💊 สรรพคุณทางยารักษาโรค</span>
+          </div>
+          <ul id="dMedicinalList" class="med-list"></ul>
+        </div>
+
+        <!-- 2. Edible Parts & Nutrition -->
+        <div class="detail-card card-nutri">
+          <div class="detail-card-head">
+            <span>🥗 ส่วนที่กินได้ และโภชนาการ/พลังงาน</span>
+          </div>
+          <div class="nutri-grid">
+            <div class="nutri-cell">
+              <strong>🍽️ กินอะไรได้บ้างในต้น</strong>
+              <div id="dEdibleParts">-</div>
+            </div>
+            <div class="nutri-cell">
+              <strong>🧪 แร่ธาตุและสารสำคัญ</strong>
+              <div id="dNutrients">-</div>
+            </div>
+            <div class="nutri-cell">
+              <strong>⚡ การให้พลังงานและผลต่อร่างกาย</strong>
+              <div id="dEnergy">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Contraindications -->
+        <div class="detail-card card-warn">
+          <div class="detail-card-head">
+            <span>⚠️ ข้อห้ามและข้อควรระวังในการกิน</span>
+          </div>
+          <div id="dContra" class="warn-desc">-</div>
+        </div>
+
+        <!-- Notes -->
+        <div id="dNoteWrapper" style="font-size: 0.8rem; color: var(--text-muted); background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.6rem; border-radius: var(--radius-sm);">
+          <strong>📝 บันทึก:</strong> <span id="dNote">-</span>
+        </div>
+      </div>
+
+      <div class="modal-bottom">
+        <span id="dCoordinateText" style="font-size: 0.75rem; color: var(--text-dim);">พิกัด: 0%, 0%</span>
+        <div style="display: flex; gap: 0.4rem;">
+          <button id="btnActionEdit" class="btn btn-light" style="display: none;" onclick="editCurrentPlant()">✏️ แก้ไข</button>
+          <button id="btnActionDelete" class="btn btn-light" style="display: none; color: #ef4444;" onclick="deleteCurrentPlant()">🗑️ ลบ</button>
+          <button class="btn btn-light" onclick="closeDetailDialog()">ปิด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Plant Form Modal (Admin) -->
+  <div id="formModal" class="modal-backdrop" onclick="onBackdropClick(event)">
+    <div class="modal-sheet">
+      <div class="modal-top">
+        <div class="modal-title-box">
+          <div>
+            <div id="formModalTitle" class="modal-heading">เพิ่มต้นไม้ใหม่</div>
+            <div class="modal-subheading">ดึงภาพและข้อมูลอัตโนมัติ (ฟรี 100%)</div>
+          </div>
+        </div>
+        <button class="close-icon-btn" onclick="closeFormDialog()">✕</button>
+      </div>
+
+      <div class="modal-scroll">
+        <!-- Auto Enrich Helper -->
+        <div class="auto-enrich-box">
+          <div>
+            <div style="font-weight: 700; font-size: 0.84rem; color: #065f46;">⚡ ดึงข้อมูลอัตโนมัติ (ฟรี ไม่ใช้ API Key)</div>
+            <div style="font-size: 0.74rem; color: #047857;">พิมพ์ชื่อต้นไม้แล้วกดปุ่มเพื่อดึงภาพใบไม้และสรรพคุณ</div>
+          </div>
+          <button type="button" class="btn btn-primary" style="padding: 0.4rem 0.8rem;" onclick="runAutoEnrich()">ดึงข้อมูล</button>
+        </div>
+
+        <form id="plantDataForm" onsubmit="savePlantData(event)">
+          <input type="hidden" id="fId">
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>ชื่อต้นไม้ / พืช *</label>
+              <input type="text" id="fName" class="input-control" required placeholder="เช่น มะนาว, กะเพรา">
+            </div>
+            <div class="field-group">
+              <label>ชื่อวิทยาศาสตร์</label>
+              <input type="text" id="fScientific" class="input-control" placeholder="เช่น Citrus aurantiifolia">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>โซนในแปลนบ้าน *</label>
+            <select id="fZone" class="input-control" required>
+              <option value="zone_1">โซน 1</option>
+              <option value="zone_2">โซน 2</option>
+              <option value="zone_3">โซน 3</option>
+              <option value="zone_4">โซน 4</option>
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>พิกัด X (% แนวนอนในแปลน)</label>
+              <input type="number" step="0.1" id="fX" class="input-control" required value="50">
+            </div>
+            <div class="field-group">
+              <label>พิกัด Y (% แนวตั้งในแปลน)</label>
+              <input type="number" step="0.1" id="fY" class="input-control" required value="50">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>URL ภาพใบไม้ / ภาพต้นไม้</label>
+            <input type="text" id="fLeafImg" class="input-control" placeholder="https://... หรือ images/plants/...">
+          </div>
+
+          <div class="field-group">
+            <label>ลักษณะใบไม้ประกอบ</label>
+            <input type="text" id="fLeafDesc" class="input-control" placeholder="ใบเดี่ยว รูปรี ขอบหยัก กลิ่นหอม">
+          </div>
+
+          <div class="field-group">
+            <label>สรรพคุณรักษาโรค (คั่นด้วยจุลภาค , หรือขึ้นบรรทัดใหม่)</label>
+            <textarea id="fMedicinal" class="input-control" placeholder="แก้ไอ, ขับเสมหะ, ช่วยขับลม"></textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field-group">
+              <label>กินอะไรได้บ้างในต้น</label>
+              <input type="text" id="fEdible" class="input-control" placeholder="ใบอ่อน, ผล, ยอด">
+            </div>
+            <div class="field-group">
+              <label>แร่ธาตุและสารอาหาร</label>
+              <input type="text" id="fNutrients" class="input-control" placeholder="วิตามินซี, แคลเซียม">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>การให้พลังงานและผลต่อร่างกาย</label>
+            <input type="text" id="fEnergy" class="input-control" placeholder="พลังงานต่ำ, กระตุ้นการเผาผลาญ">
+          </div>
+
+          <div class="field-group">
+            <label>⚠️ ข้อห้ามและข้อควรระวังในการกิน</label>
+            <textarea id="fContra" class="input-control" placeholder="ผู้ป่วยโรคกระเพาะอาหารรุนแรงควรระวัง..."></textarea>
+          </div>
+
+          <div class="field-group">
+            <label>บันทึกการดูแล</label>
+            <input type="text" id="fNote" class="input-control" placeholder="เช่น รดน้ำเช้า-เย็น โตเร็ว">
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
+            <button type="button" class="btn btn-light" onclick="closeFormDialog()">ยกเลิก</button>
+            <button type="submit" class="btn btn-primary">💾 บันทึกข้อมูล</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Dialog -->
+  <div id="exportDialog" class="modal-backdrop" onclick="onBackdropClick(event)">
+    <div class="modal-sheet" style="max-width: 480px;">
+      <div class="modal-top">
+        <div class="modal-title-box">
+          <div class="modal-avatar">💾</div>
+          <div>
+            <div class="modal-heading">ส่งออกข้อมูล</div>
+            <div class="modal-subheading">บันทึก data/plants.json เพื่อนำขึ้น GitHub</div>
+          </div>
+        </div>
+        <button class="close-icon-btn" onclick="closeExportDialog()">✕</button>
+      </div>
+      <div class="modal-scroll" style="font-size: 0.88rem; line-height: 1.5; color: var(--text-muted);">
+        <p>คุณสามารถดาวน์โหลดไฟล์ <code>plants.json</code> เพื่อนำไปวางทับในโฟลเดอร์ <code>data/plants.json</code> ก่อนรัน <code>~github_update.bat</code></p>
+        <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem;">
+          <button class="btn btn-primary" onclick="exportPlantsJson()" style="min-height: 42px;">
+            📥 ดาวน์โหลด plants.json
+          </button>
+          <input type="file" id="jsonUploadInput" accept=".json" style="display: none;" onchange="importPlantsJson(event)">
+          <button class="btn btn-light" onclick="document.getElementById('jsonUploadInput').click()" style="min-height: 42px;">
+            📂 นำเข้าไฟล์ plants.json
+          </button>
+        </div>
+      </div>
+      <div class="modal-bottom">
+        <button class="btn btn-light" onclick="closeExportDialog()">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GitHub Guide Dialog -->
+  <div id="githubDialog" class="modal-backdrop" onclick="onBackdropClick(event)">
+    <div class="modal-sheet" style="max-width: 480px;">
+      <div class="modal-top">
+        <div class="modal-title-box">
+          <div class="modal-avatar">🚀</div>
+          <div>
+            <div class="modal-heading">อัปโหลดขึ้น GitHub</div>
+            <div class="modal-subheading">ขั้นตอนการอัปเดตออนไลน์</div>
+          </div>
+        </div>
+        <button class="close-icon-btn" onclick="closeGithubDialog()">✕</button>
+      </div>
+      <div class="modal-scroll" style="font-size: 0.88rem; line-height: 1.6; color: var(--text-muted);">
+        <ol style="margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
+          <li>ข้อมูลที่คุณเพิ่ม/แก้ไขจะถูกบันทึกตรงลง <code>data/plants.json</code> บนเครื่องให้อัตโนมัติ</li>
+          <li>คุณสามารถกดปุ่มด้านล่างเพื่อสั่งอัปโหลดขึ้น GitHub ได้ทันที หรือดับเบิลคลิก <code>~github_update.bat</code> ในเครื่อง</li>
+        </ol>
+        <button class="btn btn-primary" onclick="triggerGithubUpload()" style="width: 100%; margin-top: 0.75rem; min-height: 42px; justify-content: center;">
+          🚀 สั่งอัปโหลดขึ้น GitHub ทันที
+        </button>
+      </div>
+      <div class="modal-bottom">
+        <button class="btn btn-light" onclick="closeGithubDialog()">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox-bg" onclick="hideLightbox()">
+    <img id="lightboxImage" class="lightbox-pic" src="">
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastBox" class="toast-popup">
+    <span id="toastSymbol">✓</span>
+    <span id="toastContent">สำเร็จ</span>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const INITIAL_PLANTS_DATA = {
+      "updated_at": "2026-09-17T23:30:00+07:00",
+      "plan_image": "plan.png",
+      "zones": [
+        {"id": "zone_1", "name": "โซน 1", "color": "#059669"},
+        {"id": "zone_2", "name": "โซน 2", "color": "#0284c7"},
+        {"id": "zone_3", "name": "โซน 3", "color": "#7c3aed"},
+        {"id": "zone_4", "name": "โซน 4", "color": "#d97706"}
+      ],
+      "plants": [
+        {
+          "id": "plant_1710000001",
+          "name": "ต้นมะนาว",
+          "scientific_name": "Citrus aurantiifolia (Christm.) Swingle",
+          "zone_id": "zone_1",
+          "zone_name": "โซน 1",
+          "x": 15.2,
+          "y": 72.5,
+          "category": "ไม้ผล / ผักสวนครัว",
+          "icon": "🍋",
+          "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Lime_tree_leaves.jpg/640px-Lime_tree_leaves.jpg",
+          "leaf_description": "ใบเดี่ยว รูปไข่แกมรี ผิวเรียบมันวาว ขอบหยักละเอียด ก้านใบมีครีบแคบ ขยี้แล้วมีกลิ่นหอมสดชื่น",
+          "planted_date": "2026-01-15",
+          "note": "ปลูกในบ่อซีเมนต์ รดน้ำสม่ำเสมอ ออกดอกดก",
+          "medicinal_properties": [
+            "แก้ไอ ขับเสมหะ บรรเทาอาการเจ็บคอและเสียงแหบแห้ง",
+            "ต้านอนุมูลอิสระ เสริมสร้างภูมิคุ้มกันร่างกาย ป้องกันหวัด",
+            "ช่วยขับลม บรรเทาอาการท้องอืด แน่นจุกเสียด",
+            "ช่วยรักษาอาการเลือดออกตามไรฟัน (โรคลักปิดลักเปิด)",
+            "น้ำคั้นช่วยขับสารพิษในตับและกระตุ้นการทำงานของระบบขับถ่าย"
+          ],
+          "edible_parts_and_nutrition": {
+            "edible_parts": "น้ำผล, เนื้อผล, เปลือกผล (ขูดผิวแต่งกลิ่น), ใบอ่อน (ฉีกใส่ต้มยำ)",
+            "nutrients": "วิตามินซี (Vitamin C) สูงมาก, กรดซิตริก, โพแทสเซียม, ฟลาโวนอยด์, วิตามินบี 6",
+            "energy_and_body_effects": "พลังงานต่ำมาก (20-30 kcal/100g) กระตุ้นการเผาผลาญ ช่วยให้ร่างกายสดชื่น คลายเหนื่อยล้า"
+          },
+          "contraindications": "ผู้ป่วยโรคกระเพาะอาหารที่มีแผลเปิด หรือโรคกรดไหลย้อนรุนแรงควรหลีกเลี่ยงการดื่มน้ำมะนาวเข้มข้นตอนท้องว่าง"
+        },
+        {
+          "id": "plant_1710000002",
+          "name": "กะเพราแดง",
+          "scientific_name": "Ocimum tenuiflorum L.",
+          "zone_id": "zone_2",
+          "zone_name": "โซน 2",
+          "x": 62.5,
+          "y": 68.4,
+          "category": "สมุนไพร / ผักสวนครัว",
+          "icon": "🌿",
+          "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Holy_basil_%28Ocimum_tenuiflorum%29_leaves.jpg/640px-Holy_basil_%28Ocimum_tenuiflorum%29_leaves.jpg",
+          "leaf_description": "ใบเดี่ยวรูปรี ก้านและกิ่งสีม่วงแดง มีขนนุ่มปกคลุม กลิ่นฉุนร้อนแรงกว่ากะเพราขาว",
+          "planted_date": "2026-02-10",
+          "note": "เด็ดยอดบ่อยๆ เพื่อให้แตกพุ่ม ปลูกกลางแจ้งรับแดดเต็มวัน",
+          "medicinal_properties": [
+            "ขับลม แก้อาการจุกเสียด แน่นเฟ้อ ปวดท้อง",
+            "ช่วยควบคุมระดับน้ำตาลในเลือด เหมาะสำหรับผู้มีภาวะเบาหวาน",
+            "ช่วยลดไขมันคอเลสเตอรอลและไตรกลีเซอไรด์ในกระแสเลือด",
+            "มีสารต้านอนุมูลอิสระสูง ช่วยลดความเครียดและต้านการอักเสบ",
+            "ขับเหงื่อ แก้หวัด ขับเสมหะ และแก้อาการคลื่นไส้อาเจียน"
+          ],
+          "edible_parts_and_nutrition": {
+            "edible_parts": "ใบและยอดอ่อน (ผัดกะเพรา ต้มยำ แกงป่า ชงชาสมุนไพร)",
+            "nutrients": "วิตามินซี, แคลเซียม, ฟอสฟอรัส, ธาตุเหล็ก, สารยูจีนอล (Eugenol)",
+            "energy_and_body_effects": "พลังงานต่ำ ฤทธิ์ร้อนช่วยกระตุ้นการเผาผลาญ ขับเหงื่อ เพิ่มความกระปรี้กระเปร่า"
+          },
+          "contraindications": "กะเพรามีฤทธิ์ร้อนและอาจชะลอการแข็งตัวของเลือด ผู้ที่จะเข้ารับการผ่าตัดควรหยุดรับประทานในปริมาณมากก่อนผ่าตัด 2 สัปดาห์"
+        },
+        {
+          "id": "plant_1710000003",
+          "name": "ขมิ้นชัน",
+          "scientific_name": "Curcuma longa L.",
+          "zone_id": "zone_2",
+          "zone_name": "โซน 2",
+          "x": 75.8,
+          "y": 78.2,
+          "category": "สมุนไพร / ผักสวนครัว",
+          "icon": "🥔",
+          "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Curcuma_longa_leaves.jpg/640px-Curcuma_longa_leaves.jpg",
+          "leaf_description": "ใบเดี่ยวขนาดใหญ่ ออกรวมเป็นกอ รูปหอกแกมขอบขนาน กาบใบยาวหุ้มซ้อนกัน สีเขียวสด",
+          "planted_date": "2026-01-20",
+          "note": "ชอบดินร่วนซุยระบายน้ำดี เหง้าอวบสมบูรณ์พร้อมเก็บเกี่ยวปลายปี",
+          "medicinal_properties": [
+            "รักษาแผลในกระเพาะอาหาร กรดไหลย้อน และอาการท้องอืด แน่น จุกเสียด",
+            "ต้านการอักเสบ บรรเทาอาการปวดข้อเข่าเสื่อมและข้ออักเสบ",
+            "มีสารต้านอนุมูลอิสระประสิทธิภาพสูง ชะลอความเสื่อมของเซลล์",
+            "บำรุงตับ ช่วยขับสารพิษและลดไขมันพอกตับ",
+            "สมานแผลผิวหนัง ต้านเชื้อแบคทีเรียและเชื้อรา"
+          ],
+          "edible_parts_and_nutrition": {
+            "edible_parts": "เหง้าใต้ดินสดและแห้ง (ปรุงอาหาร ชงดื่ม), ยอดอ่อนและใบอ่อน (ทานเป็นผักเหนาะ)",
+            "nutrients": "สารเคอร์คูมินอยด์ (Curcuminoids), น้ำมันหอมระเหย Turmerone, แมงกานีส, เหล็ก",
+            "energy_and_body_effects": "ช่วยอบอุ่นร่างกาย กระตุ้นการไหลเวียนของน้ำดี และต้านการอักเสบทั่วร่างกาย"
+          },
+          "contraindications": "ผู้ป่วยที่มีภาวะท่อน้ำดีอุดตัน หรือมีนิ่วในถุงน้ำดีขนาดใหญ่ห้ามรับประทานในปริมาณเข้มข้น และผู้ที่รับประทานยาต้านการแข็งตัวของเลือดควรระวัง"
+        },
+        {
+          "id": "plant_1710000004",
+          "name": "ต้นอัญชัน",
+          "scientific_name": "Clitoria ternatea L.",
+          "zone_id": "zone_3",
+          "zone_name": "โซน 3",
+          "x": 24.5,
+          "y": 14.8,
+          "category": "สมุนไพร / ไม้เลื้อย",
+          "icon": "🪻",
+          "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Clitoria_ternatea_leaves_and_flower.jpg/640px-Clitoria_ternatea_leaves_and_flower.jpg",
+          "leaf_description": "ใบประกอบแบบขนนก ใบย่อยรูปรี ปลายมนมีติ่งแหลม เลื้อยพันตามซุ้มระแนง",
+          "planted_date": "2026-03-01",
+          "note": "ทำค้างให้เลื้อยขึ้นซุ้ม เก็บดอกได้ทุกเช้า ดอกสีน้ำเงินเข้ม",
+          "medicinal_properties": [
+            "สารแอนโทไซยานินช่วยเพิ่มการไหลเวียนเลือดไปยังหลอดเลือดฝอยในดวงตา",
+            "ช่วยบำรุงรากผม คิ้ว ให้ดกดำเงางาม ลดการหลุดร่วง",
+            "ต้านอนุมูลอิสระ ชะลอความเสื่อมของเซลล์ผิว",
+            "ช่วยลดระดับน้ำตาลและไขมันในกระแสเลือด",
+            "ช่วยผ่อนคลาย ขยายหลอดเลือด และลดความดันโลหิต"
+          ],
+          "edible_parts_and_nutrition": {
+            "edible_parts": "ดอกสดและดอกแห้ง (ชงชาอัญชันมะนาว คั้นสีทำขนม ชุบแป้งทอด), ยอดอ่อน",
+            "nutrients": "แอนโทไซยานิน (Anthocyanin) สูงมาก, ฟลาโวนอยด์, วิตามินซี, วิตามินอี",
+            "energy_and_body_effects": "ไม่มีพลังงาน คลายความเครียด บำรุงระบบไหลเวียนโลหิตทั่วร่างกาย"
+          },
+          "contraindications": "ผู้ป่วยโรคโลหิตจางขั้นรุนแรงไม่ควรดื่มน้ำอัญชันเข้มข้น และผู้ที่รับประทานยาต้านการแข็งตัวของเลือดควรระวัง เพราะอัญชันมีฤทธิ์ละลายลิ่มเลือด"
+        },
+        {
+          "id": "plant_1710000005",
+          "name": "ว่านหางจระเข้",
+          "scientific_name": "Aloe vera (L.) Burm.f.",
+          "zone_id": "zone_4",
+          "zone_name": "โซน 4",
+          "x": 73.2,
+          "y": 15.6,
+          "category": "สมุนไพรบำบัด / ไม้ประดับ",
+          "icon": "🪴",
+          "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/640px-Aloe_vera_flower_inset.png",
+          "leaf_description": "ใบอวบน้ำรูปใบหอก ขอบใบมีหนามแหลม ภายในใบเป็นวุ้นเมือกใสฉ่ำน้ำปริมาณมาก",
+          "planted_date": "2026-02-15",
+          "note": "ปลูกในกระถางดินเผา ตั้งในที่ร่มรำไร น้ำไม่ขัง กาบใบอวบใหญ่",
+          "medicinal_properties": [
+            "สมานแผลไฟไหม้ น้ำร้อนลวก แผลกดทับ และผิวไหม้จากแดดอย่างรวดเร็ว",
+            "ช่วยรักษาแผลในกระเพาะอาหารและลำไส้อักเสบ",
+            "เพิ่มความชุ่มชื้น ลดริ้วรอย ฟื้นฟูเซลล์ผิวหนัง",
+            "ช่วยลดระดับน้ำตาลและไขมันในเลือด",
+            "ยางสีเหลืองที่เปลือกใบมีฤทธิ์เป็นยาระบายถ่ายท้อง"
+          ],
+          "edible_parts_and_nutrition": {
+            "edible_parts": "วุ้นใสภายในใบ (ปอกเปลือกและล้างยางสีเหลืองออกให้หมด นำไปลอยแก้ว หรือใส่สลัด)",
+            "nutrients": "โพลีแซคคาไรด์ (Acemannan), เอนไซม์ย่อยอาหาร, กรดอะมิโนจำเป็น, วิตามินอี, สังกะสี",
+            "energy_and_body_effects": "แคลอรี่ต่ำ มีสารอุ้มน้ำสูง คืนความชุ่มชื้นและลดความร้อนในระบบทางเดินอาหาร"
+          },
+          "contraindications": "⚠️ ยางสีเหลือง (Aloe latex/Aloin) มีฤทธิ์ระบายรุนแรง ห้ามสตรีมีครรภ์รับประทานเพราะอาจทำให้มดลูกบีบตัวแท้งได้"
+        }
+      ]
+    };
+
+    let plantStore = JSON.parse(JSON.stringify(INITIAL_PLANTS_DATA));
+    let herbsDbCache = [];
+    let selectedZoneFilter = 'all';
+    let focusedPlantId = null;
+    let adminModeActive = false;
+    let zoomLevel = 1;
+
+    // Start App
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadData();
+      await fetchHerbsDb();
+      renderUI();
+      bindEvents();
+    });
+
+    function normalizeZones(data) {
+      const zMap = {'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4'};
+      if (data && data.plants) {
+        data.plants.forEach(p => {
+          if (p.zone_id && zMap[p.zone_id]) {
+            p.zone_name = zMap[p.zone_id];
+          }
+        });
+      }
+      return data;
+    }
+
+    function loadData() {
+      const stored = localStorage.getItem('garden_plan_light_v1');
+      if (stored) {
+        try {
+          plantStore = normalizeZones(JSON.parse(stored));
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        fetch('data/plants.json')
+          .then(r => r.json())
+          .then(d => {
+            if (d && d.plants) {
+              plantStore = normalizeZones(d);
+              renderUI();
+            }
+          })
+          .catch(() => {});
+      }
+    }
+
+    function persistData() {
+      plantStore.updated_at = new Date().toISOString();
+      localStorage.setItem('garden_plan_light_v1', JSON.stringify(plantStore));
+
+      // Auto save directly to hard drive via local server API
+      if (window.location.protocol.startsWith('http')) {
+        fetch('/api/save-plants', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(plantStore)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success) {
+            console.log('[Server] Saved directly to data/plants.json');
+          }
+        })
+        .catch(() => {});
+      }
+    }
+
+    async function fetchHerbsDb() {
+      try {
+        const res = await fetch('data/herbs_db.json');
+        const data = await res.json();
+        if (data && data.herbs) {
+          herbsDbCache = data.herbs;
+        }
+      } catch (e) {
+        console.warn("Using offline fallback", e);
+      }
+    }
+
+    // Render Pipeline
+    function renderUI() {
+      updateCounts();
+      drawPins();
+      drawPlantList();
+    }
+
+    function updateCounts() {
+      const all = plantStore.plants || [];
+      document.getElementById('countAll').textContent = all.length;
+      document.getElementById('countZ1').textContent = all.filter(p => p.zone_id === 'zone_1').length;
+      document.getElementById('countZ2').textContent = all.filter(p => p.zone_id === 'zone_2').length;
+      document.getElementById('countZ3').textContent = all.filter(p => p.zone_id === 'zone_3').length;
+      document.getElementById('countZ4').textContent = all.filter(p => p.zone_id === 'zone_4').length;
+      document.getElementById('itemsBadge').textContent = all.length;
+    }
+
+    function drawPins() {
+      const container = document.getElementById('pinsHolder');
+      container.innerHTML = '';
+      const all = plantStore.plants || [];
+
+      all.forEach(p => {
+        if (selectedZoneFilter !== 'all' && p.zone_id !== selectedZoneFilter) {
+          return;
+        }
+
+        const pin = document.createElement('div');
+        pin.className = `plant-pin ${p.zone_id.replace('_', '-')}`;
+        pin.id = `pin_${p.id}`;
+        pin.style.left = `${p.x}%`;
+        pin.style.top = `${p.y}%`;
+
+        pin.innerHTML = `
+          <div class="pin-sonar"></div>
+          <div class="pin-pill">
+            <span class="pin-dot"></span>
+            <span>${p.name}</span>
+          </div>
+        `;
+
+        pin.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewPlantDetails(p.id);
+        });
+
+        container.appendChild(pin);
+      });
+    }
+
+    function drawPlantList() {
+      const list = document.getElementById('plantsList');
+      list.innerHTML = '';
+      const all = plantStore.plants || [];
+
+      const filtered = selectedZoneFilter === 'all' 
+        ? all 
+        : all.filter(p => p.zone_id === selectedZoneFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div style="text-align: center; padding: 2rem 1rem; color: var(--text-dim);">
+            <div style="font-size: 2rem; margin-bottom: 0.35rem;">🌱</div>
+            <div>ไม่มีต้นไม้ในส่วนนี้</div>
+            ${adminModeActive ? '<div style="font-size: 0.78rem; color: var(--accent-green); margin-top: 4px;">แตะบนแปลนเพื่อเพิ่มต้นไม้</div>' : ''}
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const row = document.createElement('div');
+        row.className = `plant-row ${p.id === focusedPlantId ? 'selected' : ''}`;
+        row.id = `row_${p.id}`;
+
+        const zoneCls = p.zone_id.replace('_', '');
+
+        row.innerHTML = `
+          <img class="plant-row-img" src="${p.leaf_image || 'plan.png'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=100'">
+          <div class="plant-row-info">
+            <div class="plant-row-name">
+              <span>${p.name}</span>
+            </div>
+            <div class="plant-row-sub">${p.scientific_name || p.category}</div>
+            <div class="plant-row-tags">
+              <span class="zone-tag tag-${zoneCls}">${p.zone_name}</span>
+            </div>
+          </div>
+        `;
+
+        row.addEventListener('click', () => {
+          viewPlantDetails(p.id);
+        });
+
+        list.appendChild(row);
+      });
+    }
+
+    // Zoom and Map View
+    function zoomPlan(ratio) {
+      zoomLevel = Math.min(Math.max(0.6, zoomLevel * ratio), 2.5);
+      document.getElementById('planCanvas').style.transform = `scale(${zoomLevel})`;
+    }
+
+    function resetPlanZoom() {
+      zoomLevel = 1;
+      document.getElementById('planCanvas').style.transform = 'scale(1)';
+    }
+
+    // Zone Filter
+    function selectZoneFilter(zoneKey) {
+      selectedZoneFilter = zoneKey;
+      document.querySelectorAll('.zone-pill').forEach(pill => pill.classList.remove('active'));
+
+      const map = {
+        'all': ['.p-all', '(ทั้งหมด)'],
+        'zone_1': ['.p-z1', '(เฉพาะ โซน 1)'],
+        'zone_2': ['.p-z2', '(เฉพาะ โซน 2)'],
+        'zone_3': ['.p-z3', '(เฉพาะ โซน 3)'],
+        'zone_4': ['.p-z4', '(เฉพาะ โซน 4)']
+      };
+
+      const [selector, text] = map[zoneKey] || ['.p-all', '(ทั้งหมด)'];
+      document.querySelector(selector)?.classList.add('active');
+      document.getElementById('zoneNotice').textContent = text;
+
+      drawPins();
+      drawPlantList();
+    }
+
+    function resetFilters() {
+      selectZoneFilter('all');
+      clearKeywordSearch();
+    }
+
+    // Search and Point to Pin Feature
+    function bindEvents() {
+      const keywordInput = document.getElementById('keywordInput');
+      const suggestBox = document.getElementById('suggestBox');
+      const clearBtn = document.getElementById('clearSearchBtn');
+
+      keywordInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (!query) {
+          suggestBox.style.display = 'none';
+          clearBtn.style.display = 'none';
+          return;
+        }
+
+        clearBtn.style.display = 'flex';
+        const plants = plantStore.plants || [];
+        const matches = [];
+
+        plants.forEach(p => {
+          let snippet = '';
+          let rank = 0;
+
+          if (p.name.toLowerCase().includes(query)) {
+            rank += 10;
+            snippet = `ชื่อ: ${p.name}`;
+          } else if (p.scientific_name && p.scientific_name.toLowerCase().includes(query)) {
+            rank += 8;
+            snippet = `ชื่อวิทย์: ${p.scientific_name}`;
+          } else if (p.medicinal_properties && p.medicinal_properties.some(m => m.toLowerCase().includes(query))) {
+            rank += 6;
+            const found = p.medicinal_properties.find(m => m.toLowerCase().includes(query));
+            snippet = `สรรพคุณ: ${found}`;
+          } else if (p.edible_parts_and_nutrition) {
+            const ed = p.edible_parts_and_nutrition;
+            if (ed.edible_parts && ed.edible_parts.toLowerCase().includes(query)) {
+              rank += 5; snippet = `ส่วนที่กินได้: ${ed.edible_parts}`;
+            } else if (ed.nutrients && ed.nutrients.toLowerCase().includes(query)) {
+              rank += 5; snippet = `โภชนาการ: ${ed.nutrients}`;
+            }
+          } else if (p.contraindications && p.contraindications.toLowerCase().includes(query)) {
+            rank += 4;
+            snippet = `ข้อห้าม: ${p.contraindications}`;
+          }
+
+          if (rank > 0) {
+            matches.push({ plant: p, snippet, rank });
+          }
+        });
+
+        matches.sort((a, b) => b.rank - a.rank);
+
+        if (matches.length > 0) {
+          suggestBox.innerHTML = matches.map(m => `
+            <div class="search-item" onclick="onPickSearchResult('${m.plant.id}')">
+              <img class="search-item-thumb" src="${m.plant.leaf_image || 'plan.png'}" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=80'">
+              <div class="search-item-text">
+                <div class="search-item-title">
+                  <span>${m.plant.name}</span>
+                  <span class="zone-tag" style="background:#f1f5f9; color:#475569; font-size:0.68rem;">${m.plant.zone_name}</span>
+                </div>
+                <div class="search-item-snippet">${m.snippet}</div>
+              </div>
+            </div>
+          `).join('');
+          suggestBox.style.display = 'block';
+        } else {
+          suggestBox.innerHTML = `<div style="padding:1rem; text-align:center; color:#94a3b8; font-size:0.84rem;">ไม่พบข้อมูลที่ตรงกับ "${query}"</div>`;
+          suggestBox.style.display = 'block';
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-box-wrapper')) {
+          suggestBox.style.display = 'none';
+        }
+      });
+
+      // Tap on plan in admin mode
+      const planCanvas = document.getElementById('planCanvas');
+      planCanvas.addEventListener('click', (e) => {
+        if (!adminModeActive) return;
+        if (e.target.closest('.plant-pin')) return;
+
+        const rect = planCanvas.getBoundingClientRect();
+        const clickX = ((e.clientX - rect.left) / rect.width) * 100;
+        const clickY = ((e.clientY - rect.top) / rect.height) * 100;
+
+        let detectedZone = 'zone_1';
+        if (clickX < 50 && clickY < 50) detectedZone = 'zone_3';
+        else if (clickX >= 50 && clickY < 50) detectedZone = 'zone_4';
+        else if (clickX < 50 && clickY >= 50) detectedZone = 'zone_1';
+        else detectedZone = 'zone_2';
+
+        openNewPlantDialogWithCoords(clickX, clickY, detectedZone);
+      });
+    }
+
+    function onPickSearchResult(plantId) {
+      document.getElementById('suggestBox').style.display = 'none';
+      viewPlantDetails(plantId);
+    }
+
+    function clearKeywordSearch() {
+      document.getElementById('keywordInput').value = '';
+      document.getElementById('suggestBox').style.display = 'none';
+      document.getElementById('clearSearchBtn').style.display = 'none';
+    }
+
+    // View Plant Details
+    function viewPlantDetails(plantId) {
+      focusedPlantId = plantId;
+      const p = (plantStore.plants || []).find(x => x.id === plantId);
+      if (!p) return;
+
+      // Animate pin jump on map
+      document.querySelectorAll('.plant-pin').forEach(pin => pin.classList.remove('targeted'));
+      const targetPin = document.getElementById(`pin_${p.id}`);
+      if (targetPin) {
+        targetPin.classList.add('targeted');
+        setTimeout(() => targetPin.classList.remove('targeted'), 6000);
+      }
+
+      // Highlight in list
+      document.querySelectorAll('.plant-row').forEach(r => r.classList.remove('selected'));
+      const row = document.getElementById(`row_${p.id}`);
+      if (row) {
+        row.classList.add('selected');
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      // Populate Modal
+      document.getElementById('dName').textContent = p.name;
+      document.getElementById('dScientific').textContent = p.scientific_name || p.category;
+
+      const photo = document.getElementById('dLeafPhoto');
+      photo.src = p.leaf_image || 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400';
+      document.getElementById('dLeafDesc').textContent = p.leaf_description || 'ใบพืชสีเขียวสมบูรณ์ตามธรรมชาติ';
+
+      const tagZone = document.getElementById('dZoneTag');
+      tagZone.textContent = p.zone_name;
+      tagZone.className = `zone-tag tag-${p.zone_id.replace('_', '')}`;
+      document.getElementById('dCategoryTag').textContent = p.category || 'ผักสวนครัว';
+      document.getElementById('dPlantedTag').textContent = p.planted_date ? `ปลูกเมื่อ: ${p.planted_date}` : '';
+
+      // Medicinal
+      const mList = document.getElementById('dMedicinalList');
+      mList.innerHTML = '';
+      (p.medicinal_properties || []).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        mList.appendChild(li);
+      });
+      if ((p.medicinal_properties || []).length === 0) {
+        mList.innerHTML = '<li>ไม่มีข้อมูลระบุ</li>';
+      }
+
+      // Edible & Nutrition
+      const ed = p.edible_parts_and_nutrition || {};
+      document.getElementById('dEdibleParts').textContent = ed.edible_parts || 'ใบ หรือ ยอดอ่อน';
+      document.getElementById('dNutrients').textContent = ed.nutrients || 'วิตามินและสารอาหารธรรมชาติ';
+      document.getElementById('dEnergy').textContent = ed.energy_and_body_effects || 'ช่วยบำรุงสุขภาพ';
+
+      // Contraindications
+      document.getElementById('dContra').textContent = p.contraindications || 'ควรรับประทานในปริมาณที่พอเหมาะ';
+
+      // Note & Coords
+      document.getElementById('dNote').textContent = p.note || '-';
+      document.getElementById('dCoordinateText').textContent = `พิกัด: (${p.x.toFixed(1)}%, ${p.y.toFixed(1)}%) ใน ${p.zone_name}`;
+
+      // Admin buttons
+      document.getElementById('btnActionEdit').style.display = adminModeActive ? 'inline-flex' : 'none';
+      document.getElementById('btnActionDelete').style.display = adminModeActive ? 'inline-flex' : 'none';
+
+      document.getElementById('detailModal').classList.add('active');
+    }
+
+    function closeDetailDialog() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    // Admin Mode Toggle
+    function toggleAdminMode() {
+      adminModeActive = !adminModeActive;
+      const btn = document.getElementById('btnAdminSwitch');
+      const text = document.getElementById('adminBtnText');
+      const notice = document.getElementById('adminNotice');
+      const viewport = document.getElementById('planViewport');
+
+      if (adminModeActive) {
+        btn.classList.add('active');
+        text.textContent = 'ออกจากระบบ';
+        notice.classList.add('show');
+        viewport.classList.add('admin-active');
+        notify('เปิดโหมดจัดการแล้ว: แตะบนแปลนเพื่อปักหมุด', '🛠️');
+      } else {
+        btn.classList.remove('active');
+        text.textContent = 'จัดการ';
+        notice.classList.remove('show');
+        viewport.classList.remove('admin-active');
+      }
+      drawPlantList();
+    }
+
+    function openNewPlantDialog() {
+      openNewPlantDialogWithCoords(50, 50, selectedZoneFilter !== 'all' ? selectedZoneFilter : 'zone_1');
+    }
+
+    function openNewPlantDialogWithCoords(x, y, zoneId) {
+      document.getElementById('formModalTitle').textContent = '➕ เพิ่มต้นไม้ใหม่';
+      document.getElementById('fId').value = '';
+      document.getElementById('fName').value = '';
+      document.getElementById('fScientific').value = '';
+      document.getElementById('fZone').value = zoneId;
+      document.getElementById('fX').value = x.toFixed(1);
+      document.getElementById('fY').value = y.toFixed(1);
+      document.getElementById('fLeafImg').value = '';
+      document.getElementById('fLeafDesc').value = '';
+      document.getElementById('fMedicinal').value = '';
+      document.getElementById('fEdible').value = '';
+      document.getElementById('fNutrients').value = '';
+      document.getElementById('fEnergy').value = '';
+      document.getElementById('fContra').value = '';
+      document.getElementById('fNote').value = '';
+
+      document.getElementById('formModal').classList.add('active');
+    }
+
+    function editCurrentPlant() {
+      closeDetailDialog();
+      const p = (plantStore.plants || []).find(x => x.id === focusedPlantId);
+      if (!p) return;
+
+      document.getElementById('formModalTitle').textContent = `✏️ แก้ไข: ${p.name}`;
+      document.getElementById('fId').value = p.id;
+      document.getElementById('fName').value = p.name;
+      document.getElementById('fScientific').value = p.scientific_name || '';
+      document.getElementById('fZone').value = p.zone_id;
+      document.getElementById('fX').value = p.x;
+      document.getElementById('fY').value = p.y;
+      document.getElementById('fLeafImg').value = p.leaf_image || '';
+      document.getElementById('fLeafDesc').value = p.leaf_description || '';
+      document.getElementById('fMedicinal').value = (p.medicinal_properties || []).join('\n');
+
+      const ed = p.edible_parts_and_nutrition || {};
+      document.getElementById('fEdible').value = ed.edible_parts || '';
+      document.getElementById('fNutrients').value = ed.nutrients || '';
+      document.getElementById('fEnergy').value = ed.energy_and_body_effects || '';
+      document.getElementById('fContra').value = p.contraindications || '';
+      document.getElementById('fNote').value = p.note || '';
+
+      document.getElementById('formModal').classList.add('active');
+    }
+
+    function deleteCurrentPlant() {
+      const p = (plantStore.plants || []).find(x => x.id === focusedPlantId);
+      if (!p) return;
+
+      if (confirm(`คุณต้องการลบ "${p.name}" ใน ${p.zone_name} ใช่หรือไม่?`)) {
+        plantStore.plants = plantStore.plants.filter(x => x.id !== p.id);
+        persistData();
+        closeDetailDialog();
+        renderUI();
+        notify(`ลบ "${p.name}" เรียบร้อยแล้ว`, '🗑️');
+      }
+    }
+
+    function closeFormDialog() {
+      document.getElementById('formModal').classList.remove('active');
+    }
+
+    // Auto Enrich (Free 100% no api key)
+    async function runAutoEnrich() {
+      const name = document.getElementById('fName').value.trim();
+      if (!name) {
+        alert('กรุณากรอกชื่อต้นไม้ก่อนครับ');
+        return;
+      }
+
+      notify(`กำลังค้นหาข้อมูล "${name}"...`, '⏳');
+
+      // Check cache first
+      const q = name.toLowerCase();
+      const match = herbsDbCache.find(h => h.name.toLowerCase().includes(q) || q.includes(h.name.toLowerCase()));
+      if (match) {
+        fillFormFields(match);
+        notify(`ดึงข้อมูล "${match.name}" จากสารานุกรมสำเร็จ!`, '✓');
+        return;
+      }
+
+      // Check Wikipedia API
+      try {
+        const url = `https://th.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const wiki = await res.json();
+          document.getElementById('fMedicinal').value = wiki.extract ? wiki.extract.slice(0, 250) : '';
+          if (wiki.originalimage && wiki.originalimage.source) {
+            document.getElementById('fLeafImg').value = wiki.originalimage.source;
+          } else if (wiki.thumbnail && wiki.thumbnail.source) {
+            document.getElementById('fLeafImg').value = wiki.thumbnail.source;
+          }
+          document.getElementById('fLeafDesc').value = `ภาพประกอบพืช ${wiki.title || name}`;
+          notify(`ดึงข้อมูลจาก Wikipedia สำเร็จ!`, '✓');
+          return;
+        }
+      } catch (e) {}
+
+      notify('ไม่พบข้อมูลอัตโนมัติ คุณสามารถกรอกเองได้', 'ℹ️');
+    }
+
+    function fillFormFields(h) {
+      if (h.scientific_name) document.getElementById('fScientific').value = h.scientific_name;
+      if (h.leaf_image) document.getElementById('fLeafImg').value = h.leaf_image;
+      if (h.leaf_description) document.getElementById('fLeafDesc').value = h.leaf_description;
+      if (h.medicinal_properties) {
+        document.getElementById('fMedicinal').value = Array.isArray(h.medicinal_properties) 
+          ? h.medicinal_properties.join('\n') 
+          : h.medicinal_properties;
+      }
+      if (h.edible_parts_and_nutrition) {
+        document.getElementById('fEdible').value = h.edible_parts_and_nutrition.edible_parts || '';
+        document.getElementById('fNutrients').value = h.edible_parts_and_nutrition.nutrients || '';
+        document.getElementById('fEnergy').value = h.edible_parts_and_nutrition.energy_and_body_effects || '';
+      }
+      if (h.contraindications) document.getElementById('fContra').value = h.contraindications;
+    }
+
+    function savePlantData(e) {
+      e.preventDefault();
+      const pId = document.getElementById('fId').value || `plant_${Date.now()}`;
+      const name = document.getElementById('fName').value.trim();
+      const scientific = document.getElementById('fScientific').value.trim();
+      const zoneId = document.getElementById('fZone').value;
+      const x = parseFloat(document.getElementById('fX').value) || 50;
+      const y = parseFloat(document.getElementById('fY').value) || 50;
+      const leafImg = document.getElementById('fLeafImg').value.trim();
+      const leafDesc = document.getElementById('fLeafDesc').value.trim();
+      const medRaw = document.getElementById('fMedicinal').value.trim();
+      const medList = medRaw ? medRaw.split(/[\n,]+/).map(s => s.trim()).filter(Boolean) : [];
+      const edible = document.getElementById('fEdible').value.trim();
+      const nutrients = document.getElementById('fNutrients').value.trim();
+      const energy = document.getElementById('fEnergy').value.trim();
+      const contra = document.getElementById('fContra').value.trim();
+      const note = document.getElementById('fNote').value.trim();
+
+      const zNames = {'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4'};
+
+      const newEntry = {
+        id: pId,
+        name: name,
+        scientific_name: scientific,
+        zone_id: zoneId,
+        zone_name: zNames[zoneId] || zoneId,
+        x: Math.round(x * 10) / 10,
+        y: Math.round(y * 10) / 10,
+        category: "สมุนไพร / ผักสวนครัว",
+        leaf_image: leafImg,
+        leaf_description: leafDesc,
+        planted_date: new Date().toISOString().split('T')[0],
+        note: note,
+        medicinal_properties: medList,
+        edible_parts_and_nutrition: {
+          edible_parts: edible,
+          nutrients: nutrients,
+          energy_and_body_effects: energy
+        },
+        contraindications: contra
+      };
+
+      if (!plantStore.plants) plantStore.plants = [];
+
+      const idx = plantStore.plants.findIndex(x => x.id === pId);
+      if (idx >= 0) {
+        plantStore.plants[idx] = newEntry;
+        notify(`แก้ไขข้อมูล "${name}" เรียบร้อย`, '✓');
+      } else {
+        plantStore.plants.push(newEntry);
+        notify(`ปักหมุด "${name}" ใน ${zNames[zoneId]} สำเร็จ`, '✓');
+      }
+
+      persistData();
+      closeFormDialog();
+      renderUI();
+      viewPlantDetails(pId);
+    }
+
+    // Export & Import
+    function openExportDialog() {
+      document.getElementById('exportDialog').classList.add('active');
+    }
+    function closeExportDialog() {
+      document.getElementById('exportDialog').classList.remove('active');
+    }
+
+    function openGithubDialog() {
+      document.getElementById('githubDialog').classList.add('active');
+    }
+    function closeGithubDialog() {
+      document.getElementById('githubDialog').classList.remove('active');
+    }
+
+    function exportPlantsJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(plantStore, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", "plants.json");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      notify("ดาวน์โหลด plants.json เรียบร้อย", "💾");
+    }
+
+    function importPlantsJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.plants) {
+            plantStore = parsed;
+            persistData();
+            renderUI();
+            closeExportDialog();
+            notify("นำเข้าข้อมูล plants.json สำเร็จ!", "✓");
+          }
+        } catch (err) {
+          alert("ไม่สามารถอ่านไฟล์ JSON ได้: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Lightbox & Backdrop
+    function showLightbox(url) {
+      if (!url) return;
+      document.getElementById('lightboxImage').src = url;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function hideLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function onBackdropClick(e) {
+      if (e.target.classList.contains('modal-backdrop')) {
+        e.target.classList.remove('active');
+      }
+    }
+
+    // Trigger GitHub Upload via server API
+    function triggerGithubUpload() {
+      if (window.location.protocol.startsWith('http')) {
+        notify('กำลังสั่งรัน ~github_update.bat ...', '⏳');
+        fetch('/api/github-upload', { method: 'POST' })
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.success) {
+              notify('สั่งรันอัปโหลดขึ้น GitHub เรียบร้อยแล้ว!', '🚀');
+            } else {
+              notify('ไม่สามารถรันได้ กรุณาดังเบิลคลิก ~github_update.bat โดยตรง', '⚠️');
+            }
+          })
+          .catch(() => {
+            notify('กรุณาดับเบิลคลิกไฟล์ ~github_update.bat ในโฟลเดอร์', 'ℹ️');
+          });
+      } else {
+        notify('กรุณาดับเบิลคลิกไฟล์ ~github_update.bat ในโฟลเดอร์', 'ℹ️');
+      }
+    }
+
+    // Notification Toast
+    function notify(text, icon = '✓') {
+      const toast = document.getElementById('toastBox');
+      document.getElementById('toastContent').textContent = text;
+      document.getElementById('toastSymbol').textContent = icon;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 3200);
+    }
+  </script>
+</body>
+</html>
