@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>แปลนสวนและต้นไม้ในบ้าน | Interactive Garden Plan</title>
-  <meta name="description" content="ระบบแปลนต้นไม้และสมุนไพรประจำบ้าน ค้นหาพิกัด สรรพคุณ และวิธีรับประทาน ใช้งานง่ายบนมือถือ">
+  <meta name="description"
+    content="ระบบแปลนต้นไม้และสมุนไพรประจำบ้าน ค้นหาพิกัด สรรพคุณ และวิธีรับประทาน ใช้งานง่ายบนมือถือ">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       /* Clean Light Botanic Palette */
@@ -17,16 +21,16 @@
       --bg-subtle: #f0f4f1;
       --border-light: #e2e8f0;
       --border-green: #d1fae5;
-      
+
       --text-main: #0f172a;
       --text-muted: #475569;
       --text-dim: #94a3b8;
-      
+
       --accent-green: #059669;
       --accent-green-hover: #047857;
       --accent-green-light: #ecfdf5;
       --accent-green-border: #a7f3d0;
-      
+
       --zone1-color: #059669;
       --zone1-bg: #ecfdf5;
       --zone2-color: #0284c7;
@@ -35,11 +39,11 @@
       --zone3-bg: #f5f3ff;
       --zone4-color: #d97706;
       --zone4-bg: #fffbeb;
-      
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 14px -2px rgba(0,0,0,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
-      --shadow-lg: 0 12px 28px -4px rgba(0,0,0,0.12), 0 4px 10px -2px rgba(0,0,0,0.06);
-      
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
+
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
@@ -78,7 +82,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     }
 
     .brand-wrap {
@@ -145,6 +149,7 @@
       border-color: #e2e8f0;
       color: var(--text-muted);
     }
+
     .btn-light:hover {
       background: #e2e8f0;
       color: var(--text-main);
@@ -156,6 +161,7 @@
       color: #047857;
       font-weight: 600;
     }
+
     .btn-admin.active {
       background: #059669;
       border-color: #047857;
@@ -168,6 +174,7 @@
       color: #ffffff;
       box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
     }
+
     .btn-primary:hover {
       background: #047857;
     }
@@ -194,7 +201,8 @@
       padding: 0.65rem 2.6rem 0.65rem 2.6rem;
       color: var(--text-main);
       font-family: inherit;
-      font-size: 0.92rem; /* 16px to prevent mobile browser zooming */
+      font-size: 0.92rem;
+      /* 16px to prevent mobile browser zooming */
       outline: none;
       transition: var(--transition);
     }
@@ -258,10 +266,13 @@
       cursor: pointer;
       transition: var(--transition);
     }
+
     .search-item:last-child {
       border-bottom: none;
     }
-    .search-item:hover, .search-item:active {
+
+    .search-item:hover,
+    .search-item:active {
       background: #ecfdf5;
     }
 
@@ -279,6 +290,7 @@
       flex: 1;
       min-width: 0;
     }
+
     .search-item-title {
       font-size: 0.92rem;
       font-weight: 600;
@@ -287,6 +299,7 @@
       align-items: center;
       gap: 0.4rem;
     }
+
     .search-item-snippet {
       font-size: 0.78rem;
       color: var(--text-muted);
@@ -308,6 +321,7 @@
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
+
     .zone-nav::-webkit-scrollbar {
       display: none;
     }
@@ -328,21 +342,44 @@
       flex-shrink: 0;
       transition: var(--transition);
     }
+
     .zone-pill:hover {
       background: #f1f5f9;
     }
+
     .zone-pill.active {
       font-weight: 600;
     }
+
     .zone-pill.p-all.active {
       background: #ecfdf5;
       border-color: #059669;
       color: #059669;
     }
-    .zone-pill.p-z1.active { background: var(--zone1-bg); border-color: var(--zone1-color); color: var(--zone1-color); }
-    .zone-pill.p-z2.active { background: var(--zone2-bg); border-color: var(--zone2-color); color: var(--zone2-color); }
-    .zone-pill.p-z3.active { background: var(--zone3-bg); border-color: var(--zone3-color); color: var(--zone3-color); }
-    .zone-pill.p-z4.active { background: var(--zone4-bg); border-color: var(--zone4-color); color: var(--zone4-color); }
+
+    .zone-pill.p-z1.active {
+      background: var(--zone1-bg);
+      border-color: var(--zone1-color);
+      color: var(--zone1-color);
+    }
+
+    .zone-pill.p-z2.active {
+      background: var(--zone2-bg);
+      border-color: var(--zone2-color);
+      color: var(--zone2-color);
+    }
+
+    .zone-pill.p-z3.active {
+      background: var(--zone3-bg);
+      border-color: var(--zone3-color);
+      color: var(--zone3-color);
+    }
+
+    .zone-pill.p-z4.active {
+      background: var(--zone4-bg);
+      border-color: var(--zone4-color);
+      color: var(--zone4-color);
+    }
 
     .zone-dot {
       width: 7px;
@@ -363,6 +400,7 @@
       justify-content: space-between;
       gap: 0.5rem;
     }
+
     .admin-bar.show {
       display: flex;
     }
@@ -437,6 +475,7 @@
       justify-content: center;
       transition: var(--transition);
     }
+
     .zoom-btn:hover {
       background: #ffffff;
       box-shadow: var(--shadow-sm);
@@ -458,7 +497,7 @@
       justify-content: center;
       user-select: none;
       touch-action: pan-x pan-y;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
     }
 
     .map-viewport.admin-active {
@@ -486,6 +525,7 @@
         height: 44vh;
         min-height: 280px;
       }
+
       .plan-img {
         max-height: 42vh;
       }
@@ -503,7 +543,8 @@
       align-items: center;
     }
 
-    .plant-pin:hover, .plant-pin:active {
+    .plant-pin:hover,
+    .plant-pin:active {
       transform: translate(-50%, -50%) scale(1.15);
       z-index: 40;
     }
@@ -513,7 +554,7 @@
       border: 2px solid #059669;
       border-radius: var(--radius-full);
       padding: 4px 10px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.8);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8);
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -533,22 +574,46 @@
       flex-shrink: 0;
     }
 
-    .plant-pin.zone-1 .pin-pill { border-color: var(--zone1-color); }
-    .plant-pin.zone-1 .pin-dot { background: var(--zone1-color); }
-    .plant-pin.zone-2 .pin-pill { border-color: var(--zone2-color); }
-    .plant-pin.zone-2 .pin-dot { background: var(--zone2-color); }
-    .plant-pin.zone-3 .pin-pill { border-color: var(--zone3-color); }
-    .plant-pin.zone-3 .pin-dot { background: var(--zone3-color); }
-    .plant-pin.zone-4 .pin-pill { border-color: var(--zone4-color); }
-    .plant-pin.zone-4 .pin-dot { background: var(--zone4-color); }
+    .plant-pin.zone-1 .pin-pill {
+      border-color: var(--zone1-color);
+    }
+
+    .plant-pin.zone-1 .pin-dot {
+      background: var(--zone1-color);
+    }
+
+    .plant-pin.zone-2 .pin-pill {
+      border-color: var(--zone2-color);
+    }
+
+    .plant-pin.zone-2 .pin-dot {
+      background: var(--zone2-color);
+    }
+
+    .plant-pin.zone-3 .pin-pill {
+      border-color: var(--zone3-color);
+    }
+
+    .plant-pin.zone-3 .pin-dot {
+      background: var(--zone3-color);
+    }
+
+    .plant-pin.zone-4 .pin-pill {
+      border-color: var(--zone4-color);
+    }
+
+    .plant-pin.zone-4 .pin-dot {
+      background: var(--zone4-color);
+    }
 
     /* Target / Search Highlight Pulse */
     .plant-pin.targeted {
       z-index: 50;
       animation: pinJump 0.6s ease infinite alternate;
     }
+
     .plant-pin.targeted .pin-pill {
-      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 6px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 6px 16px rgba(0, 0, 0, 0.2);
     }
 
     .pin-sonar {
@@ -569,13 +634,27 @@
     }
 
     @keyframes sonarPulse {
-      0% { width: 36px; height: 36px; opacity: 1; }
-      100% { width: 100px; height: 100px; opacity: 0; }
+      0% {
+        width: 36px;
+        height: 36px;
+        opacity: 1;
+      }
+
+      100% {
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+      }
     }
 
     @keyframes pinJump {
-      0% { transform: translate(-50%, -50%) translateY(0); }
-      100% { transform: translate(-50%, -50%) translateY(-8px); }
+      0% {
+        transform: translate(-50%, -50%) translateY(0);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) translateY(-8px);
+      }
     }
 
     /* Map View Switcher */
@@ -587,6 +666,7 @@
       padding: 2px;
       gap: 2px;
     }
+
     .view-switch-btn {
       border: none;
       background: transparent;
@@ -599,13 +679,15 @@
       transition: var(--transition);
       white-space: nowrap;
     }
+
     .view-switch-btn:hover {
       color: #0f172a;
     }
+
     .view-switch-btn.active {
       background: #ffffff;
       color: #059669;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
     /* Tree Lines SVG Layer */
@@ -618,6 +700,7 @@
       pointer-events: none;
       z-index: 6;
     }
+
     .tree-line {
       fill: none;
       stroke-width: 1.5px;
@@ -627,14 +710,27 @@
       vector-effect: non-scaling-stroke;
       transition: stroke-width 0.2s, stroke 0.2s, filter 0.2s, opacity 0.2s;
     }
-    .tree-line.zone-1 { stroke: var(--zone1-color); }
-    .tree-line.zone-2 { stroke: var(--zone2-color); }
-    .tree-line.zone-3 { stroke: var(--zone3-color); }
-    .tree-line.zone-4 { stroke: var(--zone4-color); }
+
+    .tree-line.zone-1 {
+      stroke: var(--zone1-color);
+    }
+
+    .tree-line.zone-2 {
+      stroke: var(--zone2-color);
+    }
+
+    .tree-line.zone-3 {
+      stroke: var(--zone3-color);
+    }
+
+    .tree-line.zone-4 {
+      stroke: var(--zone4-color);
+    }
+
     .tree-line.active {
       stroke-width: 2.8px;
       opacity: 1;
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.35));
+      filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.35));
     }
 
     /* Tree Point Pin (Dot on coordinate) */
@@ -646,7 +742,7 @@
       border-radius: 50%;
       background: #ffffff;
       border: 2.5px solid #059669;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       touch-action: none;
       z-index: 14;
@@ -655,10 +751,12 @@
       align-items: center;
       justify-content: center;
     }
+
     .map-viewport.admin-active .tree-point-pin,
     .map-viewport.admin-active .plant-pin {
       cursor: grab;
     }
+
     .tree-point-pin::after {
       content: '';
       width: 4px;
@@ -666,20 +764,41 @@
       border-radius: 50%;
       background: currentColor;
     }
-    .tree-point-pin.zone-1 { border-color: var(--zone1-color); color: var(--zone1-color); }
-    .tree-point-pin.zone-2 { border-color: var(--zone2-color); color: var(--zone2-color); }
-    .tree-point-pin.zone-3 { border-color: var(--zone3-color); color: var(--zone3-color); }
-    .tree-point-pin.zone-4 { border-color: var(--zone4-color); color: var(--zone4-color); }
-    .tree-point-pin:hover, .tree-point-pin.active, .tree-point-pin.targeted {
+
+    .tree-point-pin.zone-1 {
+      border-color: var(--zone1-color);
+      color: var(--zone1-color);
+    }
+
+    .tree-point-pin.zone-2 {
+      border-color: var(--zone2-color);
+      color: var(--zone2-color);
+    }
+
+    .tree-point-pin.zone-3 {
+      border-color: var(--zone3-color);
+      color: var(--zone3-color);
+    }
+
+    .tree-point-pin.zone-4 {
+      border-color: var(--zone4-color);
+      color: var(--zone4-color);
+    }
+
+    .tree-point-pin:hover,
+    .tree-point-pin.active,
+    .tree-point-pin.targeted {
       transform: translate(-50%, -50%) scale(1.35);
       z-index: 35;
-      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    .tree-point-pin.dragging, .plant-pin.dragging {
+
+    .tree-point-pin.dragging,
+    .plant-pin.dragging {
       cursor: grabbing !important;
       transform: translate(-50%, -50%) scale(1.6) !important;
       z-index: 100 !important;
-      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.45), 0 8px 24px rgba(0,0,0,0.35) !important;
+      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.45), 0 8px 24px rgba(0, 0, 0, 0.35) !important;
       transition: none !important;
     }
 
@@ -695,7 +814,7 @@
       font-weight: 600;
       line-height: 1.15;
       color: #0f172a;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       cursor: pointer;
       white-space: nowrap;
       z-index: 18;
@@ -705,48 +824,79 @@
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
       user-select: none;
     }
+
     .tree-callout-pill .pill-dot {
       width: 5px;
       height: 5px;
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .tree-callout-pill.zone-1 { border-color: var(--zone1-color); }
-    .tree-callout-pill.zone-1 .pill-dot { background: var(--zone1-color); }
-    .tree-callout-pill.zone-2 { border-color: var(--zone2-color); }
-    .tree-callout-pill.zone-2 .pill-dot { background: var(--zone2-color); }
-    .tree-callout-pill.zone-3 { border-color: var(--zone3-color); }
-    .tree-callout-pill.zone-3 .pill-dot { background: var(--zone3-color); }
-    .tree-callout-pill.zone-4 { border-color: var(--zone4-color); }
-    .tree-callout-pill.zone-4 .pill-dot { background: var(--zone4-color); }
 
-    .tree-callout-pill:hover, .tree-callout-pill.active, .tree-callout-pill.targeted {
+    .tree-callout-pill.zone-1 {
+      border-color: var(--zone1-color);
+    }
+
+    .tree-callout-pill.zone-1 .pill-dot {
+      background: var(--zone1-color);
+    }
+
+    .tree-callout-pill.zone-2 {
+      border-color: var(--zone2-color);
+    }
+
+    .tree-callout-pill.zone-2 .pill-dot {
+      background: var(--zone2-color);
+    }
+
+    .tree-callout-pill.zone-3 {
+      border-color: var(--zone3-color);
+    }
+
+    .tree-callout-pill.zone-3 .pill-dot {
+      background: var(--zone3-color);
+    }
+
+    .tree-callout-pill.zone-4 {
+      border-color: var(--zone4-color);
+    }
+
+    .tree-callout-pill.zone-4 .pill-dot {
+      background: var(--zone4-color);
+    }
+
+    .tree-callout-pill:hover,
+    .tree-callout-pill.active,
+    .tree-callout-pill.targeted {
       transform: translateY(-50%) scale(1.08);
       z-index: 40;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     }
+
     .tree-callout-pill.align-left {
       max-width: 22%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .tree-callout-pill.align-right {
       max-width: 24%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .tree-callout-pill.align-anchor-right {
       transform: translate(-100%, -50%);
       max-width: 20%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .tree-callout-pill.align-anchor-right:hover,
     .tree-callout-pill.align-anchor-right.active,
     .tree-callout-pill.align-anchor-right.targeted {
       transform: translate(-100%, -50%) scale(1.08);
       z-index: 40;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     }
 
     /* Plant Card List (Sidebar / Mobile bottom section) */
@@ -807,6 +957,7 @@
       overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
+
     .tree-zone-head {
       display: flex;
       align-items: center;
@@ -818,9 +969,11 @@
       user-select: none;
       transition: var(--transition);
     }
+
     .tree-zone-head:hover {
       background: #f1f5f9;
     }
+
     .tree-zone-expander {
       font-size: 0.72rem;
       color: #64748b;
@@ -828,9 +981,11 @@
       text-align: center;
       transition: transform 0.2s ease;
     }
+
     .tree-zone-branch.collapsed .tree-zone-head {
       border-bottom: none;
     }
+
     .tree-zone-tag {
       font-size: 0.74rem;
       font-weight: 700;
@@ -840,10 +995,27 @@
       align-items: center;
       gap: 4px;
     }
-    .tree-zone-tag.zone-1 { background: var(--zone1-bg); color: var(--zone1-color); }
-    .tree-zone-tag.zone-2 { background: var(--zone2-bg); color: var(--zone2-color); }
-    .tree-zone-tag.zone-3 { background: var(--zone3-bg); color: var(--zone3-color); }
-    .tree-zone-tag.zone-4 { background: var(--zone4-bg); color: var(--zone4-color); }
+
+    .tree-zone-tag.zone-1 {
+      background: var(--zone1-bg);
+      color: var(--zone1-color);
+    }
+
+    .tree-zone-tag.zone-2 {
+      background: var(--zone2-bg);
+      color: var(--zone2-color);
+    }
+
+    .tree-zone-tag.zone-3 {
+      background: var(--zone3-bg);
+      color: var(--zone3-color);
+    }
+
+    .tree-zone-tag.zone-4 {
+      background: var(--zone4-bg);
+      color: var(--zone4-color);
+    }
+
     .tree-zone-title-desc {
       font-size: 0.72rem;
       color: var(--text-muted);
@@ -852,6 +1024,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .tree-zone-badge {
       font-size: 0.72rem;
       padding: 1px 7px;
@@ -869,6 +1042,7 @@
       flex-direction: column;
       gap: 0.35rem;
     }
+
     .tree-zone-items::before {
       content: '';
       position: absolute;
@@ -891,6 +1065,7 @@
       cursor: pointer;
       transition: var(--transition);
     }
+
     .tree-item-row::before {
       content: '';
       position: absolute;
@@ -900,12 +1075,15 @@
       height: 2px;
       border-bottom: 2px dashed #cbd5e1;
     }
-    .tree-item-row:hover, .tree-item-row.highlighted {
+
+    .tree-item-row:hover,
+    .tree-item-row.highlighted {
       background: #f0fdf4;
       border-color: #059669;
       transform: translateX(3px);
       box-shadow: var(--shadow-sm);
     }
+
     .tree-item-row.selected {
       background: #ecfdf5;
       border-color: #059669;
@@ -921,20 +1099,24 @@
       border: 1px solid #e2e8f0;
       flex-shrink: 0;
     }
+
     .tree-item-body {
       flex: 1;
       min-width: 0;
     }
+
     .tree-item-top {
       display: flex;
       align-items: baseline;
       gap: 0.35rem;
     }
+
     .tree-item-name {
       font-size: 0.88rem;
       font-weight: 600;
       color: #0f172a;
     }
+
     .tree-item-sci {
       font-size: 0.72rem;
       font-style: italic;
@@ -943,6 +1125,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .tree-item-sub {
       font-size: 0.68rem;
       color: var(--text-muted);
@@ -951,6 +1134,7 @@
       align-items: center;
       gap: 0.3rem;
     }
+
     .tree-item-action-btn {
       background: none;
       border: none;
@@ -960,10 +1144,12 @@
       opacity: 0.7;
       transition: var(--transition);
     }
+
     .tree-item-action-btn:hover {
       opacity: 1;
       transform: scale(1.15);
     }
+
     .tree-empty-zone {
       font-size: 0.78rem;
       color: var(--text-muted);
@@ -983,16 +1169,20 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .plant-row:hover, .plant-row:active {
+
+    .plant-row:hover,
+    .plant-row:active {
       background: #f8fafc;
       border-color: #cbd5e1;
       transform: translateY(-1px);
       box-shadow: var(--shadow-sm);
     }
+
     .plant-row.selected {
       background: #ecfdf5;
       border-color: #059669;
     }
+
     .plant-row-img {
       width: 48px;
       height: 48px;
@@ -1002,10 +1192,12 @@
       border: 1px solid #e2e8f0;
       flex-shrink: 0;
     }
+
     .plant-row-info {
       flex: 1;
       min-width: 0;
     }
+
     .plant-row-name {
       font-size: 0.92rem;
       font-weight: 600;
@@ -1014,6 +1206,7 @@
       align-items: center;
       gap: 0.35rem;
     }
+
     .plant-row-sub {
       font-size: 0.74rem;
       color: var(--text-muted);
@@ -1022,24 +1215,54 @@
       text-overflow: ellipsis;
       margin-top: 1px;
     }
+
     .plant-row-tags {
       display: flex;
       gap: 0.3rem;
       margin-top: 4px;
     }
+
     .zone-tag {
       font-size: 0.68rem;
       font-weight: 600;
       padding: 1px 6px;
       border-radius: 4px;
     }
-    .tag-zone1 { background: var(--zone1-bg); color: var(--zone1-color); }
-    .tag-zone2 { background: var(--zone2-bg); color: var(--zone2-color); }
-    .tag-zone3 { background: var(--zone3-bg); color: var(--zone3-color); }
-    .tag-zone4 { background: var(--zone4-bg); color: var(--zone4-color); }
-    .tag-zone2 { background: var(--zone2-bg); color: var(--zone2-color); }
-    .tag-zone3 { background: var(--zone3-bg); color: var(--zone3-color); }
-    .tag-zone4 { background: var(--zone4-bg); color: var(--zone4-color); }
+
+    .tag-zone1 {
+      background: var(--zone1-bg);
+      color: var(--zone1-color);
+    }
+
+    .tag-zone2 {
+      background: var(--zone2-bg);
+      color: var(--zone2-color);
+    }
+
+    .tag-zone3 {
+      background: var(--zone3-bg);
+      color: var(--zone3-color);
+    }
+
+    .tag-zone4 {
+      background: var(--zone4-bg);
+      color: var(--zone4-color);
+    }
+
+    .tag-zone2 {
+      background: var(--zone2-bg);
+      color: var(--zone2-color);
+    }
+
+    .tag-zone3 {
+      background: var(--zone3-bg);
+      color: var(--zone3-color);
+    }
+
+    .tag-zone4 {
+      background: var(--zone4-bg);
+      color: var(--zone4-color);
+    }
 
     /* Modals & Bottom Sheets (Optimized for Mobile) */
     .modal-backdrop {
@@ -1082,12 +1305,14 @@
         align-items: flex-end;
         padding: 0;
       }
+
       .modal-sheet {
         max-height: 86vh;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         transform: translateY(100%);
       }
+
       .modal-backdrop.active .modal-sheet {
         transform: translateY(0);
       }
@@ -1142,6 +1367,7 @@
       justify-content: center;
       transition: var(--transition);
     }
+
     .close-icon-btn:hover {
       background: #fee2e2;
       color: #ef4444;
@@ -1212,15 +1438,18 @@
       background: #ecfdf5;
       border-color: #a7f3d0;
     }
+
     .card-med .detail-card-head {
       color: #065f46;
     }
+
     .med-list {
       list-style-type: none;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
     }
+
     .med-list li {
       font-size: 0.86rem;
       color: #064e3b;
@@ -1229,6 +1458,7 @@
       gap: 0.45rem;
       line-height: 1.45;
     }
+
     .med-list li::before {
       content: "✦";
       color: #059669;
@@ -1241,14 +1471,17 @@
       background: #f0f9ff;
       border-color: #bae6fd;
     }
+
     .card-nutri .detail-card-head {
       color: #0369a1;
     }
+
     .nutri-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.5rem;
     }
+
     .nutri-cell {
       background: #ffffff;
       border: 1px solid #e0f2fe;
@@ -1256,6 +1489,7 @@
       padding: 0.55rem 0.75rem;
       font-size: 0.82rem;
     }
+
     .nutri-cell strong {
       display: block;
       color: #0284c7;
@@ -1268,9 +1502,11 @@
       background: #fff1f2;
       border-color: #fecdd3;
     }
+
     .card-warn .detail-card-head {
       color: #be123c;
     }
+
     .warn-desc {
       font-size: 0.85rem;
       color: #9f1239;
@@ -1294,11 +1530,13 @@
       gap: 0.3rem;
       margin-bottom: 0.75rem;
     }
+
     .field-group label {
       font-size: 0.8rem;
       font-weight: 600;
       color: #475569;
     }
+
     .input-control {
       background: #f8fafc;
       border: 1.5px solid #cbd5e1;
@@ -1310,19 +1548,23 @@
       outline: none;
       transition: var(--transition);
     }
+
     .input-control:focus {
       border-color: #059669;
       background: #ffffff;
     }
+
     textarea.input-control {
       min-height: 65px;
       resize: vertical;
     }
+
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0.65rem;
     }
+
     @media (max-width: 480px) {
       .grid-2 {
         grid-template-columns: 1fr;
@@ -1362,6 +1604,7 @@
       white-space: nowrap;
       pointer-events: none;
     }
+
     .toast-popup.visible {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
@@ -1371,7 +1614,7 @@
     .lightbox-bg {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 600;
       display: flex;
       align-items: center;
@@ -1381,19 +1624,22 @@
       pointer-events: none;
       transition: opacity 0.2s;
     }
+
     .lightbox-bg.active {
       opacity: 1;
       pointer-events: auto;
     }
+
     .lightbox-pic {
       max-width: 95vw;
       max-height: 85vh;
       border-radius: 12px;
       object-fit: contain;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
+
 <body>
 
   <!-- Top App Bar -->
@@ -1411,13 +1657,8 @@
   <div class="search-section">
     <div class="search-box-wrapper">
       <span class="search-icon-left">🔍</span>
-      <input 
-        type="text" 
-        id="keywordInput" 
-        class="search-input" 
-        placeholder="ค้นหาต้นไม้, สรรพคุณ (เช่น แก้ไอ, วิตามินซี), โซน..." 
-        autocomplete="off"
-      >
+      <input type="text" id="keywordInput" class="search-input"
+        placeholder="ค้นหาต้นไม้, สรรพคุณ (เช่น แก้ไอ, วิตามินซี), โซน..." autocomplete="off">
       <button id="clearSearchBtn" class="search-clear-btn" onclick="clearKeywordSearch()">✕</button>
       <div id="suggestBox" class="search-dropdown"></div>
     </div>
@@ -1448,8 +1689,10 @@
 
   <!-- Admin Bar (shown only when admin mode is on) -->
   <div id="adminNotice" class="admin-bar">
-    <span>📍 <strong>โหมดจัดการ:</strong> ลากจุดหมุดบนแปลนเพื่อย้ายตำแหน่งได้ทันที หรือแตะที่ว่างเพื่อเพิ่มต้นไม้ใหม่</span>
-    <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
+    <span>📍 <strong>โหมดจัดการ:</strong> ลากจุดหมุดบนแปลนเพื่อย้ายตำแหน่งได้ทันที
+      หรือแตะที่ว่างเพื่อเพิ่มต้นไม้ใหม่</span>
+    <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;"
+      onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
   </div>
 
   <!-- Main View Area -->
@@ -1459,14 +1702,18 @@
       <div class="map-header">
         <div class="map-title">
           <span>🗺️ แปลนบ้าน</span>
-          <span id="zoneNotice" style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(ทั้งหมด)</span>
+          <span id="zoneNotice"
+            style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(ทั้งหมด)</span>
         </div>
         <div class="zoom-group">
           <!-- View switcher pills -->
           <div class="map-view-switcher">
-            <button class="view-switch-btn active" id="btnViewTree" onclick="setMapViewMode('tree')" title="ผังโยงกิ่งไม้ สะอาดตา ไม่ทับซ้อน">🌲 Tree View</button>
-            <button class="view-switch-btn" id="btnViewPins" onclick="setMapViewMode('pins')" title="ป้ายชื่อบนพิกัด">🏷️ ป้ายพิกัด</button>
-            <button class="view-switch-btn" id="btnViewDots" onclick="setMapViewMode('dots')" title="จุดหมุดมินิมอล">📍 จุดย่อ</button>
+            <button class="view-switch-btn active" id="btnViewTree" onclick="setMapViewMode('tree')"
+              title="ผังโยงกิ่งไม้ สะอาดตา ไม่ทับซ้อน">🌲 Tree View</button>
+            <button class="view-switch-btn" id="btnViewPins" onclick="setMapViewMode('pins')"
+              title="ป้ายชื่อบนพิกัด">🏷️ ป้ายพิกัด</button>
+            <button class="view-switch-btn" id="btnViewDots" onclick="setMapViewMode('dots')" title="จุดหมุดมินิมอล">📍
+              จุดย่อ</button>
           </div>
           <button class="zoom-btn" onclick="zoomPlan(1.2)" title="ซูมเข้า">➕</button>
           <button class="zoom-btn" onclick="zoomPlan(0.8)" title="ซูมออก">➖</button>
@@ -1491,7 +1738,8 @@
           <span id="itemsBadge" class="count-chip">0</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <button id="btnToggleTreeAll" class="btn btn-light" style="padding: 0.25rem 0.6rem; font-size: 0.74rem;" onclick="toggleAllTreeZones()">▾ ขยาย/ยุบ</button>
+          <button id="btnToggleTreeAll" class="btn btn-light" style="padding: 0.25rem 0.6rem; font-size: 0.74rem;"
+            onclick="toggleAllTreeZones()">▾ ขยาย/ยุบ</button>
           <span style="font-size: 0.72rem; color: var(--text-dim);">แตะเพื่อดูสรรพคุณ</span>
         </div>
       </div>
@@ -1520,12 +1768,14 @@
         <div class="leaf-box">
           <img id="dLeafPhoto" class="leaf-photo" src="" alt="ภาพใบไม้" onclick="showLightbox(this.src)">
           <div>
-            <div style="font-size: 0.8rem; font-weight: 700; color: #059669; margin-bottom: 3px;">🍃 ลักษณะใบไม้ประกอบ:</div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #059669; margin-bottom: 3px;">🍃 ลักษณะใบไม้ประกอบ:
+            </div>
             <div id="dLeafDesc" class="leaf-text">-</div>
             <div style="margin-top: 8px; display: flex; gap: 0.35rem; flex-wrap: wrap;">
               <span id="dZoneTag" class="zone-tag tag-zone1">โซน 1</span>
               <span id="dCategoryTag" class="zone-tag" style="background: #f1f5f9; color: #475569;">สมุนไพร</span>
-              <span id="dPlantedTag" class="zone-tag" style="background: #f8fafc; color: #64748b;">ปลูกเมื่อ: 2026-01-15</span>
+              <span id="dPlantedTag" class="zone-tag" style="background: #f8fafc; color: #64748b;">ปลูกเมื่อ:
+                2026-01-15</span>
             </div>
           </div>
         </div>
@@ -1568,7 +1818,8 @@
         </div>
 
         <!-- Notes -->
-        <div id="dNoteWrapper" style="font-size: 0.8rem; color: var(--text-muted); background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.6rem; border-radius: var(--radius-sm);">
+        <div id="dNoteWrapper"
+          style="font-size: 0.8rem; color: var(--text-muted); background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.6rem; border-radius: var(--radius-sm);">
           <strong>📝 บันทึก:</strong> <span id="dNote">-</span>
         </div>
       </div>
@@ -1576,8 +1827,10 @@
       <div class="modal-bottom">
         <span id="dCoordinateText" style="font-size: 0.75rem; color: var(--text-dim);">พิกัด: 0%, 0%</span>
         <div style="display: flex; gap: 0.4rem;">
-          <button id="btnActionEdit" class="btn btn-light" style="display: none;" onclick="editCurrentPlant()">✏️ แก้ไข</button>
-          <button id="btnActionDelete" class="btn btn-light" style="display: none; color: #ef4444;" onclick="deleteCurrentPlant()">🗑️ ลบ</button>
+          <button id="btnActionEdit" class="btn btn-light" style="display: none;" onclick="editCurrentPlant()">✏️
+            แก้ไข</button>
+          <button id="btnActionDelete" class="btn btn-light" style="display: none; color: #ef4444;"
+            onclick="deleteCurrentPlant()">🗑️ ลบ</button>
           <button class="btn btn-light" onclick="closeDetailDialog()">ปิด</button>
         </div>
       </div>
@@ -1601,10 +1854,12 @@
         <!-- Auto Enrich Helper -->
         <div class="auto-enrich-box">
           <div>
-            <div style="font-weight: 700; font-size: 0.84rem; color: #065f46;">⚡ ดึงข้อมูลอัตโนมัติ (ฟรี ไม่ใช้ API Key)</div>
+            <div style="font-weight: 700; font-size: 0.84rem; color: #065f46;">⚡ ดึงข้อมูลอัตโนมัติ (ฟรี ไม่ใช้ API Key)
+            </div>
             <div style="font-size: 0.74rem; color: #047857;">พิมพ์ชื่อต้นไม้แล้วกดปุ่มเพื่อดึงภาพใบไม้และสรรพคุณ</div>
           </div>
-          <button type="button" class="btn btn-primary" style="padding: 0.4rem 0.8rem;" onclick="runAutoEnrich()">ดึงข้อมูล</button>
+          <button type="button" class="btn btn-primary" style="padding: 0.4rem 0.8rem;"
+            onclick="runAutoEnrich()">ดึงข้อมูล</button>
         </div>
 
         <form id="plantDataForm" onsubmit="savePlantData(event)">
@@ -1675,7 +1930,8 @@
 
           <div class="field-group">
             <label>⚠️ ข้อห้ามและข้อควรระวังในการกิน</label>
-            <textarea id="fContra" class="input-control" placeholder="ผู้ป่วยโรคกระเพาะอาหารรุนแรงควรระวัง..."></textarea>
+            <textarea id="fContra" class="input-control"
+              placeholder="ผู้ป่วยโรคกระเพาะอาหารรุนแรงควรระวัง..."></textarea>
           </div>
 
           <div class="field-group">
@@ -1706,13 +1962,16 @@
         <button class="close-icon-btn" onclick="closeExportDialog()">✕</button>
       </div>
       <div class="modal-scroll" style="font-size: 0.88rem; line-height: 1.5; color: var(--text-muted);">
-        <p>คุณสามารถดาวน์โหลดไฟล์ <code>plants.json</code> เพื่อนำไปวางทับในโฟลเดอร์ <code>data/plants.json</code> ก่อนรัน <code>~github_update.bat</code></p>
+        <p>คุณสามารถดาวน์โหลดไฟล์ <code>plants.json</code> เพื่อนำไปวางทับในโฟลเดอร์ <code>data/plants.json</code>
+          ก่อนรัน <code>~github_update.bat</code></p>
         <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem;">
           <button class="btn btn-primary" onclick="exportPlantsJson()" style="min-height: 42px;">
             📥 ดาวน์โหลด plants.json
           </button>
-          <input type="file" id="jsonUploadInput" accept=".json" style="display: none;" onchange="importPlantsJson(event)">
-          <button class="btn btn-light" onclick="document.getElementById('jsonUploadInput').click()" style="min-height: 42px;">
+          <input type="file" id="jsonUploadInput" accept=".json" style="display: none;"
+            onchange="importPlantsJson(event)">
+          <button class="btn btn-light" onclick="document.getElementById('jsonUploadInput').click()"
+            style="min-height: 42px;">
             📂 นำเข้าไฟล์ plants.json
           </button>
         </div>
@@ -1739,9 +1998,11 @@
       <div class="modal-scroll" style="font-size: 0.88rem; line-height: 1.6; color: var(--text-muted);">
         <ol style="margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
           <li>ข้อมูลที่คุณเพิ่ม/แก้ไขจะถูกบันทึกตรงลง <code>data/plants.json</code> บนเครื่องให้อัตโนมัติ</li>
-          <li>คุณสามารถกดปุ่มด้านล่างเพื่อสั่งอัปโหลดขึ้น GitHub ได้ทันที หรือดับเบิลคลิก <code>~github_update.bat</code> ในเครื่อง</li>
+          <li>คุณสามารถกดปุ่มด้านล่างเพื่อสั่งอัปโหลดขึ้น GitHub ได้ทันที หรือดับเบิลคลิก
+            <code>~github_update.bat</code> ในเครื่อง</li>
         </ol>
-        <button class="btn btn-primary" onclick="triggerGithubUpload()" style="width: 100%; margin-top: 0.75rem; min-height: 42px; justify-content: center;">
+        <button class="btn btn-primary" onclick="triggerGithubUpload()"
+          style="width: 100%; margin-top: 0.75rem; min-height: 42px; justify-content: center;">
           🚀 สั่งอัปโหลดขึ้น GitHub ทันที
         </button>
       </div>
@@ -1768,10 +2029,10 @@
       "updated_at": "2026-09-17T23:30:00+07:00",
       "plan_image": "plan.png",
       "zones": [
-        {"id": "zone_1", "name": "โซน 1", "color": "#059669"},
-        {"id": "zone_2", "name": "โซน 2", "color": "#0284c7"},
-        {"id": "zone_3", "name": "โซน 3", "color": "#7c3aed"},
-        {"id": "zone_4", "name": "โซน 4", "color": "#d97706"}
+        { "id": "zone_1", "name": "โซน 1", "color": "#059669" },
+        { "id": "zone_2", "name": "โซน 2", "color": "#0284c7" },
+        { "id": "zone_3", "name": "โซน 3", "color": "#7c3aed" },
+        { "id": "zone_4", "name": "โซน 4", "color": "#d97706" }
       ],
       "plants": [
         {
@@ -2096,7 +2357,7 @@
     });
 
     function normalizeZones(data) {
-      const zMap = {'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4'};
+      const zMap = { 'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4' };
       if (data && data.plants) {
         data.plants.forEach(p => {
           if (p.zone_id && zMap[p.zone_id]) {
@@ -2136,7 +2397,7 @@
             }
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     }
 
     function persistData() {
@@ -2152,17 +2413,17 @@
 
       fetch(targetUrl, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(plantStore)
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.success) {
-          console.log('[Server] Saved directly to data/plants.json and triggered GitHub sync');
-          notify('บันทึกและกำลังอัปโหลดขึ้น GitHub Pages...', '🚀');
-        }
-      })
-      .catch(() => {});
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success) {
+            console.log('[Server] Saved directly to data/plants.json and triggered GitHub sync');
+            notify('บันทึกและกำลังอัปโหลดขึ้น GitHub Pages...', '🚀');
+          }
+        })
+        .catch(() => { });
     }
 
     async function fetchHerbsDb() {
@@ -2225,8 +2486,8 @@
       if (svg) svg.innerHTML = '';
 
       const all = plantStore.plants || [];
-      const visible = selectedZoneFilter === 'all' 
-        ? all 
+      const visible = selectedZoneFilter === 'all'
+        ? all
         : all.filter(p => p.zone_id === selectedZoneFilter);
 
       if (mapViewMode === 'pins') {
@@ -2412,7 +2673,7 @@
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.id = lineId;
         path.setAttribute('class', `tree-line ${zoneCls}`);
-        
+
         let d = '';
         if (side === 'right' || side === 'anchor-right') {
           d = `M ${pinX} ${pinY} L ${kneeX} ${labelY} L ${labelX} ${labelY}`;
@@ -2471,8 +2732,8 @@
       list.innerHTML = '';
       const all = plantStore.plants || [];
 
-      const filtered = selectedZoneFilter === 'all' 
-        ? all 
+      const filtered = selectedZoneFilter === 'all'
+        ? all
         : all.filter(p => p.zone_id === selectedZoneFilter);
 
       if (filtered.length === 0) {
@@ -2958,10 +3219,10 @@
         const aliases = Array.isArray(h.aliases) ? h.aliases.map(a => a.toLowerCase()) : [];
 
         return hName.includes(rawQ) || rawQ.includes(hName) ||
-               (cleanQ && (hName.includes(cleanQ) || cleanQ.includes(hName))) ||
-               cName.includes(rawQ) || rawQ.includes(cName) ||
-               sName.includes(rawQ) ||
-               aliases.some(a => a.includes(rawQ) || rawQ.includes(a) || (cleanQ && a.includes(cleanQ)));
+          (cleanQ && (hName.includes(cleanQ) || cleanQ.includes(hName))) ||
+          cName.includes(rawQ) || rawQ.includes(cName) ||
+          sName.includes(rawQ) ||
+          aliases.some(a => a.includes(rawQ) || rawQ.includes(a) || (cleanQ && a.includes(cleanQ)));
       });
 
       if (match) {
@@ -2998,7 +3259,7 @@
             found = true;
             sourceName = 'Wikipedia (TH)';
           }
-        } catch (e) {}
+        } catch (e) { }
 
         // If Thai Wikipedia failed, try English Wikipedia fallback
         if (!found) {
@@ -3024,13 +3285,13 @@
                 found = true;
                 sourceName = 'Wikipedia (EN)';
               }
-            } catch (e) {}
+            } catch (e) { }
           }
         }
       }
 
-      const msg = found 
-        ? `ดึงข้อมูลจาก${sourceName}และบันทึกอัตโนมัติสำเร็จ!` 
+      const msg = found
+        ? `ดึงข้อมูลจาก${sourceName}และบันทึกอัตโนมัติสำเร็จ!`
         : `บันทึกข้อมูล "${name}" เรียบร้อย (ไม่พบข้อมูลเสริมอัตโนมัติ)`;
 
       // Automatically save plant data
@@ -3042,8 +3303,8 @@
       if (h.leaf_image) document.getElementById('fLeafImg').value = h.leaf_image;
       if (h.leaf_description) document.getElementById('fLeafDesc').value = h.leaf_description;
       if (h.medicinal_properties) {
-        document.getElementById('fMedicinal').value = Array.isArray(h.medicinal_properties) 
-          ? h.medicinal_properties.join('\n') 
+        document.getElementById('fMedicinal').value = Array.isArray(h.medicinal_properties)
+          ? h.medicinal_properties.join('\n')
           : h.medicinal_properties;
       }
       if (h.edible_parts_and_nutrition) {
@@ -3072,7 +3333,7 @@
       const contra = document.getElementById('fContra').value.trim();
       const note = document.getElementById('fNote').value.trim();
 
-      const zNames = {'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4'};
+      const zNames = { 'zone_1': 'โซน 1', 'zone_2': 'โซน 2', 'zone_3': 'โซน 3', 'zone_4': 'โซน 4' };
 
       const newEntry = {
         id: pId,
@@ -3208,4 +3469,5 @@
     }
   </script>
 </body>
+
 </html>
