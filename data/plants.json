@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:06:30.949Z",
+  "updated_at": "2026-10-17T14:06:46.000Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -563,6 +563,27 @@
         "energy_and_body_effects": "ไม่มีพลังงาน กลิ่นหอมบำบัดช่วยลดความดันและผ่อนคลายคลื่นสมอง"
       },
       "contraindications": "ผู้ป่วยโรคไตวายขั้นรุนแรงที่ต้องจำกัดการดื่มน้ำ ควรระวังการดื่มน้ำต้มใบเตยในปริมาณมากเกินเกณฑ์ที่แพทย์กำหนด"
+    },
+    {
+      "id": "plant_1792246006000",
+      "name": "กาแฟอาราบิก้า",
+      "scientific_name": "",
+      "zone_id": "zone_4",
+      "zone_name": "โซน 4",
+      "x": 84.2,
+      "y": 20.1,
+      "category": "สมุนไพร / ผักสวนครัว",
+      "leaf_image": "",
+      "leaf_description": "",
+      "planted_date": "2026-10-17",
+      "note": "",
+      "medicinal_properties": [],
+      "edible_parts_and_nutrition": {
+        "edible_parts": "",
+        "nutrients": "",
+        "energy_and_body_effects": ""
+      },
+      "contraindications": ""
     }
   ]
 }
