@@ -576,6 +576,150 @@
       100% { transform: translate(-50%, -50%) translateY(-8px); }
     }
 
+    /* Map View Switcher */
+    .map-view-switcher {
+      display: inline-flex;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-full);
+      padding: 2px;
+      gap: 2px;
+    }
+    .view-switch-btn {
+      border: none;
+      background: transparent;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .view-switch-btn:hover {
+      color: #0f172a;
+    }
+    .view-switch-btn.active {
+      background: #ffffff;
+      color: #059669;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* Tree Lines SVG Layer */
+    .tree-lines-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .tree-line {
+      fill: none;
+      stroke-width: 1.8px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85;
+      transition: stroke-width 0.2s, stroke 0.2s, filter 0.2s;
+    }
+    .tree-line.zone-1 { stroke: var(--zone1-color); }
+    .tree-line.zone-2 { stroke: var(--zone2-color); }
+    .tree-line.zone-3 { stroke: var(--zone3-color); }
+    .tree-line.zone-4 { stroke: var(--zone4-color); }
+    .tree-line.active {
+      stroke-width: 3.4px;
+      opacity: 1;
+      filter: drop-shadow(0 0 3px rgba(0,0,0,0.35));
+    }
+
+    /* Tree Point Pin (Dot on coordinate) */
+    .tree-point-pin {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #059669;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.22);
+      cursor: pointer;
+      z-index: 14;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tree-point-pin::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .tree-point-pin.zone-1 { border-color: var(--zone1-color); color: var(--zone1-color); }
+    .tree-point-pin.zone-2 { border-color: var(--zone2-color); color: var(--zone2-color); }
+    .tree-point-pin.zone-3 { border-color: var(--zone3-color); color: var(--zone3-color); }
+    .tree-point-pin.zone-4 { border-color: var(--zone4-color); color: var(--zone4-color); }
+    .tree-point-pin:hover, .tree-point-pin.active, .tree-point-pin.targeted {
+      transform: translate(-50%, -50%) scale(1.4);
+      z-index: 35;
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Tree Callout Pill (Aligned Label) */
+    .tree-callout-pill {
+      position: absolute;
+      transform: translateY(-50%);
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius-full);
+      padding: 2.5px 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #0f172a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      cursor: pointer;
+      white-space: nowrap;
+      z-index: 18;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      user-select: none;
+    }
+    .tree-callout-pill .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tree-callout-pill.zone-1 { border-color: var(--zone1-color); }
+    .tree-callout-pill.zone-1 .pill-dot { background: var(--zone1-color); }
+    .tree-callout-pill.zone-2 { border-color: var(--zone2-color); }
+    .tree-callout-pill.zone-2 .pill-dot { background: var(--zone2-color); }
+    .tree-callout-pill.zone-3 { border-color: var(--zone3-color); }
+    .tree-callout-pill.zone-3 .pill-dot { background: var(--zone3-color); }
+    .tree-callout-pill.zone-4 { border-color: var(--zone4-color); }
+    .tree-callout-pill.zone-4 .pill-dot { background: var(--zone4-color); }
+
+    .tree-callout-pill:hover, .tree-callout-pill.active, .tree-callout-pill.targeted {
+      transform: translateY(-50%) scale(1.08);
+      z-index: 40;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .tree-callout-pill.align-left {
+      max-width: 22%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tree-callout-pill.align-right {
+      max-width: 24%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     /* Plant Card List (Sidebar / Mobile bottom section) */
     .plant-list-card {
       background: var(--bg-surface);
@@ -594,6 +738,8 @@
       margin-bottom: 0.75rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid var(--border-light);
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .list-title {
@@ -618,11 +764,185 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      max-height: 480px;
+      max-height: 520px;
       overflow-y: auto;
       padding-right: 2px;
     }
 
+    /* Collapsible Tree List View */
+    .tree-zone-branch {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .tree-zone-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 0.85rem;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .tree-zone-head:hover {
+      background: #f1f5f9;
+    }
+    .tree-zone-expander {
+      font-size: 0.72rem;
+      color: #64748b;
+      width: 14px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .tree-zone-branch.collapsed .tree-zone-head {
+      border-bottom: none;
+    }
+    .tree-zone-tag {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tree-zone-tag.zone-1 { background: var(--zone1-bg); color: var(--zone1-color); }
+    .tree-zone-tag.zone-2 { background: var(--zone2-bg); color: var(--zone2-color); }
+    .tree-zone-tag.zone-3 { background: var(--zone3-bg); color: var(--zone3-color); }
+    .tree-zone-tag.zone-4 { background: var(--zone4-bg); color: var(--zone4-color); }
+    .tree-zone-title-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tree-zone-badge {
+      font-size: 0.72rem;
+      padding: 1px 7px;
+      border-radius: var(--radius-full);
+      background: #e2e8f0;
+      color: #475569;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .tree-zone-items {
+      padding: 0.45rem 0.65rem 0.65rem 1.4rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .tree-zone-items::before {
+      content: '';
+      position: absolute;
+      left: 1.15rem;
+      top: 0.4rem;
+      bottom: 0.9rem;
+      width: 2px;
+      border-left: 2px dashed #cbd5e1;
+    }
+
+    .tree-item-row {
+      position: relative;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 0.45rem 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .tree-item-row::before {
+      content: '';
+      position: absolute;
+      left: -0.75rem;
+      top: 50%;
+      width: 0.75rem;
+      height: 2px;
+      border-bottom: 2px dashed #cbd5e1;
+    }
+    .tree-item-row:hover, .tree-item-row.highlighted {
+      background: #f0fdf4;
+      border-color: #059669;
+      transform: translateX(3px);
+      box-shadow: var(--shadow-sm);
+    }
+    .tree-item-row.selected {
+      background: #ecfdf5;
+      border-color: #059669;
+      box-shadow: 0 0 0 1.5px #059669;
+    }
+
+    .tree-item-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+    .tree-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .tree-item-top {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+    .tree-item-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .tree-item-sci {
+      font-size: 0.72rem;
+      font-style: italic;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tree-item-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .tree-item-action-btn {
+      background: none;
+      border: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+    .tree-item-action-btn:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+    .tree-empty-zone {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 0.4rem 0.2rem;
+      font-style: italic;
+    }
+
+    /* Fallback classic plant row */
     .plant-row {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -634,19 +954,16 @@
       cursor: pointer;
       transition: var(--transition);
     }
-
     .plant-row:hover, .plant-row:active {
       background: #f8fafc;
       border-color: #cbd5e1;
       transform: translateY(-1px);
       box-shadow: var(--shadow-sm);
     }
-
     .plant-row.selected {
       background: #ecfdf5;
       border-color: #059669;
     }
-
     .plant-row-img {
       width: 48px;
       height: 48px;
@@ -656,12 +973,10 @@
       border: 1px solid #e2e8f0;
       flex-shrink: 0;
     }
-
     .plant-row-info {
       flex: 1;
       min-width: 0;
     }
-
     .plant-row-name {
       font-size: 0.92rem;
       font-weight: 600;
@@ -670,7 +985,6 @@
       align-items: center;
       gap: 0.35rem;
     }
-
     .plant-row-sub {
       font-size: 0.74rem;
       color: var(--text-muted);
@@ -679,13 +993,11 @@
       text-overflow: ellipsis;
       margin-top: 1px;
     }
-
     .plant-row-tags {
       display: flex;
       gap: 0.3rem;
       margin-top: 4px;
     }
-
     .zone-tag {
       font-size: 0.68rem;
       font-weight: 600;
@@ -693,6 +1005,9 @@
       border-radius: 4px;
     }
     .tag-zone1 { background: var(--zone1-bg); color: var(--zone1-color); }
+    .tag-zone2 { background: var(--zone2-bg); color: var(--zone2-color); }
+    .tag-zone3 { background: var(--zone3-bg); color: var(--zone3-color); }
+    .tag-zone4 { background: var(--zone4-bg); color: var(--zone4-color); }
     .tag-zone2 { background: var(--zone2-bg); color: var(--zone2-color); }
     .tag-zone3 { background: var(--zone3-bg); color: var(--zone3-color); }
     .tag-zone4 { background: var(--zone4-bg); color: var(--zone4-color); }
@@ -1131,6 +1446,12 @@
           <span id="zoneNotice" style="font-size: 0.78rem; font-weight: normal; color: var(--text-muted);">(ทั้งหมด)</span>
         </div>
         <div class="zoom-group">
+          <!-- View switcher pills -->
+          <div class="map-view-switcher">
+            <button class="view-switch-btn active" id="btnViewTree" onclick="setMapViewMode('tree')" title="ผังโยงกิ่งไม้ สะอาดตา ไม่ทับซ้อน">🌲 Tree View</button>
+            <button class="view-switch-btn" id="btnViewPins" onclick="setMapViewMode('pins')" title="ป้ายชื่อบนพิกัด">🏷️ ป้ายพิกัด</button>
+            <button class="view-switch-btn" id="btnViewDots" onclick="setMapViewMode('dots')" title="จุดหมุดมินิมอล">📍 จุดย่อ</button>
+          </div>
           <button class="zoom-btn" onclick="zoomPlan(1.2)" title="ซูมเข้า">➕</button>
           <button class="zoom-btn" onclick="zoomPlan(0.8)" title="ซูมออก">➖</button>
           <button class="zoom-btn" onclick="resetPlanZoom()" title="รีเซ็ต">⟲</button>
@@ -1140,6 +1461,7 @@
       <div id="planViewport" class="map-viewport">
         <div id="planCanvas" class="map-wrapper">
           <img id="housePlanImg" class="plan-img" src="plan.png" alt="House Garden Plan">
+          <svg id="treeLinesSvg" class="tree-lines-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
           <div id="pinsHolder"></div>
         </div>
       </div>
@@ -1149,10 +1471,13 @@
     <div class="plant-list-card">
       <div class="list-header">
         <div class="list-title">
-          <span>🌿 รายการต้นไม้ในสวน</span>
+          <span>🌿 โครงสร้างต้นไม้ในสวน (Tree List)</span>
           <span id="itemsBadge" class="count-chip">0</span>
         </div>
-        <span style="font-size: 0.72rem; color: var(--text-dim);">แตะเพื่อดูสรรพคุณ</span>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button id="btnToggleTreeAll" class="btn btn-light" style="padding: 0.25rem 0.6rem; font-size: 0.74rem;" onclick="toggleAllTreeZones()">▾ ขยาย/ยุบ</button>
+          <span style="font-size: 0.72rem; color: var(--text-dim);">แตะเพื่อดูสรรพคุณ</span>
+        </div>
       </div>
 
       <div id="plantsList" class="items-container">
@@ -1249,7 +1574,7 @@
       <div class="modal-top">
         <div class="modal-title-box">
           <div>
-            <div id="formModalTitle" class="modal-heading">เพิ่มต้นไม้ใหม่</div>
+            <div id="formModalTitle" class="modal-heading">➕ เพิ่มต้นไม้ใหม่</div>
             <div class="modal-subheading">ดึงภาพและข้อมูลอัตโนมัติ (ฟรี 100%)</div>
           </div>
         </div>
@@ -1582,6 +1907,8 @@
     let focusedPlantId = null;
     let adminModeActive = false;
     let zoomLevel = 1;
+    let mapViewMode = 'tree'; // 'tree' | 'pins' | 'dots'
+    let collapsedZones = {};
 
     // Start App
     window.addEventListener('DOMContentLoaded', async () => {
@@ -1674,37 +2001,234 @@
       document.getElementById('itemsBadge').textContent = all.length;
     }
 
+    function setMapViewMode(mode) {
+      mapViewMode = mode;
+      document.querySelectorAll('.view-switch-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(mode === 'tree' ? 'btnViewTree' : mode === 'pins' ? 'btnViewPins' : 'btnViewDots');
+      if (activeBtn) activeBtn.classList.add('active');
+      drawPins();
+    }
+
+    function toggleZoneTree(zoneId) {
+      collapsedZones[zoneId] = !collapsedZones[zoneId];
+      drawPlantList();
+    }
+
+    function toggleAllTreeZones() {
+      const allZones = ['zone_1', 'zone_2', 'zone_3', 'zone_4'];
+      const anyOpen = allZones.some(z => !collapsedZones[z]);
+      allZones.forEach(z => {
+        collapsedZones[z] = anyOpen;
+      });
+      const btn = document.getElementById('btnToggleTreeAll');
+      if (btn) btn.textContent = anyOpen ? '▶ ขยายทั้งหมด' : '▾ ยุบทั้งหมด';
+      drawPlantList();
+    }
+
     function drawPins() {
       const container = document.getElementById('pinsHolder');
+      const svg = document.getElementById('treeLinesSvg');
       container.innerHTML = '';
+      if (svg) svg.innerHTML = '';
+
       const all = plantStore.plants || [];
+      const visible = selectedZoneFilter === 'all' 
+        ? all 
+        : all.filter(p => p.zone_id === selectedZoneFilter);
 
-      all.forEach(p => {
-        if (selectedZoneFilter !== 'all' && p.zone_id !== selectedZoneFilter) {
-          return;
-        }
+      if (mapViewMode === 'pins') {
+        // Classic direct badge pins
+        visible.forEach(p => {
+          const pin = document.createElement('div');
+          pin.className = `plant-pin ${p.zone_id.replace('_', '-')}`;
+          pin.id = `pin_${p.id}`;
+          pin.style.left = `${p.x}%`;
+          pin.style.top = `${p.y}%`;
 
-        const pin = document.createElement('div');
-        pin.className = `plant-pin ${p.zone_id.replace('_', '-')}`;
-        pin.id = `pin_${p.id}`;
-        pin.style.left = `${p.x}%`;
-        pin.style.top = `${p.y}%`;
+          pin.innerHTML = `
+            <div class="pin-sonar"></div>
+            <div class="pin-pill">
+              <span class="pin-dot"></span>
+              <span>${p.name}</span>
+            </div>
+          `;
 
-        pin.innerHTML = `
-          <div class="pin-sonar"></div>
-          <div class="pin-pill">
-            <span class="pin-dot"></span>
-            <span>${p.name}</span>
-          </div>
-        `;
+          pin.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewPlantDetails(p.id);
+          });
 
-        pin.addEventListener('click', (e) => {
-          e.stopPropagation();
-          viewPlantDetails(p.id);
+          container.appendChild(pin);
         });
+        return;
+      }
 
-        container.appendChild(pin);
+      if (mapViewMode === 'dots') {
+        // Minimal dots view
+        visible.forEach(p => {
+          const pin = document.createElement('div');
+          pin.className = `tree-point-pin ${p.zone_id.replace('_', '-')}`;
+          pin.id = `tree_pin_${p.id}`;
+          pin.style.left = `${p.x}%`;
+          pin.style.top = `${p.y}%`;
+          pin.title = `${p.name} (${p.zone_name})`;
+
+          pin.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewPlantDetails(p.id);
+          });
+
+          container.appendChild(pin);
+        });
+        return;
+      }
+
+      // Default: Tree View (Leader Lines + Tree Callouts)
+      const zoneIds = ['zone_1', 'zone_2', 'zone_3', 'zone_4'];
+      
+      zoneIds.forEach(zId => {
+        const zonePlants = visible.filter(p => p.zone_id === zId);
+        if (zonePlants.length === 0) return;
+
+        const count = zonePlants.length;
+        const zoneCls = zId.replace('_', '-');
+
+        if (zId === 'zone_2') {
+          // Bottom-Right: Callouts to the right margin (x: 78% ~ 98%)
+          zonePlants.sort((a, b) => a.y - b.y);
+
+          const minY = 50;
+          const maxY = 94;
+          const step = Math.min(4.4, (maxY - minY) / Math.max(1, count - 1));
+          const totalSpan = (count - 1) * step;
+          const startY = Math.max(48, Math.min(68, 72 - totalSpan / 2));
+
+          zonePlants.forEach((p, idx) => {
+            const labelY = Math.round((startY + idx * step) * 10) / 10;
+            const pinX = p.x;
+            const pinY = p.y;
+            const kneeX = Math.min(78, Math.max(pinX + 3, 74));
+            const labelX = 78.5;
+
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'right', container, svg);
+          });
+        } else if (zId === 'zone_4') {
+          // Top-Right: Callouts to the right margin
+          zonePlants.sort((a, b) => a.y - b.y);
+
+          const minY = 10;
+          const maxY = 42;
+          const step = Math.min(5.2, (maxY - minY) / Math.max(1, count - 1));
+          const startY = 12;
+
+          zonePlants.forEach((p, idx) => {
+            const labelY = Math.round((startY + idx * step) * 10) / 10;
+            const pinX = p.x;
+            const pinY = p.y;
+            const kneeX = Math.min(78, Math.max(pinX + 3, 74));
+            const labelX = 78.5;
+
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'right', container, svg);
+          });
+        } else if (zId === 'zone_1') {
+          // Bottom-Left: Callouts to the left margin
+          zonePlants.sort((a, b) => a.y - b.y);
+
+          const startY = 64;
+          const step = 5.2;
+
+          zonePlants.forEach((p, idx) => {
+            const labelY = Math.round((startY + idx * step) * 10) / 10;
+            const pinX = p.x;
+            const pinY = p.y;
+            const kneeX = Math.max(14, Math.min(pinX - 3, 17));
+            const labelX = 1.5;
+
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'left', container, svg);
+          });
+        } else if (zId === 'zone_3') {
+          // Top-Left: Callouts to the left margin
+          zonePlants.sort((a, b) => a.y - b.y);
+
+          const startY = 8;
+          const step = 5.2;
+
+          zonePlants.forEach((p, idx) => {
+            const labelY = Math.round((startY + idx * step) * 10) / 10;
+            const pinX = p.x;
+            const pinY = p.y;
+            const kneeX = Math.max(14, Math.min(pinX - 3, 17));
+            const labelX = 1.5;
+
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'left', container, svg);
+          });
+        }
       });
+    }
+
+    function createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, side, container, svg) {
+      const lineId = `tree_line_${p.id}`;
+      const pinId = `tree_pin_${p.id}`;
+      const pillId = `tree_pill_${p.id}`;
+
+      // 1. Draw SVG Leader Line
+      if (svg) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.id = lineId;
+        path.setAttribute('class', `tree-line ${zoneCls}`);
+        
+        let d = '';
+        if (side === 'right') {
+          d = `M ${pinX} ${pinY} L ${kneeX} ${labelY} L ${labelX} ${labelY}`;
+        } else {
+          d = `M ${pinX} ${pinY} L ${kneeX} ${labelY} L ${labelX + 8} ${labelY}`;
+        }
+        path.setAttribute('d', d);
+        svg.appendChild(path);
+      }
+
+      // 2. Draw Point Pin on Coordinate
+      const pin = document.createElement('div');
+      pin.id = pinId;
+      pin.className = `tree-point-pin ${zoneCls}`;
+      pin.style.left = `${pinX}%`;
+      pin.style.top = `${pinY}%`;
+      pin.title = `${p.name} (คลิกดูรายละเอียด)`;
+
+      // 3. Draw Callout Label Pill
+      const pill = document.createElement('div');
+      pill.id = pillId;
+      pill.className = `tree-callout-pill ${zoneCls} align-${side}`;
+      pill.style.left = `${labelX}%`;
+      pill.style.top = `${labelY}%`;
+      pill.innerHTML = `<span class="pill-dot"></span><span>${p.name}</span>`;
+
+      // Interactivity sync
+      const highlight = (active) => {
+        const line = document.getElementById(lineId);
+        const row = document.getElementById(`row_${p.id}`);
+        if (line) line.classList.toggle('active', active);
+        pin.classList.toggle('active', active);
+        pill.classList.toggle('active', active);
+        if (row) row.classList.toggle('highlighted', active);
+      };
+
+      pin.addEventListener('mouseenter', () => highlight(true));
+      pin.addEventListener('mouseleave', () => highlight(false));
+      pill.addEventListener('mouseenter', () => highlight(true));
+      pill.addEventListener('mouseleave', () => highlight(false));
+
+      pin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        viewPlantDetails(p.id);
+      });
+      pill.addEventListener('click', (e) => {
+        e.stopPropagation();
+        viewPlantDetails(p.id);
+      });
+
+      container.appendChild(pin);
+      container.appendChild(pill);
     }
 
     function drawPlantList() {
@@ -1727,32 +2251,76 @@
         return;
       }
 
-      filtered.forEach(p => {
-        const row = document.createElement('div');
-        row.className = `plant-row ${p.id === focusedPlantId ? 'selected' : ''}`;
-        row.id = `row_${p.id}`;
+      const zoneDefs = [
+        { id: 'zone_1', name: 'โซน 1', desc: 'สวนครัวและไม้กระถางริมรั้ว', color: 'var(--zone1-color)' },
+        { id: 'zone_2', name: 'โซน 2', desc: 'แปลงเกษตรพืชสมุนไพรและแปลงผักยกพื้น', color: 'var(--zone2-color)' },
+        { id: 'zone_3', name: 'โซน 3', desc: 'ซุ้มไม้เลื้อยและพืชผักสวนครัวแนวดิ่ง', color: 'var(--zone3-color)' },
+        { id: 'zone_4', name: 'โซน 4', desc: 'โรงเรือนสมุนไพรกระถางและพืชยาเฉพาะทาง', color: 'var(--zone4-color)' }
+      ];
 
-        const zoneCls = p.zone_id.replace('_', '');
+      zoneDefs.forEach(z => {
+        if (selectedZoneFilter !== 'all' && z.id !== selectedZoneFilter) return;
 
-        row.innerHTML = `
-          <img class="plant-row-img" src="${p.leaf_image || 'plan.png'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=100'">
-          <div class="plant-row-info">
-            <div class="plant-row-name">
-              <span>${p.name}</span>
-            </div>
-            <div class="plant-row-sub">${p.scientific_name || p.category}</div>
-            <div class="plant-row-tags">
-              <span class="zone-tag tag-${zoneCls}">${p.zone_name}</span>
-            </div>
+        const zonePlants = filtered.filter(p => p.zone_id === z.id);
+        const isCollapsed = !!collapsedZones[z.id];
+        const zoneCls = z.id.replace('_', '-');
+
+        const groupEl = document.createElement('div');
+        groupEl.className = `tree-zone-branch ${isCollapsed ? 'collapsed' : 'open'}`;
+        groupEl.id = `zone_tree_${z.id}`;
+
+        groupEl.innerHTML = `
+          <div class="tree-zone-head" onclick="toggleZoneTree('${z.id}')">
+            <span class="tree-zone-expander">${isCollapsed ? '▶' : '▼'}</span>
+            <span class="tree-zone-tag ${zoneCls}">
+              <span class="zone-dot" style="background: ${z.color};"></span>
+              <strong>${z.name}</strong>
+            </span>
+            <span class="tree-zone-title-desc">${z.desc}</span>
+            <span class="tree-zone-badge">${zonePlants.length} ต้น</span>
+          </div>
+
+          <div class="tree-zone-items" style="${isCollapsed ? 'display: none;' : ''}">
+            ${zonePlants.length === 0 ? `
+              <div class="tree-empty-zone">ยังไม่มีต้นไม้ในโซนนี้</div>
+            ` : zonePlants.map(p => `
+              <div class="tree-item-row ${p.id === focusedPlantId ? 'selected' : ''}" 
+                   id="row_${p.id}"
+                   onmouseenter="highlightPlantOnMap('${p.id}', true)"
+                   onmouseleave="highlightPlantOnMap('${p.id}', false)"
+                   onclick="viewPlantDetails('${p.id}')">
+                <img class="tree-item-img" src="${p.leaf_image || 'plan.png'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=100'">
+                <div class="tree-item-body">
+                  <div class="tree-item-top">
+                    <span class="tree-item-name">${p.name}</span>
+                    ${p.scientific_name ? `<span class="tree-item-sci">${p.scientific_name}</span>` : ''}
+                  </div>
+                  <div class="tree-item-sub">
+                    <span>📍 พิกัด (${p.x.toFixed(1)}%, ${p.y.toFixed(1)}%)</span>
+                    <span>•</span>
+                    <span>${p.category || 'สมุนไพร / ผักสวนครัว'}</span>
+                  </div>
+                </div>
+                <button class="tree-item-action-btn" title="ดูข้อมูล">👁️</button>
+              </div>
+            `).join('')}
           </div>
         `;
 
-        row.addEventListener('click', () => {
-          viewPlantDetails(p.id);
-        });
-
-        list.appendChild(row);
+        list.appendChild(groupEl);
       });
+    }
+
+    function highlightPlantOnMap(plantId, active) {
+      const line = document.getElementById(`tree_line_${plantId}`);
+      const pin = document.getElementById(`tree_pin_${plantId}`) || document.getElementById(`pin_${plantId}`);
+      const pill = document.getElementById(`tree_pill_${plantId}`);
+      const row = document.getElementById(`row_${plantId}`);
+
+      if (line) line.classList.toggle('active', active);
+      if (pin) pin.classList.toggle('active', active);
+      if (pill) pill.classList.toggle('active', active);
+      if (row) row.classList.toggle('highlighted', active);
     }
 
     // Zoom and Map View
@@ -1873,7 +2441,7 @@
       const planCanvas = document.getElementById('planCanvas');
       planCanvas.addEventListener('click', (e) => {
         if (!adminModeActive) return;
-        if (e.target.closest('.plant-pin')) return;
+        if (e.target.closest('.plant-pin') || e.target.closest('.tree-point-pin') || e.target.closest('.tree-callout-pill')) return;
 
         const rect = planCanvas.getBoundingClientRect();
         const clickX = ((e.clientX - rect.left) / rect.width) * 100;
@@ -1907,19 +2475,38 @@
       if (!p) return;
 
       // Animate pin jump on map
-      document.querySelectorAll('.plant-pin').forEach(pin => pin.classList.remove('targeted'));
-      const targetPin = document.getElementById(`pin_${p.id}`);
+      document.querySelectorAll('.plant-pin, .tree-point-pin, .tree-callout-pill').forEach(pin => pin.classList.remove('targeted', 'active'));
+      document.querySelectorAll('.tree-line').forEach(line => line.classList.remove('active'));
+
+      const targetPin = document.getElementById(`tree_pin_${p.id}`) || document.getElementById(`pin_${p.id}`);
+      const targetPill = document.getElementById(`tree_pill_${p.id}`);
+      const targetLine = document.getElementById(`tree_line_${p.id}`);
+
       if (targetPin) {
-        targetPin.classList.add('targeted');
+        targetPin.classList.add('targeted', 'active');
         setTimeout(() => targetPin.classList.remove('targeted'), 6000);
       }
+      if (targetPill) targetPill.classList.add('active');
+      if (targetLine) targetLine.classList.add('active');
 
-      // Highlight in list
-      document.querySelectorAll('.plant-row').forEach(r => r.classList.remove('selected'));
+      // Highlight in list & ensure parent zone branch is expanded
+      document.querySelectorAll('.plant-row, .tree-item-row').forEach(r => r.classList.remove('selected'));
       const row = document.getElementById(`row_${p.id}`);
       if (row) {
         row.classList.add('selected');
-        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        const parentBranch = row.closest('.tree-zone-branch');
+        if (parentBranch && parentBranch.classList.contains('collapsed')) {
+          const zoneId = parentBranch.id.replace('zone_tree_', '');
+          collapsedZones[zoneId] = false;
+          drawPlantList();
+          const newRow = document.getElementById(`row_${p.id}`);
+          if (newRow) {
+            newRow.classList.add('selected');
+            newRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        } else {
+          row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
 
       // Populate Modal
@@ -1966,10 +2553,12 @@
       document.getElementById('btnActionDelete').style.display = adminModeActive ? 'inline-flex' : 'none';
 
       document.getElementById('detailModal').classList.add('active');
+      resetModalScroll('detailModal');
     }
 
     function closeDetailDialog() {
       document.getElementById('detailModal').classList.remove('active');
+      resetModalScroll('detailModal');
     }
 
     // Admin Mode Toggle
@@ -1999,6 +2588,18 @@
       openNewPlantDialogWithCoords(50, 50, selectedZoneFilter !== 'all' ? selectedZoneFilter : 'zone_1');
     }
 
+    function resetModalScroll(modalId = 'formModal') {
+      const modal = typeof modalId === 'string' ? document.getElementById(modalId) : modalId;
+      if (!modal) return;
+      const scrollEl = modal.querySelector('.modal-scroll') || modal.querySelector('.modal-sheet');
+      if (scrollEl) {
+        scrollEl.scrollTop = 0;
+        requestAnimationFrame(() => {
+          scrollEl.scrollTop = 0;
+        });
+      }
+    }
+
     function openNewPlantDialogWithCoords(x, y, zoneId) {
       document.getElementById('formModalTitle').textContent = '➕ เพิ่มต้นไม้ใหม่';
       document.getElementById('fId').value = '';
@@ -2017,6 +2618,7 @@
       document.getElementById('fNote').value = '';
 
       document.getElementById('formModal').classList.add('active');
+      resetModalScroll('formModal');
     }
 
     function editCurrentPlant() {
@@ -2043,6 +2645,7 @@
       document.getElementById('fNote').value = p.note || '';
 
       document.getElementById('formModal').classList.add('active');
+      resetModalScroll('formModal');
     }
 
     function deleteCurrentPlant() {
@@ -2060,46 +2663,112 @@
 
     function closeFormDialog() {
       document.getElementById('formModal').classList.remove('active');
+      resetModalScroll('formModal');
     }
 
-    // Auto Enrich (Free 100% no api key)
+    // Auto Enrich (Free 100% no api key) and Auto Save
     async function runAutoEnrich() {
       const name = document.getElementById('fName').value.trim();
       if (!name) {
         alert('กรุณากรอกชื่อต้นไม้ก่อนครับ');
+        document.getElementById('fName').focus();
         return;
       }
 
       notify(`กำลังค้นหาข้อมูล "${name}"...`, '⏳');
 
-      // Check cache first
-      const q = name.toLowerCase();
-      const match = herbsDbCache.find(h => h.name.toLowerCase().includes(q) || q.includes(h.name.toLowerCase()));
+      let found = false;
+      let sourceName = '';
+
+      // Normalize search query (strip prefix "ต้น" or "ผัก" for flexible matching)
+      const rawQ = name.toLowerCase().trim();
+      const cleanQ = rawQ.replace(/^(ต้น|ผัก)/, '').trim();
+
+      // Check cache first (Support name, aliases, common_name, scientific_name)
+      const match = herbsDbCache.find(h => {
+        const hName = (h.name || '').toLowerCase();
+        const cName = (h.common_name || '').toLowerCase();
+        const sName = (h.scientific_name || '').toLowerCase();
+        const aliases = Array.isArray(h.aliases) ? h.aliases.map(a => a.toLowerCase()) : [];
+
+        return hName.includes(rawQ) || rawQ.includes(hName) ||
+               (cleanQ && (hName.includes(cleanQ) || cleanQ.includes(hName))) ||
+               cName.includes(rawQ) || rawQ.includes(cName) ||
+               sName.includes(rawQ) ||
+               aliases.some(a => a.includes(rawQ) || rawQ.includes(a) || (cleanQ && a.includes(cleanQ)));
+      });
+
       if (match) {
         fillFormFields(match);
-        notify(`ดึงข้อมูล "${match.name}" จากสารานุกรมสำเร็จ!`, '✓');
-        return;
+        found = true;
+        sourceName = 'สารานุกรม';
+      } else {
+        // Fallback translation table for plants with English Wikipedia articles
+        const plantAliases = {
+          'ผักเคล': 'Kale', 'เคล': 'Kale', 'kale': 'Kale', 'คะน้าใบหยิก': 'Kale',
+          'โรสแมรี่': 'Rosemary', 'โรสแมรี': 'Rosemary', 'rosemary': 'Rosemary',
+          'ไทม์': 'Thyme', 'thyme': 'Thyme',
+          'ออริกาโน': 'Oregano', 'ออริกาโน่': 'Oregano', 'oregano': 'Oregano',
+          'ผักโขม': 'Spinach', 'spinach': 'Spinach',
+          'ผักสลัด': 'Lettuce', 'ผักกาดหอม': 'Lettuce', 'lettuce': 'Lettuce',
+          'คะน้า': 'Gai_lan', 'ผักบุ้ง': 'Ipomoea_aquatica',
+          'พาร์สลีย์': 'Parsley', 'parsley': 'Parsley',
+          'มินต์': 'Spearmint', 'มิ้นต์': 'Spearmint', 'mint': 'Spearmint'
+        };
+
+        // Try Thai Wikipedia first
+        try {
+          const url = `https://th.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`;
+          const res = await fetch(url);
+          if (res.ok) {
+            const wiki = await res.json();
+            if (wiki.extract) document.getElementById('fMedicinal').value = wiki.extract.slice(0, 250);
+            if (wiki.originalimage && wiki.originalimage.source) {
+              document.getElementById('fLeafImg').value = wiki.originalimage.source;
+            } else if (wiki.thumbnail && wiki.thumbnail.source) {
+              document.getElementById('fLeafImg').value = wiki.thumbnail.source;
+            }
+            document.getElementById('fLeafDesc').value = `ภาพประกอบพืช ${wiki.title || name}`;
+            found = true;
+            sourceName = 'Wikipedia (TH)';
+          }
+        } catch (e) {}
+
+        // If Thai Wikipedia failed, try English Wikipedia fallback
+        if (!found) {
+          const enTerm = plantAliases[rawQ] || plantAliases[cleanQ];
+          if (enTerm) {
+            try {
+              const urlEn = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(enTerm)}`;
+              const resEn = await fetch(urlEn);
+              if (resEn.ok) {
+                const wikiEn = await resEn.json();
+                if (wikiEn.extract && !document.getElementById('fMedicinal').value) {
+                  document.getElementById('fMedicinal').value = wikiEn.extract.slice(0, 250);
+                }
+                if (wikiEn.originalimage && wikiEn.originalimage.source) {
+                  document.getElementById('fLeafImg').value = wikiEn.originalimage.source;
+                } else if (wikiEn.thumbnail && wikiEn.thumbnail.source) {
+                  document.getElementById('fLeafImg').value = wikiEn.thumbnail.source;
+                }
+                if (!document.getElementById('fScientific').value && wikiEn.description) {
+                  document.getElementById('fScientific').value = wikiEn.description;
+                }
+                document.getElementById('fLeafDesc').value = `ภาพประกอบพืช ${name} (${wikiEn.title})`;
+                found = true;
+                sourceName = 'Wikipedia (EN)';
+              }
+            } catch (e) {}
+          }
+        }
       }
 
-      // Check Wikipedia API
-      try {
-        const url = `https://th.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`;
-        const res = await fetch(url);
-        if (res.ok) {
-          const wiki = await res.json();
-          document.getElementById('fMedicinal').value = wiki.extract ? wiki.extract.slice(0, 250) : '';
-          if (wiki.originalimage && wiki.originalimage.source) {
-            document.getElementById('fLeafImg').value = wiki.originalimage.source;
-          } else if (wiki.thumbnail && wiki.thumbnail.source) {
-            document.getElementById('fLeafImg').value = wiki.thumbnail.source;
-          }
-          document.getElementById('fLeafDesc').value = `ภาพประกอบพืช ${wiki.title || name}`;
-          notify(`ดึงข้อมูลจาก Wikipedia สำเร็จ!`, '✓');
-          return;
-        }
-      } catch (e) {}
+      const msg = found 
+        ? `ดึงข้อมูลจาก${sourceName}และบันทึกอัตโนมัติสำเร็จ!` 
+        : `บันทึกข้อมูล "${name}" เรียบร้อย (ไม่พบข้อมูลเสริมอัตโนมัติ)`;
 
-      notify('ไม่พบข้อมูลอัตโนมัติ คุณสามารถกรอกเองได้', 'ℹ️');
+      // Automatically save plant data
+      savePlantData(null, msg);
     }
 
     function fillFormFields(h) {
@@ -2119,8 +2788,8 @@
       if (h.contraindications) document.getElementById('fContra').value = h.contraindications;
     }
 
-    function savePlantData(e) {
-      e.preventDefault();
+    function savePlantData(e, customMsg = null) {
+      if (e && typeof e.preventDefault === 'function') e.preventDefault();
       const pId = document.getElementById('fId').value || `plant_${Date.now()}`;
       const name = document.getElementById('fName').value.trim();
       const scientific = document.getElementById('fScientific').value.trim();
@@ -2166,10 +2835,10 @@
       const idx = plantStore.plants.findIndex(x => x.id === pId);
       if (idx >= 0) {
         plantStore.plants[idx] = newEntry;
-        notify(`แก้ไขข้อมูล "${name}" เรียบร้อย`, '✓');
+        notify(customMsg || `แก้ไขข้อมูล "${name}" เรียบร้อย`, '✓');
       } else {
         plantStore.plants.push(newEntry);
-        notify(`ปักหมุด "${name}" ใน ${zNames[zoneId]} สำเร็จ`, '✓');
+        notify(customMsg || `ปักหมุด "${name}" ใน ${zNames[zoneId] || zoneId} สำเร็จ`, '✓');
       }
 
       persistData();
