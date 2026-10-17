@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:06:17.643Z",
+  "updated_at": "2026-10-17T14:06:24.130Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -169,8 +169,8 @@
       "scientific_name": "Aloe vera (L.) Burm.f.",
       "zone_id": "zone_4",
       "zone_name": "โซน 4",
-      "x": 70.5,
-      "y": 15.5,
+      "x": 70.1,
+      "y": 23.3,
       "category": "สมุนไพรบำบัด / ไม้ประดับ",
       "icon": "🪴",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/640px-Aloe_vera_flower_inset.png",
@@ -196,8 +196,8 @@
       "scientific_name": "Ficus racemosa L. / Ficus carica",
       "zone_id": "zone_4",
       "zone_name": "โซน 4",
-      "x": 72,
-      "y": 21,
+      "x": 65.5,
+      "y": 7,
       "category": "ไม้ผลสมุนไพร",
       "icon": "🌰",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Ficus_racemosa_leaves.JPG/640px-Ficus_racemosa_leaves.JPG",
