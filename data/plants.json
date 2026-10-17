@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:22.668Z",
+  "updated_at": "2026-10-17T14:07:27.940Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -462,8 +462,8 @@
       "scientific_name": "Nasturtium officinale R.Br. (ผักสลัดน้ำ)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 55.4,
-      "y": 78.4,
+      "x": 73.2,
+      "y": 61.8,
       "category": "ผักสุขภาพ / ซูเปอร์ฟู้ด",
       "icon": "🌱",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Nasturtium_officinale_leaves.jpg/640px-Nasturtium_officinale_leaves.jpg",
