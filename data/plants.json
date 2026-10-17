@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:48.606Z",
+  "updated_at": "2026-10-17T14:07:52.413Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -435,8 +435,8 @@
       "scientific_name": "Solanum lycopersicum L.",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 60,
-      "y": 75,
+      "x": 71.3,
+      "y": 60.8,
       "category": "ไม้ผล / ผักสวนครัว",
       "icon": "🍅",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_leaves_and_flowers.JPG/640px-Tomato_leaves_and_flowers.JPG",
