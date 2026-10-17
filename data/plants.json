@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:27.940Z",
+  "updated_at": "2026-10-17T14:07:34.382Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -482,33 +482,6 @@
         "energy_and_body_effects": "แคลอรี่ต่ำมาก (11 kcal/100g) ขจัดสารพิษ ฟื้นฟูเซลล์ตับ"
       },
       "contraindications": "ล้างน้ำไหลผ่านให้สะอาดเพื่อความปลอดภัยจากสิ่งปนเปื้อนในดินและน้ำ"
-    },
-    {
-      "id": "plant_1710000028",
-      "name": "ผักชี",
-      "scientific_name": "Coriandrum sativum L.",
-      "zone_id": "zone_2",
-      "zone_name": "โซน 2",
-      "x": 62,
-      "y": 69,
-      "category": "ผักสวนครัว / สมุนไพร",
-      "icon": "🌿",
-      "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Coriandrum_sativum_leaves.jpg/640px-Coriandrum_sativum_leaves.jpg",
-      "leaf_description": "ใบประกอบแบบขนนก ขอบใบหยักเว้าลึกเป็นแฉก สีเขียวสด กลิ่นหอมเฉพาะตัวโดดเด่น",
-      "planted_date": "2026-03-01",
-      "note": "แปลงผักโรยเมล็ด เด็ดยอดทำกับข้าวหอมอร่อย",
-      "medicinal_properties": [
-        "ช่วยขับโลหะหนัก (Heavy metals chelation) ออกจากร่างกายตามธรรมชาติ",
-        "ขับลม แก้อาการท้องอืด ท้องเฟ้อ ช่วยย่อยอาหาร",
-        "ช่วยลดระดับน้ำตาลในเลือดและลดคอเลสเตอรอลชนิดไม่ดี (LDL)",
-        "มีสารต้านแบคทีเรียและต้านการอักเสบในกระเพาะอาหาร"
-      ],
-      "edible_parts_and_nutrition": {
-        "edible_parts": "ใบสด (โรยหน้าอาหาร ซุป), รากผักชี (โขลกสามเกลอ), เม็ดผักชี (เครื่องพะโล้)",
-        "nutrients": "วิตามินซี, วิตามินเค, โพแทสเซียม, สาร Linalool, ฟลาโวนอยด์",
-        "energy_and_body_effects": "พลังงานต่ำ ช่วยกระตุ้นความอยากอาหาร และขับสารพิษตกค้าง"
-      },
-      "contraindications": "ผู้ที่มีประวัติแพ้พืชตระกูลผักชีหรือแครอทควรระวัง"
     },
     {
       "id": "plant_1710000029",
