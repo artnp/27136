@@ -1405,19 +1405,6 @@
         <p>Garden Map & Herbal Guide</p>
       </div>
     </div>
-
-    <div class="header-btns">
-      <button id="btnAdminSwitch" class="btn btn-admin" onclick="toggleAdminMode()" style="display: none;">
-        <span>⚙️</span>
-        <span id="adminBtnText">จัดการ</span>
-      </button>
-      <button class="btn btn-light" onclick="openExportDialog()" title="สำรอง / ส่งออกข้อมูล">
-        <span>💾</span>
-      </button>
-      <button class="btn btn-light" onclick="openGithubDialog()" title="วิธีนำขึ้น GitHub">
-        <span>🚀</span>
-      </button>
-    </div>
   </header>
 
   <!-- Search Section -->
@@ -2832,6 +2819,22 @@
       if (text) text.textContent = adminModeActive ? 'ออกจากระบบ' : 'จัดการ';
       if (notice) notice.classList.toggle('show', adminModeActive);
       if (viewport) viewport.classList.toggle('admin-active', adminModeActive);
+
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const hasAdminParam = new URLSearchParams(window.location.search).get('admin') === '1';
+      let fBtn = document.getElementById('floatingAdminBtn');
+      if (isLocalHost || hasAdminParam) {
+        if (!fBtn) {
+          fBtn = document.createElement('button');
+          fBtn.id = 'floatingAdminBtn';
+          fBtn.style.cssText = 'position:fixed; bottom:1rem; right:1rem; z-index:999; background:rgba(15,23,42,0.85); color:#fff; border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:6px 14px; font-size:0.75rem; font-weight:600; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.3); backdrop-filter:blur(4px);';
+          fBtn.onclick = () => toggleAdminMode();
+          document.body.appendChild(fBtn);
+        }
+        fBtn.innerHTML = adminModeActive ? '🔒 ออกจากโหมดจัดการ (Local)' : '⚙️ จัดการต้นไม้ (Local)';
+      } else if (fBtn) {
+        fBtn.remove();
+      }
 
       if (showNotification) {
         if (adminModeActive) {
