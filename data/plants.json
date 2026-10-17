@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:05:18.409Z",
+  "updated_at": "2026-10-17T14:05:33.532Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -219,23 +219,19 @@
     },
     {
       "id": "plant_1710000020",
-      "name": "พวงคาว",
+      "name": "พลูคาว",
       "scientific_name": "Houttuynia cordata Thunb. (พลูคาว / คาวตอง)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
       "x": 61.5,
       "y": 53.5,
-      "category": "สมุนไพรสร้างภูมิคุ้มกัน",
-      "icon": "🍃",
-      "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Houttuynia_cordata_01.JPG/640px-Houttuynia_cordata_01.JPG",
-      "leaf_description": "ใบเดี่ยวรูปหัวใจ โคนใบเว้าลึก ปลายใบแหลม ขยี้ใบจะมีกลิ่นคาวปลาเฉพาะตัวอันเป็นที่มาของชื่อคาวตอง",
-      "planted_date": "2026-01-25",
+      "category": "สมุนไพร / ผักสวนครัว",
+      "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Houttuynia_cordata.jpg?utm_source=th.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "leaf_description": "ภาพประกอบพืช คาวทอง",
+      "planted_date": "2026-10-17",
       "note": "ชอบดินชื้นร่มรำไรในแปลงยกพื้นโซน 2 แตกกอแน่น",
       "medicinal_properties": [
-        "เสริมสร้างภูมิคุ้มกัน กระตุ้นการแบ่งตัวของเม็ดเลือดขาว",
-        "ต้านเชื้อไวรัส แบคทีเรีย และลดการอักเสบในทางเดินหายใจ",
-        "มีสารต้านอนุมูลอิสระกลุ่มฟลาโวนอยด์สูงมาก ชะลอความเสื่อมของเซลล์",
-        "ช่วยขับปัสสาวะ ขับสารพิษในร่างกาย"
+        "ผักคาวทองหรือผักพลูคาว เป็น พืชล้มลุกอายุหลายปี สูง 15-30 ซม. ลำต้นกลม สีเขียว รากแตกออกตามข้อ มีกลิ่นคาวทั้งต้น ใบ เป็นใบเดี่ยว ออกเรียงสลับ รูปหัวใจ กว้าง 4-6 ซม. ยาว 6-10 ซม. ปลายใบเรียวแหลม โคนใบเว้ารูปหัวใจ ขอบใบเรียบ แผ่นใบเรียบ สีเขียว ด้านบนข"
       ],
       "edible_parts_and_nutrition": {
         "edible_parts": "ใบสดและยอดอ่อน (ทานเป็นผักเหนาะ ลาบ น้ำพริก คั้นน้ำดื่ม)",
