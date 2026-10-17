@@ -27,6 +27,32 @@ def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
 
+github_upload_timer = None
+upload_lock = threading.Lock()
+
+def trigger_github_upload_async():
+    """Trigger ~github_update.bat asynchronously with a debounce to bundle rapid edits."""
+    global github_upload_timer
+    with upload_lock:
+        if github_upload_timer is not None:
+            github_upload_timer.cancel()
+
+        def run_upload():
+            if os.path.exists(BAT_FILE):
+                print("\n[🚀] [Auto-Sync] เริ่มต้นอัปโหลดขึ้น GitHub Pages (artnp/27136)...")
+                try:
+                    p = subprocess.Popen(['cmd.exe', '/c', BAT_FILE], cwd=BASE_DIR, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace')
+                    out, _ = p.communicate()
+                    print(f"[✓] [Auto-Sync] ผลลัพธ์อัปเดต GitHub:\n{out.strip()}\n")
+                except Exception as err:
+                    print(f"[!] [Auto-Sync] เกิดข้อผิดพลาด: {err}")
+
+        # Debounce for 2.0 seconds so rapid saves are bundled together cleanly
+        github_upload_timer = threading.Timer(2.0, run_upload)
+        github_upload_timer.daemon = True
+        github_upload_timer.start()
+        print("[⏳] [Auto-Sync] บันทึกแล้ว ตั้งเวลาอัปเดตขึ้น GitHub Pages อัตโนมัติ (ใน 2 วินาที)...")
+
 class GardenHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=BASE_DIR, **kwargs)
@@ -47,12 +73,16 @@ class GardenHandler(SimpleHTTPRequestHandler):
                 with open(PLANTS_FILE, 'w', encoding='utf-8') as f:
                     json.dump(data, f, ensure_ascii=False, indent=2)
 
+                print(f"[✓] บันทึกข้อมูล data/plants.json เรียบร้อย ({len(data.get('plants', []))} ต้น)")
+
+                # Automatically trigger GitHub Pages update
+                trigger_github_upload_async()
+
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
-                resp = {"success": True, "message": "บันทึกข้อมูลลง data/plants.json เรียบร้อย"}
+                resp = {"success": True, "message": "บันทึกข้อมูลและกำลังอัปโหลดขึ้น GitHub Pages อัตโนมัติ"}
                 self.wfile.write(json.dumps(resp, ensure_ascii=False).encode('utf-8'))
-                print(f"[✓] บันทึกข้อมูล data/plants.json เรียบร้อย ({len(data.get('plants', []))} ต้น)")
             except Exception as e:
                 self.send_response(500)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
@@ -64,12 +94,12 @@ class GardenHandler(SimpleHTTPRequestHandler):
         elif self.path == '/api/github-upload':
             try:
                 if os.path.exists(BAT_FILE):
-                    print("[*] กำลังสั่งรัน ~github_update.bat ...")
-                    subprocess.Popen(['cmd.exe', '/c', BAT_FILE], cwd=BASE_DIR)
+                    print("[*] กำลังสั่งรัน ~github_update.bat ทันที...")
+                    trigger_github_upload_async()
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json; charset=utf-8')
                     self.end_headers()
-                    resp = {"success": True, "message": "สั่งรัน ~github_update.bat เรียบร้อย"}
+                    resp = {"success": True, "message": "เริ่มกระบวนการอัปโหลดขึ้น GitHub เรียบร้อย"}
                     self.wfile.write(json.dumps(resp, ensure_ascii=False).encode('utf-8'))
                 else:
                     self.send_response(404)
