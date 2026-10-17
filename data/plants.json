@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:05:52.194Z",
+  "updated_at": "2026-10-17T14:06:17.643Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -34,8 +34,8 @@
       "scientific_name": "Cymbopogon citratus (DC.) Stapf",
       "zone_id": "zone_1",
       "zone_name": "โซน 1",
-      "x": 10.5,
-      "y": 74.8,
+      "x": 11.8,
+      "y": 65.8,
       "category": "สมุนไพร / ผักสวนครัว",
       "icon": "🌾",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Cymbopogon_citratus_%28Lemon_grass%29_leaves.JPG/640px-Cymbopogon_citratus_%28Lemon_grass%29_leaves.JPG",
@@ -142,8 +142,8 @@
       "scientific_name": "Jasminum sambac (L.) Aiton",
       "zone_id": "zone_3",
       "zone_name": "โซน 3",
-      "x": 40.5,
-      "y": 14.5,
+      "x": 32.6,
+      "y": 8.4,
       "category": "ไม้ดอกหอม / สมุนไพร",
       "icon": "🌸",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Jasminum_sambac_flower_and_leaves.jpg/640px-Jasminum_sambac_flower_and_leaves.jpg",
