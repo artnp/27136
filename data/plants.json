@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:18.004Z",
+  "updated_at": "2026-10-17T14:07:22.668Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -327,8 +327,8 @@
       "scientific_name": "Cnidoscolus aconitifolius (ผักคะน้าเม็กซิโก / ผักชายา)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 65.5,
-      "y": 66,
+      "x": 80.3,
+      "y": 83.3,
       "category": "ผักสมุนไพรบำรุงสุขภาพ",
       "icon": "🥬",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Cnidoscolus_aconitifolius_leaves.JPG/640px-Cnidoscolus_aconitifolius_leaves.JPG",
