@@ -1378,9 +1378,9 @@
     </div>
 
     <div class="header-btns">
-      <button id="btnAdminSwitch" class="btn btn-admin" onclick="toggleAdminMode()">
+      <button id="btnAdminSwitch" class="btn btn-admin active" onclick="toggleAdminMode()">
         <span>⚙️</span>
-        <span id="adminBtnText">จัดการ</span>
+        <span id="adminBtnText">ออกจากระบบ</span>
       </button>
       <button class="btn btn-light" onclick="openExportDialog()" title="สำรอง / ส่งออกข้อมูล">
         <span>💾</span>
@@ -1431,7 +1431,7 @@
   </nav>
 
   <!-- Admin Bar (shown when admin mode is on) -->
-  <div id="adminNotice" class="admin-bar">
+  <div id="adminNotice" class="admin-bar show">
     <span>📍 <strong>โหมดจัดการ:</strong> แตะบนรูปแปลนบ้านเพื่อปักหมุด หรือแตะหมุดเดิมเพื่อแก้ไข/ลบ</span>
     <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
   </div>
@@ -1458,7 +1458,7 @@
         </div>
       </div>
 
-      <div id="planViewport" class="map-viewport">
+      <div id="planViewport" class="map-viewport admin-active">
         <div id="planCanvas" class="map-wrapper">
           <img id="housePlanImg" class="plan-img" src="plan.png" alt="House Garden Plan">
           <svg id="treeLinesSvg" class="tree-lines-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
@@ -1905,7 +1905,7 @@
     let herbsDbCache = [];
     let selectedZoneFilter = 'all';
     let focusedPlantId = null;
-    let adminModeActive = false;
+    let adminModeActive = true;
     let zoomLevel = 1;
     let mapViewMode = 'tree'; // 'tree' | 'pins' | 'dots'
     let collapsedZones = {};
@@ -1914,6 +1914,7 @@
     window.addEventListener('DOMContentLoaded', async () => {
       loadData();
       await fetchHerbsDb();
+      setAdminMode(true, false);
       renderUI();
       bindEvents();
     });
@@ -2571,27 +2572,31 @@
       resetModalScroll('detailModal');
     }
 
-    // Admin Mode Toggle
-    function toggleAdminMode() {
-      adminModeActive = !adminModeActive;
+    // Admin Mode Toggle & Set
+    function setAdminMode(active, showNotification = false) {
+      adminModeActive = active;
       const btn = document.getElementById('btnAdminSwitch');
       const text = document.getElementById('adminBtnText');
       const notice = document.getElementById('adminNotice');
       const viewport = document.getElementById('planViewport');
 
-      if (adminModeActive) {
-        btn.classList.add('active');
-        text.textContent = 'ออกจากระบบ';
-        notice.classList.add('show');
-        viewport.classList.add('admin-active');
-        notify('เปิดโหมดจัดการแล้ว: แตะบนแปลนเพื่อปักหมุด', '🛠️');
-      } else {
-        btn.classList.remove('active');
-        text.textContent = 'จัดการ';
-        notice.classList.remove('show');
-        viewport.classList.remove('admin-active');
+      if (btn) btn.classList.toggle('active', adminModeActive);
+      if (text) text.textContent = adminModeActive ? 'ออกจากระบบ' : 'จัดการ';
+      if (notice) notice.classList.toggle('show', adminModeActive);
+      if (viewport) viewport.classList.toggle('admin-active', adminModeActive);
+
+      if (showNotification) {
+        if (adminModeActive) {
+          notify('เปิดโหมดจัดการแล้ว: แตะบนแปลนเพื่อปักหมุด', '🛠️');
+        } else {
+          notify('ออกจากโหมดจัดการแล้ว', 'ℹ️');
+        }
       }
       drawPlantList();
+    }
+
+    function toggleAdminMode() {
+      setAdminMode(!adminModeActive, true);
     }
 
     function openNewPlantDialog() {
