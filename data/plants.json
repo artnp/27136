@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:05.828Z",
+  "updated_at": "2026-10-17T14:07:10.868Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -300,8 +300,8 @@
       "scientific_name": "Malpighia emarginata DC. (อะเซโรลาเชอร์รี่ / เชอร์รี่ไทย)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 52,
-      "y": 64,
+      "x": 69.3,
+      "y": 72.6,
       "category": "ไม้ผลวิตามินซีสูง",
       "icon": "🍒",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Malpighia_glabra_leaves.JPG/640px-Malpighia_glabra_leaves.JPG",
