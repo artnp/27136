@@ -495,7 +495,8 @@
     .plant-pin {
       position: absolute;
       transform: translate(-50%, -50%);
-      cursor: pointer;
+      cursor: grab;
+      touch-action: none;
       z-index: 10;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: inline-flex;
@@ -521,6 +522,7 @@
       color: #0f172a;
       white-space: nowrap;
       user-select: none;
+      pointer-events: none;
     }
 
     .pin-dot {
@@ -645,7 +647,8 @@
       background: #ffffff;
       border: 2.5px solid #059669;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-      cursor: pointer;
+      cursor: grab;
+      touch-action: none;
       z-index: 14;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       display: flex;
@@ -667,6 +670,13 @@
       transform: translate(-50%, -50%) scale(1.35);
       z-index: 35;
       box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .tree-point-pin.dragging, .plant-pin.dragging {
+      cursor: grabbing !important;
+      transform: translate(-50%, -50%) scale(1.6) !important;
+      z-index: 100 !important;
+      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.45), 0 8px 24px rgba(0,0,0,0.35) !important;
+      transition: none !important;
     }
 
     /* Tree Callout Pill (Aligned Label) */
@@ -1447,7 +1457,7 @@
 
   <!-- Admin Bar (shown when admin mode is on) -->
   <div id="adminNotice" class="admin-bar show">
-    <span>📍 <strong>โหมดจัดการ:</strong> แตะบนรูปแปลนบ้านเพื่อปักหมุด หรือแตะหมุดเดิมเพื่อแก้ไข/ลบ</span>
+    <span>📍 <strong>โหมดจัดการ:</strong> ลากจุดหมุดบนแปลนเพื่อย้ายตำแหน่งได้ทันที หรือแตะที่ว่างเพื่อเพิ่มต้นไม้ใหม่</span>
     <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
   </div>
 
@@ -1924,6 +1934,165 @@
     let zoomLevel = 1;
     let mapViewMode = 'tree'; // 'tree' | 'pins' | 'dots'
     let collapsedZones = {};
+    let justFinishedDrag = false;
+
+    function showDragTooltip(x, y, name) {
+      const planCanvas = document.getElementById('planCanvas');
+      if (!planCanvas) return;
+      let tip = document.getElementById('dragCoordTooltip');
+      if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'dragCoordTooltip';
+        tip.style.cssText = 'position:absolute; transform:translate(-50%, -150%); background:rgba(15,23,42,0.92); backdrop-filter:blur(4px); color:#ffffff; font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:20px; pointer-events:none; z-index:120; white-space:nowrap; box-shadow:0 3px 12px rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.25);';
+        planCanvas.appendChild(tip);
+      }
+      tip.style.left = `${x}%`;
+      tip.style.top = `${y}%`;
+      tip.style.display = 'block';
+      tip.innerHTML = `📍 <strong>${name}</strong> <span style="opacity:0.85; font-size:0.68rem; margin-left:3px;">(${x}%, ${y}%)</span>`;
+    }
+
+    function hideDragTooltip() {
+      const tip = document.getElementById('dragCoordTooltip');
+      if (tip) tip.style.display = 'none';
+    }
+
+    function makePinDraggable(pin, p) {
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let hasMoved = false;
+      let currentX = p.x;
+      let currentY = p.y;
+      let line = null;
+      let originalLineD = '';
+
+      const getPointerCoords = (e) => {
+        if (e.touches && e.touches.length > 0) {
+          return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+        }
+        return { clientX: e.clientX, clientY: e.clientY };
+      };
+
+      const onPointerDown = (e) => {
+        if (e.button && e.button !== 0) return;
+        e.stopPropagation();
+
+        const { clientX, clientY } = getPointerCoords(e);
+        startX = clientX;
+        startY = clientY;
+        hasMoved = false;
+        isDragging = false;
+
+        line = document.getElementById(`tree_line_${p.id}`);
+        if (line) {
+          originalLineD = line.getAttribute('d') || '';
+        }
+
+        window.addEventListener('mousemove', onPointerMove, { passive: false });
+        window.addEventListener('mouseup', onPointerUp);
+        window.addEventListener('touchmove', onPointerMove, { passive: false });
+        window.addEventListener('touchend', onPointerUp);
+      };
+
+      const onPointerMove = (e) => {
+        const { clientX, clientY } = getPointerCoords(e);
+        const dist = Math.hypot(clientX - startX, clientY - startY);
+
+        if (!isDragging) {
+          if (dist > 5) {
+            isDragging = true;
+            hasMoved = true;
+            pin.classList.add('dragging');
+            document.body.style.userSelect = 'none';
+            document.body.style.cursor = 'grabbing';
+          } else {
+            return;
+          }
+        }
+
+        if (e.cancelable) e.preventDefault();
+
+        const planCanvas = document.getElementById('planCanvas');
+        if (!planCanvas) return;
+        const rect = planCanvas.getBoundingClientRect();
+
+        let newX = ((clientX - rect.left) / rect.width) * 100;
+        let newY = ((clientY - rect.top) / rect.height) * 100;
+
+        newX = Math.max(2, Math.min(98, newX));
+        newY = Math.max(2, Math.min(98, newY));
+
+        currentX = Math.round(newX * 10) / 10;
+        currentY = Math.round(newY * 10) / 10;
+
+        pin.style.left = `${currentX}%`;
+        pin.style.top = `${currentY}%`;
+
+        if (line && originalLineD) {
+          const rest = originalLineD.replace(/^M\s*[\d\.\-]+\s+[\d\.\-]+/, '');
+          line.setAttribute('d', `M ${currentX} ${currentY}${rest}`);
+        }
+
+        showDragTooltip(currentX, currentY, p.name);
+      };
+
+      const onPointerUp = (e) => {
+        window.removeEventListener('mousemove', onPointerMove);
+        window.removeEventListener('mouseup', onPointerUp);
+        window.removeEventListener('touchmove', onPointerMove);
+        window.removeEventListener('touchend', onPointerUp);
+
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+        pin.classList.remove('dragging');
+        hideDragTooltip();
+
+        if (isDragging && hasMoved) {
+          justFinishedDrag = true;
+          setTimeout(() => { justFinishedDrag = false; }, 250);
+
+          p.x = currentX;
+          p.y = currentY;
+
+          // Check quadrant to auto-update zone if moved into another quadrant
+          let newZoneId = p.zone_id;
+          if (currentX < 50 && currentY < 50) newZoneId = 'zone_3';
+          else if (currentX >= 50 && currentY < 50) newZoneId = 'zone_4';
+          else if (currentX < 50 && currentY >= 50) newZoneId = 'zone_1';
+          else newZoneId = 'zone_2';
+
+          if (newZoneId !== p.zone_id) {
+            const zObj = (plantStore.zones || []).find(z => z.id === newZoneId);
+            if (zObj) {
+              p.zone_id = newZoneId;
+              p.zone_name = zObj.name;
+            }
+          }
+
+          const idx = (plantStore.plants || []).findIndex(x => x.id === p.id);
+          if (idx !== -1) {
+            plantStore.plants[idx] = p;
+          }
+
+          persistData();
+          drawPins();
+          drawPlantList();
+          updateCounts();
+
+          notify(`ย้ายตำแหน่ง "${p.name}" เป็นพิกัด X: ${p.x}%, Y: ${p.y}%`, '📍');
+        }
+      };
+
+      pin.addEventListener('mousedown', onPointerDown);
+      pin.addEventListener('touchstart', onPointerDown, { passive: true });
+
+      pin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (justFinishedDrag) return;
+        viewPlantDetails(p.id);
+      });
+    }
 
     // Start App
     window.addEventListener('DOMContentLoaded', async () => {
@@ -2079,11 +2248,7 @@
             </div>
           `;
 
-          pin.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewPlantDetails(p.id);
-          });
-
+          makePinDraggable(pin, p);
           container.appendChild(pin);
         });
         return;
@@ -2097,13 +2262,9 @@
           pin.id = `tree_pin_${p.id}`;
           pin.style.left = `${p.x}%`;
           pin.style.top = `${p.y}%`;
-          pin.title = `${p.name} (${p.zone_name})`;
+          pin.title = `${p.name} (${p.zone_name}) (ลากเพื่อย้ายพิกัด / คลิกดูรายละเอียด)`;
 
-          pin.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewPlantDetails(p.id);
-          });
-
+          makePinDraggable(pin, p);
           container.appendChild(pin);
         });
         return;
@@ -2270,7 +2431,8 @@
       pin.className = `tree-point-pin ${zoneCls}`;
       pin.style.left = `${pinX}%`;
       pin.style.top = `${pinY}%`;
-      pin.title = `${p.name} (คลิกดูรายละเอียด)`;
+      pin.title = `${p.name} (ลากเพื่อย้ายพิกัด / คลิกดูรายละเอียด)`;
+      makePinDraggable(pin, p);
 
       // 3. Draw Callout Label Pill
       const pill = document.createElement('div');
@@ -2297,10 +2459,6 @@
       pill.addEventListener('mouseenter', () => highlight(true));
       pill.addEventListener('mouseleave', () => highlight(false));
 
-      pin.addEventListener('click', (e) => {
-        e.stopPropagation();
-        viewPlantDetails(p.id);
-      });
       pill.addEventListener('click', (e) => {
         e.stopPropagation();
         viewPlantDetails(p.id);
@@ -2520,6 +2678,7 @@
       const planCanvas = document.getElementById('planCanvas');
       planCanvas.addEventListener('click', (e) => {
         if (!adminModeActive) return;
+        if (justFinishedDrag) return;
         if (e.target.closest('.plant-pin') || e.target.closest('.tree-point-pin') || e.target.closest('.tree-callout-pill')) return;
 
         const rect = planCanvas.getBoundingClientRect();
