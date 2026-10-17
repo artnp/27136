@@ -495,7 +495,7 @@
     .plant-pin {
       position: absolute;
       transform: translate(-50%, -50%);
-      cursor: grab;
+      cursor: pointer;
       touch-action: none;
       z-index: 10;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -647,13 +647,17 @@
       background: #ffffff;
       border: 2.5px solid #059669;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-      cursor: grab;
+      cursor: pointer;
       touch-action: none;
       z-index: 14;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .map-viewport.admin-active .tree-point-pin,
+    .map-viewport.admin-active .plant-pin {
+      cursor: grab;
     }
     .tree-point-pin::after {
       content: '';
@@ -1403,9 +1407,9 @@
     </div>
 
     <div class="header-btns">
-      <button id="btnAdminSwitch" class="btn btn-admin active" onclick="toggleAdminMode()">
+      <button id="btnAdminSwitch" class="btn btn-admin" onclick="toggleAdminMode()" style="display: none;">
         <span>⚙️</span>
-        <span id="adminBtnText">ออกจากระบบ</span>
+        <span id="adminBtnText">จัดการ</span>
       </button>
       <button class="btn btn-light" onclick="openExportDialog()" title="สำรอง / ส่งออกข้อมูล">
         <span>💾</span>
@@ -1455,8 +1459,8 @@
     </button>
   </nav>
 
-  <!-- Admin Bar (shown when admin mode is on) -->
-  <div id="adminNotice" class="admin-bar show">
+  <!-- Admin Bar (shown only when admin mode is on) -->
+  <div id="adminNotice" class="admin-bar">
     <span>📍 <strong>โหมดจัดการ:</strong> ลากจุดหมุดบนแปลนเพื่อย้ายตำแหน่งได้ทันที หรือแตะที่ว่างเพื่อเพิ่มต้นไม้ใหม่</span>
     <button class="btn btn-primary" style="padding: 0.3rem 0.75rem; font-size: 0.78rem;" onclick="openNewPlantDialog()">+ เพิ่มต้นไม้</button>
   </div>
@@ -1483,7 +1487,7 @@
         </div>
       </div>
 
-      <div id="planViewport" class="map-viewport admin-active">
+      <div id="planViewport" class="map-viewport">
         <div id="planCanvas" class="map-wrapper">
           <img id="housePlanImg" class="plan-img" src="plan.png" alt="House Garden Plan">
           <svg id="treeLinesSvg" class="tree-lines-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
@@ -1930,7 +1934,7 @@
     let herbsDbCache = [];
     let selectedZoneFilter = 'all';
     let focusedPlantId = null;
-    let adminModeActive = true;
+    let adminModeActive = false;
     let zoomLevel = 1;
     let mapViewMode = 'tree'; // 'tree' | 'pins' | 'dots'
     let collapsedZones = {};
@@ -1975,6 +1979,7 @@
       };
 
       const onPointerDown = (e) => {
+        if (!adminModeActive) return; // Only allow drag in admin mode!
         if (e.button && e.button !== 0) return;
         e.stopPropagation();
 
@@ -2098,7 +2103,7 @@
     window.addEventListener('DOMContentLoaded', async () => {
       loadData();
       await fetchHerbsDb();
-      setAdminMode(true, false);
+      setAdminMode(false, false); // Default view-only mode
       renderUI();
       bindEvents();
     });
@@ -2133,9 +2138,11 @@
       fetch('data/plants.json?t=' + Date.now())
         .then(r => r.json())
         .then(d => {
-          if (d && d.plants) {
+          if (d && d.plants && d.plants.length > 0) {
             const serverUpdated = d.updated_at ? new Date(d.updated_at).getTime() : 0;
-            if (!localUpdated || serverUpdated >= localUpdated) {
+            const isPublicHost = window.location.hostname.includes('github.io');
+            // On GitHub Pages, always sync from official plants.json
+            if (isPublicHost || !localUpdated || serverUpdated >= localUpdated) {
               plantStore = normalizeZones(d);
               localStorage.setItem('garden_plan_light_v1', JSON.stringify(plantStore));
               renderUI();
@@ -2149,22 +2156,26 @@
       plantStore.updated_at = new Date().toISOString();
       localStorage.setItem('garden_plan_light_v1', JSON.stringify(plantStore));
 
+      // On public GitHub Pages, read-only
+      if (window.location.hostname.includes('github.io')) return;
+
       // Auto save directly to hard drive via local server API and trigger auto-sync to GitHub
-      if (window.location.protocol.startsWith('http')) {
-        fetch('/api/save-plants', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(plantStore)
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.success) {
-            console.log('[Server] Saved directly to data/plants.json and triggered GitHub sync');
-            notify('บันทึกและกำลังอัปโหลดขึ้น GitHub Pages...', '🚀');
-          }
-        })
-        .catch(() => {});
-      }
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const targetUrl = isLocalHost ? '/api/save-plants' : 'http://localhost:8080/api/save-plants';
+
+      fetch(targetUrl, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(plantStore)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success) {
+          console.log('[Server] Saved directly to data/plants.json and triggered GitHub sync');
+          notify('บันทึกและกำลังอัปโหลดขึ้น GitHub Pages...', '🚀');
+        }
+      })
+      .catch(() => {});
     }
 
     async function fetchHerbsDb() {
@@ -2801,22 +2812,32 @@
 
     // Admin Mode Toggle & Set
     function setAdminMode(active, showNotification = false) {
-      adminModeActive = active;
+      const isPublicHost = window.location.hostname.includes('github.io');
+      // On public GitHub Pages, strictly disallow admin mode to keep it view-only
+      if (isPublicHost) {
+        adminModeActive = false;
+      } else {
+        adminModeActive = active;
+      }
+
       const btn = document.getElementById('btnAdminSwitch');
       const text = document.getElementById('adminBtnText');
       const notice = document.getElementById('adminNotice');
       const viewport = document.getElementById('planViewport');
 
-      if (btn) btn.classList.toggle('active', adminModeActive);
+      if (btn) {
+        btn.style.display = isPublicHost ? 'none' : 'inline-flex';
+        btn.classList.toggle('active', adminModeActive);
+      }
       if (text) text.textContent = adminModeActive ? 'ออกจากระบบ' : 'จัดการ';
       if (notice) notice.classList.toggle('show', adminModeActive);
       if (viewport) viewport.classList.toggle('admin-active', adminModeActive);
 
       if (showNotification) {
         if (adminModeActive) {
-          notify('เปิดโหมดจัดการแล้ว: แตะบนแปลนเพื่อปักหมุด', '🛠️');
+          notify('เปิดโหมดจัดการแล้ว: ลากหมุดเพื่อย้ายพิกัด หรือแตะเพื่อเพิ่มต้นไม้', '🛠️');
         } else {
-          notify('ออกจากโหมดจัดการแล้ว', 'ℹ️');
+          notify('เข้าสู่โหมดดูแปลนทั่วไป', 'ℹ️');
         }
       }
       drawPlantList();
