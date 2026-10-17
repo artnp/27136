@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:52.413Z",
+  "updated_at": "2026-10-17T14:07:56.917Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -354,8 +354,8 @@
       "scientific_name": "Brassica oleracea var. sabellica (Curly Kale)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 71.5,
-      "y": 76,
+      "x": 53.3,
+      "y": 64.4,
       "category": "ซูเปอร์ฟู้ด / ผักใบเขียว",
       "icon": "🥬",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Curly_kale.jpg/640px-Curly_kale.jpg",
