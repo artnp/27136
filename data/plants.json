@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:10.868Z",
+  "updated_at": "2026-10-17T14:07:18.004Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -408,8 +408,8 @@
       "scientific_name": "Citrus aurantiifolia (Christm.) Swingle",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 58,
-      "y": 79,
+      "x": 75.7,
+      "y": 61.2,
       "category": "ไม้ผล / ผักสวนครัว",
       "icon": "🍋",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Lime_tree_leaves.jpg/640px-Lime_tree_leaves.jpg",
