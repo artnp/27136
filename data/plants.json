@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:06:55.116Z",
+  "updated_at": "2026-10-17T14:06:58.972Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -223,8 +223,8 @@
       "scientific_name": "Houttuynia cordata Thunb. (พลูคาว / คาวตอง)",
       "zone_id": "zone_2",
       "zone_name": "โซน 2",
-      "x": 61.5,
-      "y": 53.5,
+      "x": 77.8,
+      "y": 61.8,
       "category": "สมุนไพร / ผักสวนครัว",
       "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Houttuynia_cordata.jpg?utm_source=th.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
       "leaf_description": "ภาพประกอบพืช คาวทอง",
