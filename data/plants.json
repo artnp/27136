@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:05:33.532Z",
+  "updated_at": "2026-10-17T14:05:44.435Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -347,32 +347,6 @@
         "energy_and_body_effects": "พลังงานต่ำ มีใยอาหารสูง บำรุงกำลังและระบบขับถ่าย"
       },
       "contraindications": "⚠️ ห้ามรับประทานดิบเด็ดขาด เพราะมียางและสารกลูโคไซด์ ต้องทำให้สุกด้วยความร้อนก่อนทานทุกครั้ง"
-    },
-    {
-      "id": "plant_1710000025",
-      "name": "พวงคาว",
-      "scientific_name": "Houttuynia cordata Thunb. (กอที่ 2)",
-      "zone_id": "zone_2",
-      "zone_name": "โซน 2",
-      "x": 52,
-      "y": 68,
-      "category": "สมุนไพรสร้างภูมิคุ้มกัน",
-      "icon": "🍃",
-      "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Houttuynia_cordata_01.JPG/640px-Houttuynia_cordata_01.JPG",
-      "leaf_description": "กอพวงคาวขยายพุ่มเพิ่มทางฝั่งซ้ายของแปลง ใบรูปหัวใจอวบสด ยอดอ่อนสีเขียวปนม่วง",
-      "planted_date": "2026-02-15",
-      "note": "กอขยายฝั่งซ้ายของแปลงยกพื้น โตเร็วแตกยอดดี",
-      "medicinal_properties": [
-        "เสริมสร้างภูมิต้านทานร่างกาย ต้านไวรัสและแบคทีเรีย",
-        "ลดการอักเสบในปอดและหลอดลม ขับเสมหะ",
-        "ขับปัสสาวะ แก้อักเสบในระบบทางเดินปัสสาวะ"
-      ],
-      "edible_parts_and_nutrition": {
-        "edible_parts": "ใบสด ยอดอ่อน และต้นอ่อน",
-        "nutrients": "Quercetin, Hyperoside, Rutin, วิตามินซี",
-        "energy_and_body_effects": "ฤทธิ์เย็น ดับพิษร้อน ขับของเสีย"
-      },
-      "contraindications": "ผู้มีภาวะม้ามหรือกระเพาะเย็น ไม่ควรทานปริมาณมากต่อเนื่อง"
     },
     {
       "id": "plant_1710000002",
