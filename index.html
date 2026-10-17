@@ -618,18 +618,19 @@
     }
     .tree-line {
       fill: none;
-      stroke-width: 1.8px;
+      stroke-width: 1.5px;
       stroke-linecap: round;
       stroke-linejoin: round;
-      opacity: 0.85;
-      transition: stroke-width 0.2s, stroke 0.2s, filter 0.2s;
+      opacity: 0.82;
+      vector-effect: non-scaling-stroke;
+      transition: stroke-width 0.2s, stroke 0.2s, filter 0.2s, opacity 0.2s;
     }
     .tree-line.zone-1 { stroke: var(--zone1-color); }
     .tree-line.zone-2 { stroke: var(--zone2-color); }
     .tree-line.zone-3 { stroke: var(--zone3-color); }
     .tree-line.zone-4 { stroke: var(--zone4-color); }
     .tree-line.active {
-      stroke-width: 3.4px;
+      stroke-width: 2.8px;
       opacity: 1;
       filter: drop-shadow(0 0 3px rgba(0,0,0,0.35));
     }
@@ -637,24 +638,24 @@
     /* Tree Point Pin (Dot on coordinate) */
     .tree-point-pin {
       position: absolute;
-      width: 15px;
-      height: 15px;
+      width: 13px;
+      height: 13px;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       background: #ffffff;
-      border: 3px solid #059669;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.22);
+      border: 2.5px solid #059669;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       cursor: pointer;
       z-index: 14;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .tree-point-pin::after {
       content: '';
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
       background: currentColor;
     }
@@ -663,7 +664,7 @@
     .tree-point-pin.zone-3 { border-color: var(--zone3-color); color: var(--zone3-color); }
     .tree-point-pin.zone-4 { border-color: var(--zone4-color); color: var(--zone4-color); }
     .tree-point-pin:hover, .tree-point-pin.active, .tree-point-pin.targeted {
-      transform: translate(-50%, -50%) scale(1.4);
+      transform: translate(-50%, -50%) scale(1.35);
       z-index: 35;
       box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.35), 0 4px 10px rgba(0,0,0,0.3);
     }
@@ -673,25 +674,26 @@
       position: absolute;
       transform: translateY(-50%);
       background: #ffffff;
-      border: 1.5px solid #cbd5e1;
+      border: 1.2px solid #cbd5e1;
       border-radius: var(--radius-full);
-      padding: 2.5px 8px;
-      font-size: 0.72rem;
+      padding: 1.5px 7px;
+      font-size: 0.68rem;
       font-weight: 600;
+      line-height: 1.15;
       color: #0f172a;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
       cursor: pointer;
       white-space: nowrap;
       z-index: 18;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
       user-select: none;
     }
     .tree-callout-pill .pill-dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       flex-shrink: 0;
     }
@@ -707,7 +709,7 @@
     .tree-callout-pill:hover, .tree-callout-pill.active, .tree-callout-pill.targeted {
       transform: translateY(-50%) scale(1.08);
       z-index: 40;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
     .tree-callout-pill.align-left {
       max-width: 22%;
@@ -718,6 +720,19 @@
       max-width: 24%;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .tree-callout-pill.align-anchor-right {
+      transform: translate(-100%, -50%);
+      max-width: 20%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tree-callout-pill.align-anchor-right:hover,
+    .tree-callout-pill.align-anchor-right.active,
+    .tree-callout-pill.align-anchor-right.targeted {
+      transform: translate(-100%, -50%) scale(1.08);
+      z-index: 40;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
 
     /* Plant Card List (Sidebar / Mobile bottom section) */
@@ -2095,86 +2110,137 @@
       }
 
       // Default: Tree View (Leader Lines + Tree Callouts)
-      const zoneIds = ['zone_1', 'zone_2', 'zone_3', 'zone_4'];
-      
-      zoneIds.forEach(zId => {
-        const zonePlants = visible.filter(p => p.zone_id === zId);
-        if (zonePlants.length === 0) return;
+      // 1. Zone 4 (Top-Right)
+      const zone4Plants = visible.filter(p => p.zone_id === 'zone_4');
+      let zone4Bottom = 8;
+      if (zone4Plants.length > 0) {
+        zone4Plants.sort((a, b) => a.y - b.y);
+        const z4Count = zone4Plants.length;
+        const z4MinY = 8;
+        const z4MaxY = 38;
+        const z4Step = Math.min(6.0, (z4MaxY - z4MinY) / Math.max(1, z4Count - 1));
+        const z4TotalSpan = (z4Count - 1) * z4Step;
+        const z4Start = z4MinY + ((z4MaxY - z4MinY) - z4TotalSpan) / 2;
+        zone4Bottom = z4Start + z4TotalSpan;
 
-        const count = zonePlants.length;
-        const zoneCls = zId.replace('_', '-');
+        zone4Plants.forEach((p, idx) => {
+          const labelY = Math.round((z4Start + idx * z4Step) * 10) / 10;
+          const pinX = p.x;
+          const pinY = p.y;
+          const kneeX = Math.min(78, Math.max(pinX + 3, 74));
+          const labelX = 78.5;
+          createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-4', 'right', container, svg);
+        });
+      }
 
-        if (zId === 'zone_2') {
-          // Bottom-Right: Callouts to the right margin (x: 78% ~ 98%)
-          zonePlants.sort((a, b) => a.y - b.y);
+      // 2. Zone 2 (Bottom-Right) - uses entire right margin below Zone 4
+      const zone2Plants = visible.filter(p => p.zone_id === 'zone_2');
+      if (zone2Plants.length > 0) {
+        const z2Count = zone2Plants.length;
+        const minY = Math.max(22, zone4Bottom + 4.5);
+        const maxY = 95;
+        const availHeight = maxY - minY;
+        const singleStep = availHeight / Math.max(1, z2Count - 1);
 
-          const minY = 50;
-          const maxY = 94;
-          const step = Math.min(4.4, (maxY - minY) / Math.max(1, count - 1));
-          const totalSpan = (count - 1) * step;
-          const startY = Math.max(48, Math.min(68, 72 - totalSpan / 2));
+        if (singleStep >= 5.0 || z2Count <= 14) {
+          // Generous space: evenly distributed single column on right margin
+          zone2Plants.sort((a, b) => a.y - b.y);
+          const step = Math.min(6.5, singleStep);
+          const totalSpan = (z2Count - 1) * step;
+          const startY = minY + (availHeight - totalSpan) / 2;
 
-          zonePlants.forEach((p, idx) => {
+          zone2Plants.forEach((p, idx) => {
             const labelY = Math.round((startY + idx * step) * 10) / 10;
             const pinX = p.x;
             const pinY = p.y;
             const kneeX = Math.min(78, Math.max(pinX + 3, 74));
             const labelX = 78.5;
-
-            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'right', container, svg);
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-2', 'right', container, svg);
           });
-        } else if (zId === 'zone_4') {
-          // Top-Right: Callouts to the right margin
-          zonePlants.sort((a, b) => a.y - b.y);
+        } else {
+          // Highly crowded (>14 plants): Auto-split into Left and Right of planter box
+          const sortedByX = [...zone2Plants].sort((a, b) => a.x - b.x);
+          const half = Math.floor(z2Count / 2);
+          const leftGroup = sortedByX.slice(0, half).sort((a, b) => a.y - b.y);
+          const rightGroup = sortedByX.slice(half).sort((a, b) => a.y - b.y);
 
-          const minY = 10;
-          const maxY = 42;
-          const step = Math.min(5.2, (maxY - minY) / Math.max(1, count - 1));
-          const startY = 12;
+          // Left group callouts
+          const leftMinY = 50;
+          const leftMaxY = 94;
+          const leftAvail = leftMaxY - leftMinY;
+          const leftStep = Math.min(6.5, leftAvail / Math.max(1, leftGroup.length - 1));
+          const leftTotalSpan = (leftGroup.length - 1) * leftStep;
+          const leftStart = leftMinY + (leftAvail - leftTotalSpan) / 2;
 
-          zonePlants.forEach((p, idx) => {
-            const labelY = Math.round((startY + idx * step) * 10) / 10;
+          leftGroup.forEach((p, idx) => {
+            const labelY = Math.round((leftStart + idx * leftStep) * 10) / 10;
+            const pinX = p.x;
+            const pinY = p.y;
+            const kneeX = Math.max(pinX - 3, 49);
+            const labelX = 47.5;
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-2', 'anchor-right', container, svg);
+          });
+
+          // Right group callouts
+          const rightStep = Math.min(6.5, availHeight / Math.max(1, rightGroup.length - 1));
+          const rightTotalSpan = (rightGroup.length - 1) * rightStep;
+          const rightStart = minY + (availHeight - rightTotalSpan) / 2;
+
+          rightGroup.forEach((p, idx) => {
+            const labelY = Math.round((rightStart + idx * rightStep) * 10) / 10;
             const pinX = p.x;
             const pinY = p.y;
             const kneeX = Math.min(78, Math.max(pinX + 3, 74));
             const labelX = 78.5;
-
-            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'right', container, svg);
-          });
-        } else if (zId === 'zone_1') {
-          // Bottom-Left: Callouts to the left margin
-          zonePlants.sort((a, b) => a.y - b.y);
-
-          const startY = 64;
-          const step = 5.2;
-
-          zonePlants.forEach((p, idx) => {
-            const labelY = Math.round((startY + idx * step) * 10) / 10;
-            const pinX = p.x;
-            const pinY = p.y;
-            const kneeX = Math.max(14, Math.min(pinX - 3, 17));
-            const labelX = 1.5;
-
-            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'left', container, svg);
-          });
-        } else if (zId === 'zone_3') {
-          // Top-Left: Callouts to the left margin
-          zonePlants.sort((a, b) => a.y - b.y);
-
-          const startY = 8;
-          const step = 5.2;
-
-          zonePlants.forEach((p, idx) => {
-            const labelY = Math.round((startY + idx * step) * 10) / 10;
-            const pinX = p.x;
-            const pinY = p.y;
-            const kneeX = Math.max(14, Math.min(pinX - 3, 17));
-            const labelX = 1.5;
-
-            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, 'left', container, svg);
+            createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-2', 'right', container, svg);
           });
         }
-      });
+      }
+
+      // 3. Zone 3 (Top-Left)
+      const zone3Plants = visible.filter(p => p.zone_id === 'zone_3');
+      let zone3Bottom = 8;
+      if (zone3Plants.length > 0) {
+        zone3Plants.sort((a, b) => a.y - b.y);
+        const z3Count = zone3Plants.length;
+        const z3MinY = 8;
+        const z3MaxY = 40;
+        const z3Step = Math.min(5.8, (z3MaxY - z3MinY) / Math.max(1, z3Count - 1));
+        const z3TotalSpan = (z3Count - 1) * z3Step;
+        const z3Start = z3MinY + ((z3MaxY - z3MinY) - z3TotalSpan) / 2;
+        zone3Bottom = z3Start + z3TotalSpan;
+
+        zone3Plants.forEach((p, idx) => {
+          const labelY = Math.round((z3Start + idx * z3Step) * 10) / 10;
+          const pinX = p.x;
+          const pinY = p.y;
+          const kneeX = Math.max(14, Math.min(pinX - 3, 17));
+          const labelX = 1.5;
+          createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-3', 'left', container, svg);
+        });
+      }
+
+      // 4. Zone 1 (Bottom-Left)
+      const zone1Plants = visible.filter(p => p.zone_id === 'zone_1');
+      if (zone1Plants.length > 0) {
+        zone1Plants.sort((a, b) => a.y - b.y);
+        const z1Count = zone1Plants.length;
+        const z1MinY = Math.max(52, zone3Bottom + 4.5);
+        const z1MaxY = 94;
+        const z1Avail = z1MaxY - z1MinY;
+        const z1Step = Math.min(5.8, z1Avail / Math.max(1, z1Count - 1));
+        const z1TotalSpan = (z1Count - 1) * z1Step;
+        const z1Start = z1MinY + (z1Avail - z1TotalSpan) / 2;
+
+        zone1Plants.forEach((p, idx) => {
+          const labelY = Math.round((z1Start + idx * z1Step) * 10) / 10;
+          const pinX = p.x;
+          const pinY = p.y;
+          const kneeX = Math.max(14, Math.min(pinX - 3, 17));
+          const labelX = 1.5;
+          createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, 'zone-1', 'left', container, svg);
+        });
+      }
     }
 
     function createTreeCalloutPair(p, pinX, pinY, kneeX, labelY, labelX, zoneCls, side, container, svg) {
@@ -2189,7 +2255,7 @@
         path.setAttribute('class', `tree-line ${zoneCls}`);
         
         let d = '';
-        if (side === 'right') {
+        if (side === 'right' || side === 'anchor-right') {
           d = `M ${pinX} ${pinY} L ${kneeX} ${labelY} L ${labelX} ${labelY}`;
         } else {
           d = `M ${pinX} ${pinY} L ${kneeX} ${labelY} L ${labelX + 8} ${labelY}`;
@@ -2209,7 +2275,9 @@
       // 3. Draw Callout Label Pill
       const pill = document.createElement('div');
       pill.id = pillId;
-      pill.className = `tree-callout-pill ${zoneCls} align-${side}`;
+      pill.className = side === 'anchor-right'
+        ? `tree-callout-pill ${zoneCls} align-anchor-right`
+        : `tree-callout-pill ${zoneCls} align-${side}`;
       pill.style.left = `${labelX}%`;
       pill.style.top = `${labelY}%`;
       pill.innerHTML = `<span class="pill-dot"></span><span>${p.name}</span>`;
