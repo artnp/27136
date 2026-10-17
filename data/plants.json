@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17T14:07:56.917Z",
+  "updated_at": "2026-10-17T14:08:18.253Z",
   "plan_image": "plan.png",
   "zones": [
     {
@@ -497,6 +497,29 @@
       "planted_date": "2026-10-17",
       "note": "",
       "medicinal_properties": [],
+      "edible_parts_and_nutrition": {
+        "edible_parts": "",
+        "nutrients": "",
+        "energy_and_body_effects": ""
+      },
+      "contraindications": ""
+    },
+    {
+      "id": "plant_1792246098253",
+      "name": "พรมมิ",
+      "scientific_name": "",
+      "zone_id": "zone_2",
+      "zone_name": "โซน 2",
+      "x": 74.2,
+      "y": 58.8,
+      "category": "สมุนไพร / ผักสวนครัว",
+      "leaf_image": "https://upload.wikimedia.org/wikipedia/commons/5/56/Starr_010818-0007_Bacopa_monnieri.jpg?utm_source=th.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "leaf_description": "ภาพประกอบพืช พรมมิ",
+      "planted_date": "2026-10-17",
+      "note": "",
+      "medicinal_properties": [
+        "พรมมิ เป็นพืชอายุหลายปี อยู่ในวงศ์เทียนเกล็ดหอย (Plantaginaceae) พบขึ้นตามริมน้ำและที่ชื้นแฉะทั่วไป"
+      ],
       "edible_parts_and_nutrition": {
         "edible_parts": "",
         "nutrients": "",
