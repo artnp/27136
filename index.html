@@ -1932,30 +1932,39 @@
 
     function loadData() {
       const stored = localStorage.getItem('garden_plan_light_v1');
+      let localUpdated = 0;
       if (stored) {
         try {
-          plantStore = normalizeZones(JSON.parse(stored));
+          const parsed = JSON.parse(stored);
+          plantStore = normalizeZones(parsed);
+          localUpdated = parsed.updated_at ? new Date(parsed.updated_at).getTime() : 0;
+          renderUI();
         } catch (e) {
           console.error(e);
         }
-      } else {
-        fetch('data/plants.json')
-          .then(r => r.json())
-          .then(d => {
-            if (d && d.plants) {
+      }
+
+      // Sync with data/plants.json (GitHub Pages or local server)
+      fetch('data/plants.json?t=' + Date.now())
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.plants) {
+            const serverUpdated = d.updated_at ? new Date(d.updated_at).getTime() : 0;
+            if (!localUpdated || serverUpdated >= localUpdated) {
               plantStore = normalizeZones(d);
+              localStorage.setItem('garden_plan_light_v1', JSON.stringify(plantStore));
               renderUI();
             }
-          })
-          .catch(() => {});
-      }
+          }
+        })
+        .catch(() => {});
     }
 
     function persistData() {
       plantStore.updated_at = new Date().toISOString();
       localStorage.setItem('garden_plan_light_v1', JSON.stringify(plantStore));
 
-      // Auto save directly to hard drive via local server API
+      // Auto save directly to hard drive via local server API and trigger auto-sync to GitHub
       if (window.location.protocol.startsWith('http')) {
         fetch('/api/save-plants', {
           method: 'POST',
@@ -1965,7 +1974,8 @@
         .then(res => res.json())
         .then(data => {
           if (data && data.success) {
-            console.log('[Server] Saved directly to data/plants.json');
+            console.log('[Server] Saved directly to data/plants.json and triggered GitHub sync');
+            notify('บันทึกและกำลังอัปโหลดขึ้น GitHub Pages...', '🚀');
           }
         })
         .catch(() => {});
